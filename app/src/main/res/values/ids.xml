@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="recipe_item" type="id">12341212</item>
+    <item name="ingredients_item_add" type="id">4812794112</item>
+    <item name="image_item_add" type="id">12421871124</item>
+    <item name="step_item_add" type="id">1412412474</item>
+    <item name="chip_category_item" type="id">1241249</item>
+    <item name="chip_category_with_remove_item" type="id">21412989</item>
+</resources>

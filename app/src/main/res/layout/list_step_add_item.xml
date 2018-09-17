@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <EditText
+        android:id="@+id/edt_stepText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_image"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_toStartOf="@+id/img_image"
+        android:ems="10"
+        android:hint="Enter the step"
+        android:inputType="textMultiLine"
+        android:maxLines="6"
+        android:text="tons in Holo.Light, or better yet, simply apply a borderless tag without specifying which theme it belongs in, so the app can pick the proper style at runtime?  Holo.ButtonBar seems to fit the bill for what I am looking for, except it provides no user feedback that it's been "
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/img_time"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignStart="@+id/edt_stepText"
+        android:layout_below="@+id/edt_stepText"
+        android:layout_marginTop="16dp"
+        android:background="?actionBarItemBackground"
+        android:paddingBottom="2dp"
+        android:paddingEnd="2dp"
+        android:paddingStart="2dp"
+        android:paddingTop="2dp"
+        app:srcCompat="@drawable/ic_access_time_blue_48dp" />
+
+    <ImageView
+        android:id="@+id/img_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_add_a_photo_blue_108dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/img_btn_remove"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignEnd="@+id/img_image"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:padding="2dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_blue_48dp" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_time"
+        android:layout_alignTop="@+id/img_time"
+        android:layout_toEndOf="@+id/img_time"
+        android:gravity="center_vertical"
+        android:text="1h 15m"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/img_time"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/grey_300" />
+
+    <Button
+        android:id="@+id/btn_deleteStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/view4"
+        android:layout_alignEnd="@+id/img_image"
+        android:layout_alignTop="@+id/tv_time"
+        android:layout_marginStart="-16dp"
+        android:layout_toEndOf="@+id/edt_stepText"
+        android:background="@color/colorAccent"
+        android:text="Delete"
+        android:textColor="@color/cardview_light_background" />
+
+
+</RelativeLayout>

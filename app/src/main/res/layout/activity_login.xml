@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="3"
+    tools:context="com.example.nikis.bludogramfirebase.LoginActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo_4" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/verification_fields"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="gone"
+            tools:context="com.example.nikis.bludogramfirebase.VerificationFragment">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_weight="0"
+                android:background="?actionBarItemBackground"
+                android:focusedByDefault="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_navigate_before_white_56dp" />
+
+            <ImageButton
+                android:id="@+id/btn_startVerificationWithCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_weight="0"
+                android:background="?actionBarItemBackground"
+                android:focusedByDefault="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_navigate_next_white_56dp" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="16dp"
+                android:text="@string/status"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/edt_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_status"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toStartOf="@+id/tv_timer"
+                android:ems="10"
+                android:hint="Code"
+                android:inputType="number"
+                android:textColor="@color/cardview_light_background"
+                android:textColorHint="@color/grey_300" />
+
+            <Button
+                android:id="@+id/btn_resend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/edt_code"
+                android:background="@color/colorAccent"
+                android:enabled="false"
+                android:text="@string/resend_phone_auth"
+                android:textColor="@color/cardview_light_background" />
+
+            <TextView
+                android:id="@+id/tv_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/edt_code"
+                android:layout_alignTop="@+id/btn_resend"
+                android:layout_marginRight="8dp"
+                android:layout_toStartOf="@+id/btn_resend"
+                android:gravity="center"
+                android:text="00"
+                android:textColor="@color/grey_300"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/enter_phone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/edt_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:hint="@string/hint_phone_number"
+                android:inputType="phone"
+                android:text="+79085896855"
+                android:textColor="@color/cardview_light_background"
+                android:textColorHint="@color/grey_300"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/btn_startVerification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="?actionBarItemBackground"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_navigate_next_white_56dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/other_sign_in"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/list4"
+            android:layout_marginBottom="96dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="DevVersionCode. Powered by Google Firebase" />
+
+    </LinearLayout>
+</LinearLayout>
