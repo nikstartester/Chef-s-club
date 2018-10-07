@@ -32,41 +32,49 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.concurrent.TimeUnit;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.widget.Toast.LENGTH_SHORT;
 import static com.example.nikis.bludogramfirebase.LoginActivity.State.STATE_IN_PROGRESS;
 import static com.example.nikis.bludogramfirebase.LoginActivity.State.STATE_START_VERIFICATION;
 import static com.example.nikis.bludogramfirebase.LoginActivity.State.STATE_START_VERIFICATION_WITH_CODE;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-    public static final String TAG = "BG_verification";
+    private static final String TAG = "LoginActivity";
     private static final String KEY_VERIFY_IN_PROGRESS = "9671";
-    private EditText edtPhone, edtCode;
+
+    @BindView(R.id.edt_phone)
+    protected EditText edtPhone;
+
+    @BindView(R.id.edt_code)
+    protected EditText edtCode;
 
     private boolean mVerificationInProgress = false;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private OnVerificationStateChangedCallbacks mCallbacks;
     private ValueEventListener mListenerIsUserExist;
-    private String phoneNumber;
+    private String mPhoneNumber;
 
     private FirebaseAuth mAuth;
 
-    private CountDownTimer countDownTimer;
-    private ProgressBar progressBar;
+    private CountDownTimer mCountDownTimer;
+
+    @BindView(R.id.progressBar_loading)
+    protected ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         ImageButton btnStartVerification = findViewById(R.id.btn_startVerification);
         ImageButton btnStartVerificationWithCode = findViewById(R.id.btn_startVerificationWithCode);
         Button btnResend = findViewById(R.id.btn_resend);
         ImageButton btnBackToStartVerification = findViewById(R.id.btn_back);
 
-        edtPhone = findViewById(R.id.edt_phone);
-        edtCode = findViewById(R.id.edt_code);
-
-        progressBar = findViewById(R.id.progressBar_loading);
+        ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -97,14 +105,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     // Invalid request
-                    edtPhone.setError("Invalid phone number.");
+                    edtPhone.setError(getString(R.string.invalid_phone));
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     // The SMS quota for the project has been exceeded
-                    showError(e.getMessage());
+                    showError(getString(R.string.sms_quota));
                 }else if(e instanceof FirebaseNetworkException){
                     Toast.makeText(LoginActivity.this
-                            ,"An error occurred. Check the Internet" +
-                                    " connection and try again",
+                            ,getString(R.string.network_error),
                             LENGTH_SHORT).show();
                 }
             }
@@ -162,13 +169,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else {
                         Log.w(TAG, "signInWithCredential: failure", task.getException());
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException)
-                            edtCode.setError("Invalid code");
+                            edtCode.setError(getString(R.string.invalid_code));
                         else if(task.getException() instanceof FirebaseNetworkException){
                             Log.d(TAG, "onLoadFinished:2) " + task.getException().getMessage());
 
                             Toast.makeText(LoginActivity.this
-                                    ,"An error occurred. Check the Internet" +
-                                            " connection and try again",
+                                    ,getString(R.string.network_error),
                                     LENGTH_SHORT).show();
                         }
                     }
@@ -177,8 +183,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void showError(String message){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        String buttonStringAccept = "Ok";
-        alertDialog.setTitle("Error");
+        String buttonStringAccept = getString(R.string.button_ok);
+        alertDialog.setTitle(getString(R.string.error));
         alertDialog.setMessage(message);
         alertDialog.setPositiveButton(buttonStringAccept, null);
         alertDialog.show();
@@ -226,8 +232,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.btn_startVerification:
                 if(isValidateForm(STATE_START_VERIFICATION)){
-                    phoneNumber = edtPhone.getText().toString();
-                    startPhoneNumberVerification(phoneNumber);
+                    mPhoneNumber = edtPhone.getText().toString();
+                    startPhoneNumberVerification(mPhoneNumber);
 
                     updateUi(STATE_IN_PROGRESS);
                 }
@@ -237,7 +243,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     verifyPhoneNumberWithCode(mVerificationId, edtCode.getText().toString());
                 break;
             case R.id.btn_resend:
-                resendVerificationCode(phoneNumber, mResendToken);
+                resendVerificationCode(mPhoneNumber, mResendToken);
                 updateUi(STATE_IN_PROGRESS);
                 break;
             case R.id.btn_back:
@@ -264,7 +270,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             edtPhone.setError(getResources().getString(R.string.error_field_required));
         }else {
             if(phone.length() < 6){
-                edtPhone.setError("Incorrectly entered phone number");
+                edtPhone.setError(getString(R.string.invalid_phone));
             }else {
                 edtPhone.setError(null);
                 isValidate = true;
@@ -320,7 +326,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void startTimer(){
         setStandardStatusWithText(getString(R.string.status_request_after_while));
 
-        countDownTimer = new CountDownTimer(60000, 1000) {
+        mCountDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timerTick(millisUntilFinished);
@@ -341,7 +347,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerTick(long millisUntilFinished){
-        setTimerText("Wait " + millisUntilFinished / 1000);
+        setTimerText(getString(R.string.wait) + " " + millisUntilFinished / 1000);
     }
 
     private void setTimerText(String text){
@@ -387,6 +393,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.enter_phone).setVisibility(View.VISIBLE);
         findViewById(R.id.other_sign_in).setVisibility(View.VISIBLE);
         findViewById(R.id.verification_fields).setVisibility(View.GONE);
+
         Log.d(TAG, "updateUi: To state StartVerification");
     }
     private void updateUiToStartVerificationWithCode(){
@@ -400,6 +407,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setButtonResendEnabled(false);
 
         startTimer();
+
         Log.d(TAG, "updateUi: To state StartVerificationWithCode");
     }
     private void updateUiToShowProgress(){
@@ -411,8 +419,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void stopTimer(){
-        if(countDownTimer != null){
-            countDownTimer.cancel();
+        if(mCountDownTimer != null){
+            mCountDownTimer.cancel();
             setTimerText("");
             setStandardStatusWithText("");
         }
