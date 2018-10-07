@@ -53,6 +53,12 @@
             android:label="Recipe name"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity
+            android:name=".Profile.ProfileActivity"
+            android:label="@string/title_activity_edit_profile"
+            android:theme="@style/AppTheme">
+        </activity>
+
         <service
             android:name=".Recipe.NewRecipe.CompressAndUploadImagesService"
             android:enabled="true"
