@@ -167,6 +167,19 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="invalid_phone">Invalid phone number.</string>
+    <string name="sms_quota">SMS quota reached the maximum</string>
+    <string name="network_error">An error occurred. Check the Internet\" +                                     \" connection and try again</string>
+    <string name="invalid_code">Invalid code</string>
+    <string name="dev_version_code_info">DevVersionCode. Powered by Google Firebase</string>
+    <string name="your_cooking_skill">Your cooking skill:</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="hint_last_name">Last name</string>
+    <string name="hint_first_name">First name</string>
+    <string name="hint_login">Login</string>
+    <string name="error">Error</string>
+    <string name="wait">Wait</string>
 
     <string-array name="viewChoose">
         <item>All users can view the recipe</item>
