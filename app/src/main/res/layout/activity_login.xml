@@ -51,76 +51,69 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:visibility="gone"
-            tools:context="com.example.nikis.bludogramfirebase.VerificationFragment">
+            tools:fragment="com.example.nikis.bludogramfirebase.VerificationFragment">
 
             <ImageButton
                 android:id="@+id/btn_back"
+                style="@style/BaseNavigateImageButton.NavigateBackImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                android:layout_weight="0"
-                android:background="?actionBarItemBackground"
-                android:focusedByDefault="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_navigate_before_white_56dp" />
+                android:layout_alignParentBottom="true"
+                android:focusedByDefault="true" />
 
             <ImageButton
                 android:id="@+id/btn_startVerificationWithCode"
+                style="@style/BaseNavigateImageButton.NavigateNextImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_weight="0"
-                android:background="?actionBarItemBackground"
-                android:focusedByDefault="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_navigate_next_white_56dp" />
+                android:layout_alignParentBottom="true"
+                android:focusedByDefault="true" />
 
             <TextView
                 android:id="@+id/tv_status"
+                style="@style/TextViewWhiteTextColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="16dp"
                 android:text="@string/status"
-                android:textColor="@color/cardview_light_background"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edt_code"
+                style="@style/WhiteEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/tv_status"
-                android:layout_marginRight="8dp"
+                android:layout_alignParentStart="true"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@+id/tv_timer"
                 android:ems="10"
-                android:hint="Code"
-                android:inputType="number"
-                android:textColor="@color/cardview_light_background"
-                android:textColorHint="@color/grey_300" />
+                android:hint="@string/hint_verification_code"
+                android:inputType="number" />
 
             <Button
                 android:id="@+id/btn_resend"
+                style="@style/BaseAppButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_alignTop="@+id/edt_code"
+                android:layout_alignParentEnd="true"
                 android:background="@color/colorAccent"
                 android:enabled="false"
-                android:text="@string/resend_phone_auth"
-                android:textColor="@color/cardview_light_background" />
+                android:text="@string/verify_phone_auth" />
 
             <TextView
                 android:id="@+id/tv_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/edt_code"
                 android:layout_alignTop="@+id/btn_resend"
-                android:layout_marginRight="8dp"
+                android:layout_alignBottom="@+id/edt_code"
+                android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@+id/btn_resend"
                 android:gravity="center"
                 android:text="00"
@@ -133,6 +126,7 @@
             android:id="@+id/enter_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
             android:visibility="visible">
@@ -146,7 +140,7 @@
                 android:layout_weight="1"
                 android:hint="@string/hint_phone_number"
                 android:inputType="phone"
-                android:text="+79085896855"
+                android:text="+7"
                 android:textColor="@color/cardview_light_background"
                 android:textColorHint="@color/grey_300"
                 android:visibility="visible" />
@@ -178,7 +172,6 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/list4"
             android:layout_marginBottom="96dp"
             android:background="@android:color/darker_gray" />
 
@@ -187,7 +180,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="DevVersionCode. Powered by Google Firebase" />
+            android:text="@string/dev_version_code_info" />
 
     </LinearLayout>
 </LinearLayout>
