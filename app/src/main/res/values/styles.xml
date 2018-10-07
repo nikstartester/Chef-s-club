@@ -8,6 +8,7 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -51,5 +52,31 @@
     <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
         <item name="android:gravity">center</item>
         <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="BaseNavigateImageButton" parent="Base.Widget.AppCompat.ImageButton">
+        <item name="android:background">?actionBarItemBackground</item>
+    </style>
+
+    <style name="BaseNavigateImageButton.NavigateNextImageButton">
+        <item name="android:src">@drawable/ic_navigate_next_white_56dp</item>
+    </style>
+
+    <style name="BaseNavigateImageButton.NavigateBackImageButton">
+        <item name="android:src">@drawable/ic_navigate_before_white_56dp</item>
+    </style>
+
+    <style name="WhiteEditText" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/grey_300</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextViewWhiteTextColor" parent="android:style/Widget.DeviceDefault.TextView">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="BaseAppButton" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>
