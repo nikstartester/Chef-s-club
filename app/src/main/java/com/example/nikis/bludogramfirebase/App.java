@@ -1,6 +1,7 @@
 package com.example.nikis.bludogramfirebase;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.res.Configuration;
 
@@ -10,9 +11,19 @@ import com.squareup.leakcanary.RefWatcher;
 public class App extends Application {
     private static Context context;
     private RefWatcher refWatcher;
+
+    public static App sInstance;
+
+    private AppDatabase database;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        sInstance = this;
+        database = Room.databaseBuilder(this, AppDatabase.class, "profilesDatabase")
+                .build();
+
         /*if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -30,6 +41,14 @@ public class App extends Application {
         App application = (App) context.getApplicationContext();
         return application.refWatcher;
     }*/
+
+    public static App getInstance() {
+        return sInstance;
+    }
+
+    public AppDatabase getDatabase() {
+        return database;
+    }
 
     @Deprecated
     public static Context getAppContext(){
