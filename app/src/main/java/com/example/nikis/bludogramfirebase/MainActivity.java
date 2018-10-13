@@ -1,6 +1,7 @@
 package com.example.nikis.bludogramfirebase;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,23 +24,25 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.signature.ObjectKey;
-import com.example.nikis.bludogramfirebase.Profile.EditProfile;
+import com.example.nikis.bludogramfirebase.Profile.ProfileActivity;
+import com.example.nikis.bludogramfirebase.Profile.ui.ProfileViewModel;
 import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.NewRecipeTestActivity;
 import com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.AllRecipes;
 import com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.UserRecipes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.StorageReference;
 
-import static com.example.nikis.bludogramfirebase.BaseActivities.BaseActivityWithImageClick.TAG_TEST;
-import static com.example.nikis.bludogramfirebase.Profile.EditProfile.RESULT_CODE_UPDATE;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int REQUEST_CODE_UPDATE_IMAGE = 532;
+
     SparseArray<Fragment> fragments;
+
     ImageView userProfileImage;
     TextView tvLogin, tvName;
+
+    private ProfileViewModel mProfileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,27 +74,26 @@ public class MainActivity extends AppCompatActivity
 
         userProfileImage = header.findViewById(R.id.image_profileImage);
 
-        setUserData();
         fragments = new SparseArray<>(2);
-    }
 
-    private void setUserData(){
-        LocalUserData localUserData = LocalUserData.getInstance();
-        if(localUserData.isNeedUpdate()) {
-            Log.d(TAG_TEST, "setUserData: needUpdate!");
-            localUserData.addOnUpdateDataListener(userData -> {
-                showProfileData();
-                localUserData.putToPreferences(this);
-            });
-            localUserData.updateData();
-        }else {
-            showProfileData();
-        }
+        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
+        mProfileViewModel.getResourceLiveData().observe(this, resource -> {
+            if(resource != null){
+                if(resource.status == Resource.Status.SUCCESS){
+                    tvLogin.setText(resource.data.login);
+                    tvName.setText(resource.data.firstName + " " + resource.data.secondName);
+
+                    if(resource.data.imageURL != null)
+                    setProfileImage(resource.data.imageURL, resource.data.timeLastImageUpdate);
+                }
+            }
+        });
+
+        mProfileViewModel.loadData(FirebaseAuth.getInstance().getUid());
 
     }
-    private void setProfileImage(){
-        StorageReference storageReference = FirebaseReferences.getStorageReference(
-                "profilesImage/" + LocalUserData.getInstance().getUserData().userUid + ".jpg");
+    private void setProfileImage(String imageURL, String lastTimeToUpdate){
+        StorageReference storageReference = FirebaseReferences.getStorageReference(imageURL);
 
         GlideApp.with(this)
                 .load(storageReference)
@@ -103,17 +104,8 @@ public class MainActivity extends AppCompatActivity
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .circleCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .signature(new ObjectKey(LocalUserData.getInstance().getTimeLastImageUpdate()))
+                .signature(new ObjectKey(lastTimeToUpdate))
                 .into(userProfileImage);
-    }
-
-    private void showProfileData(){
-        if(!isDestroyed()) {
-            setProfileImage();
-            tvLogin.setText(LocalUserData.getInstance().getLogin());
-            Log.d(TAG_TEST, "showProfileData: login:" + LocalUserData.getInstance().getLogin());
-            tvName.setText(LocalUserData.getInstance().getFirstName() + " " + LocalUserData.getInstance().getSecondName());
-        }
     }
 
     @Override
@@ -140,8 +132,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, EditProfile.class);
-            startActivityForResult(intent, REQUEST_CODE_UPDATE_IMAGE);
+            Intent intent = new Intent(this, ProfileActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -156,8 +148,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ftrans = getSupportFragmentManager().beginTransaction();
         switch (id){
            case R.id.nav_settings:
-               Intent intent = new Intent(this, EditProfile.class);
-               startActivityForResult(intent, REQUEST_CODE_UPDATE_IMAGE);
+               Intent intent = new Intent(this, ProfileActivity.class);
+               startActivity(intent);
                break;
            case R.id.nav_recipes:
                fragment = fragments.get(id);
@@ -201,13 +193,6 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE_UPDATE_IMAGE && resultCode == RESULT_CODE_UPDATE){
-            setProfileImage();
-        }
     }
 
     private void hideAllFragments(){
