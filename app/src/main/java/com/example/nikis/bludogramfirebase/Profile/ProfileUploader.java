@@ -1,12 +1,14 @@
 package com.example.nikis.bludogramfirebase.Profile;
 
-import android.arch.lifecycle.MutableLiveData;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.nikis.bludogramfirebase.Exceptions.ExistLoginException;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
+import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
 import com.example.nikis.bludogramfirebase.Resource;
+import com.example.nikis.bludogramfirebase.Uploader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -14,33 +16,61 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 
 
-public class ProfileUploader {
+public class ProfileUploader extends Uploader<ProfileData>{
     private static final String TAG = "ProfileUploader";
-    private ProfileData mProfileData;
-    private String mImagePath;
-    private ProfileImageUploader mImageUploader;
 
-    public ProfileUploader(ProfileData profileData, @Nullable String imagePath) {
-        mProfileData = profileData;
-        mImagePath = imagePath;
-        mImageUploader = new ProfileImageUploader();
+    private ProfileData mProfileData;
+
+    private ProfileUploader.ProfileImageUploader mImageUploader;
+
+    private Resource<ProfileData> mProfileResource;
+
+    @Nullable
+    private OnProcessListener<ProfileData> mOnProcessListener;
+
+    public ProfileUploader(){
+        this(null);
     }
 
-    public MutableLiveData<Resource<ProfileData>> updateProfile(MutableLiveData<Resource<ProfileData>> data) {
+    public ProfileUploader(ProfileData profileData) {
+        mProfileData = profileData;
+
+        mImageUploader = new ProfileUploader.ProfileImageUploader();
+    }
+
+    @Override
+    public void start(@NotNull ProfileData data,
+                      @Nullable OnProcessListener<ProfileData> onProcessListener) {
+        mProfileData = data;
+        mOnProcessListener = onProcessListener;
+
+        updateProfile();
+    }
+
+    private void updateProfile() {
         if(isLoginExist()){
-         data.setValue(Resource.error(new ExistLoginException(), mProfileData));
+            mProfileResource = Resource.error(new ExistLoginException(), mProfileData);
         }
         else {
-            data.setValue(Resource.loading(mProfileData));
-            updateChildren(data);
+            mProfileResource = Resource.loading(mProfileData);
+
+            updateChildren();
         }
-        return data;
+        updateProgress(mProfileResource);
+    }
+
+    private void updateProgress(Resource<ProfileData> resource){
+        if (mOnProcessListener != null) {
+            mOnProcessListener.onStatusChanged(resource);
+        }
     }
 
     private boolean isLoginExist(){
@@ -48,18 +78,25 @@ public class ProfileUploader {
         return false;
     }
 
-    private void updateChildren(MutableLiveData<Resource<ProfileData>> data) {
+    private void updateChildren() {
         Map<String, Object> childUpdates = createChildUpdates();
 
         DatabaseReference myRef = FirebaseReferences.getDataBaseReference();
         myRef.updateChildren(childUpdates, (databaseError, databaseReference) -> {
             if(databaseError == null){
-                if(mImagePath != null ) {
-                    mImageUploader.uploadImage(mImagePath, data);
+                if(mProfileData.localImagePath != null ) {
+                    mImageUploader.uploadImage(mProfileData.localImagePath);
                 }else {
-                    data.setValue(Resource.success(mProfileData));
+                    Log.d(TAG, "updateChildren: localImagePath == null");
+                    mProfileResource = Resource.success(mProfileData);
+
+                    updateProgress(mProfileResource);
                 }
-            }else data.setValue(Resource.error(databaseError.toException(), mProfileData));
+            }else{
+                mProfileResource = Resource.error(databaseError.toException(), mProfileData);
+
+                updateProgress(mProfileResource);
+            }
         });
 
     }
@@ -77,12 +114,13 @@ public class ProfileUploader {
         return childUpdates;
     }
 
+
+
     private class ProfileImageUploader{
 
         private String mStorageImagePath;
 
-        private void uploadImage(String imagePath,
-                                 MutableLiveData<Resource<ProfileData>> data){
+        private void uploadImage(String imagePath){
             File file = new File(imagePath);
             Uri fileUri = Uri.fromFile(file);
 
@@ -102,10 +140,9 @@ public class ProfileUploader {
             uploadTask.addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
 
-                    //data.setValue(Resource.loading(mProfileData));
+                    updateImagePath();
 
-                    updateImagePath(data);
-
+                    //TODO put to another place
                     /*LocalUserData.getInstance().setTimeLastImageUpdate(Long.toString(System.currentTimeMillis()))
                             .putToPreferences(this);*/
 
@@ -118,13 +155,16 @@ public class ProfileUploader {
                             .signature(new ObjectKey(LocalUserData.getInstance().getTimeLastImageUpdate()))
                             .submit();
                     */
-                }else data.setValue(Resource.error(task.getException(), mProfileData));
+                }else {
+                    mProfileResource = Resource.error(task.getException(), mProfileData);
+
+                    updateProgress(mProfileResource);
+                }
             });
         }
 
-        private void updateImagePath(MutableLiveData<Resource<ProfileData>> data){
+        private void updateImagePath(){
             if(mStorageImagePath != null){
-
 
                 Map<String, Object> childUpdates = createImageURLChildUpdates();
 
@@ -134,17 +174,18 @@ public class ProfileUploader {
                     if(task.isSuccessful()){
                         mProfileData.imageURL = mStorageImagePath;
 
-                        data.setValue(Resource.success(mProfileData));
+                        mProfileResource = Resource.success(mProfileData);
+
                     }else {
-                        data.setValue(Resource.error(task.getException(), mProfileData));
+                        mProfileResource = Resource.error(task.getException(), mProfileData);
                     }
+
+                    updateProgress(mProfileResource);
                 });
             }
         }
 
         private Map<String, Object> createImageURLChildUpdates(){
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
             Map<String, Object> childUpdates = new HashMap<>();
 
             childUpdates.put("/users/" + mProfileData.userUid + "/imageURL", mStorageImagePath);
@@ -152,7 +193,4 @@ public class ProfileUploader {
             return childUpdates;
         }
     }
-
-
-
 }
