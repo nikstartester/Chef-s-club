@@ -1,5 +1,6 @@
 package com.example.nikis.bludogramfirebase.Profile.Data;
 
+import android.arch.persistence.room.Ignore;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -14,12 +15,27 @@ public class ProfileData extends BaseData {
     public static final String GENDER_FEMALE = "Female";
     public static final String GENDER_NONE = "none";
 
-    public String firstName, secondName, login, userUid, gender, imageURL;
+    public String firstName, secondName, login, gender;
 
+    public String userUid;
+
+    @Nullable
+    public String imageURL;
+
+    @Ignore
     @Nullable
     public String localImagePath;
 
-    public ProfileData(String firstName, String secondName, String login, String gender, @Nullable String localImagePath) {
+    //TODO think
+    @Nullable
+    public String timeLastImageUpdate;
+
+    public ProfileData(){
+
+    }
+
+    public ProfileData(String firstName, String secondName, String login, String gender,
+                       @Nullable String localImagePath) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.login = login;
