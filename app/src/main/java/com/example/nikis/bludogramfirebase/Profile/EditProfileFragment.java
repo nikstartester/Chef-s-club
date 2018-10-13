@@ -20,13 +20,19 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.signature.ObjectKey;
+import com.example.nikis.bludogramfirebase.App;
+import com.example.nikis.bludogramfirebase.FirebaseReferences;
 import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.Helpers.MatisseHelper;
 import com.example.nikis.bludogramfirebase.Helpers.PermissionHelper;
 import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
+import com.example.nikis.bludogramfirebase.Profile.db.ProfileEntity;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.Resource;
+import com.google.firebase.storage.StorageReference;
 import com.zhihu.matisse.Matisse;
 
 import java.util.List;
@@ -117,6 +123,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             if (isInProgress) {
                 showProgress();
             }
+
         }
 
         IntentFilter intentFilter = new IntentFilter(
@@ -214,7 +221,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         if(mImagePath != null)
         GlideApp.with(this)
                 .load(mImagePath)
-                .override(1080,1080)
+                .override(720,720)
                 .apply(RequestOptions.circleCropTransform())
                 .into(circularImageView);
     }
@@ -300,8 +307,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         public void onReceive(Context context, Intent intent) {
             Resource<ProfileData> dataResource = intent.getParcelableExtra(ProfileUploaderService.EXTRA_RESOURCE);
             if (dataResource != null && dataResource.status == Resource.Status.SUCCESS) {
-                Toast.makeText(getActivity(), "Done!", Toast.LENGTH_SHORT).show();
-                hideProgress();
+                onSuccess(dataResource);
             }else if (dataResource != null && dataResource.status == Resource.Status.LOADING) {
                 showProgress();
             }else if (dataResource != null && dataResource.status == Resource.Status.ERROR) {
@@ -310,6 +316,41 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             }else {
                 hideProgress();
             }
+        }
+
+        private void onSuccess(Resource<ProfileData> resource){
+            hideProgress();
+
+            String time = Long.toString(System.currentTimeMillis());
+
+            final ProfileEntity profileEntity = new ProfileEntity();
+            profileEntity.profileData = resource.data;
+            profileEntity.profileData.timeLastImageUpdate = time;
+
+            startThreadToInsertData(profileEntity);
+
+            String imageUrl = resource.data.imageURL;
+
+            if(imageUrl != null) loadImageToDisk(imageUrl, time);
+
+        }
+
+        private void startThreadToInsertData(ProfileEntity profileEntity){
+
+            new Thread(() -> ((App)getActivity().getApplication())
+                    .getDatabase()
+                    .profileDao()
+                    .insert(profileEntity)).start();
+        }
+
+        private void loadImageToDisk(String imageUrl, String time) {
+            StorageReference storageReference = FirebaseReferences.getStorageReference(imageUrl);
+
+            GlideApp.with(getActivity().getApplicationContext())
+                    .load(storageReference)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .signature(new ObjectKey(time))
+                    .submit();
         }
     }
 }
