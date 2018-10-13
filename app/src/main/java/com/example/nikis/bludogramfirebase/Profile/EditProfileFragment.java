@@ -1,7 +1,9 @@
 package com.example.nikis.bludogramfirebase.Profile;
 
-import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.Helpers.MatisseHelper;
 import com.example.nikis.bludogramfirebase.Helpers.PermissionHelper;
+import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.Resource;
 import com.zhihu.matisse.Matisse;
@@ -39,12 +41,11 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class EditProfileFragment extends Fragment implements View.OnClickListener {
-
-    protected static final String TAG_CREATE_PROFILE = "BG_editProfile";
     protected static final String KEY_GENDER = "gender";
     private static final int PERMISSION_REQUEST_CODE = 5;
     private static final int REQUEST_CODE_CHOOSE = 6;
     private static final String KEY_IMAGE_PATH = "imagePath";
+    private static final String KEY_IS_IN_PROGRESS = "isProgress";
 
     @BindView(R.id.edt_firstName)
     protected EditText edtFirstName;
@@ -71,19 +72,18 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
     private boolean isInProgress;
 
-    private ProfileViewModel mProfileViewModel;
-
     private final String[] mPermissions = new String[]{READ_EXTERNAL_STORAGE,
             WRITE_EXTERNAL_STORAGE};
 
     private PermissionHelper mPermissionHelper;
+
+    private ProfileUploaderBroadcastReceiver mBroadcastReceiver;
+
     private String mImagePath;
 
     @OnClick(R.id.btn_update) void test(){
-        mProfileViewModel.UpdateData(createProfileData(), mImagePath);
+        startEditProfile();
     }
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,8 +96,6 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         }else {
             gender = ProfileData.GENDER_NONE;
         }
-        mProfileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
-        mProfileViewModel.init();
     }
 
     @Nullable
@@ -113,26 +111,28 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
         if (savedInstanceState != null) {
             setImage();
+
+            isInProgress = savedInstanceState.getBoolean(KEY_IS_IN_PROGRESS);
+
             if (isInProgress) {
                 showProgress();
             }
         }
 
-        mProfileViewModel.getResourceLiveData().observe(this, (dataResource)->{
-            if (dataResource != null && dataResource.status == Resource.Status.SUCCESS) {
-                Toast.makeText(getActivity(), "Done!", Toast.LENGTH_SHORT).show();
-                hideProgress();
-            }else if (dataResource != null && dataResource.status == Resource.Status.LOADING) {
-                showProgress();
-            }else if (dataResource != null && dataResource.status == Resource.Status.ERROR) {
-                hideProgress();
-                Toast.makeText(getActivity(), dataResource.exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }else {
-                hideProgress();
-            }
-        });
+        IntentFilter intentFilter = new IntentFilter(
+                ProfileUploaderService.ACTION_RESPONSE);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+
+        getActivity().registerReceiver(mBroadcastReceiver = new ProfileUploaderBroadcastReceiver()
+                , intentFilter);
 
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mBroadcastReceiver);
     }
 
     @Override
@@ -152,11 +152,13 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
 
     private void showProgress() {
+        isInProgress = true;
         if (filterForProgress != null) {
             filterForProgress.setVisibility(View.VISIBLE);
         }
     }
     private void hideProgress(){
+        isInProgress = false;
         if (filterForProgress != null) {
             filterForProgress.setVisibility(View.INVISIBLE);
         }
@@ -257,7 +259,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         if(gender.equals(ProfileData.GENDER_NONE)){
             indicateToChoiceGender();
             isValidate = false;
-            Log.d(TAG_CREATE_PROFILE, "isValidateForm: gender indefinite: " + gender);
+
         }else {
             removeIndicateToChoiceGender();
         }
@@ -273,7 +275,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     }
 
     private void startEdit() {
-
+        getActivity().startService(ProfileUploaderService.getIntent(getActivity(), createProfileData()));
     }
 
     private ProfileData createProfileData(){
@@ -281,7 +283,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         String lastName = edtLastName.getText().toString();
         String login = edtLogin.getText().toString();
 
-        return new ProfileData(firstName, lastName, login, gender);
+        return new ProfileData(firstName, lastName, login, gender, mImagePath);
     }
 
     @Override
@@ -289,6 +291,25 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         super.onSaveInstanceState(outState);
         outState.putString(KEY_IMAGE_PATH, mImagePath);
         outState.putString(KEY_GENDER, gender);
+        outState.putBoolean(KEY_IS_IN_PROGRESS, isInProgress);
+    }
 
+    private class ProfileUploaderBroadcastReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Resource<ProfileData> dataResource = intent.getParcelableExtra(ProfileUploaderService.EXTRA_RESOURCE);
+            if (dataResource != null && dataResource.status == Resource.Status.SUCCESS) {
+                Toast.makeText(getActivity(), "Done!", Toast.LENGTH_SHORT).show();
+                hideProgress();
+            }else if (dataResource != null && dataResource.status == Resource.Status.LOADING) {
+                showProgress();
+            }else if (dataResource != null && dataResource.status == Resource.Status.ERROR) {
+                hideProgress();
+                Toast.makeText(getActivity(), dataResource.exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }else {
+                hideProgress();
+            }
+        }
     }
 }
