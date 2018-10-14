@@ -33,4 +33,7 @@ public interface ProfileDao{
 
     @Delete
     void delete(ProfileEntity profile);
+
+    @Query("DELETE FROM profileentity WHERE userUid = :userUid")
+    void deleteByUserUid(String userUid);
 }
