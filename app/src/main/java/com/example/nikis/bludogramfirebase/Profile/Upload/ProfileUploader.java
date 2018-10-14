@@ -1,4 +1,4 @@
-package com.example.nikis.bludogramfirebase.Profile;
+package com.example.nikis.bludogramfirebase.Profile.Upload;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -121,18 +121,23 @@ public class ProfileUploader extends Uploader<ProfileData>{
         private String mStorageImagePath;
 
         private void uploadImage(String imagePath){
+            String newImageName = mProfileData.userUid + ".jpg";
+
+            mStorageImagePath = "profilesImage/" + newImageName;
+
+            if(mStorageImagePath.equals(imagePath)){
+                updateImagePath();
+                return;
+            }
+
             File file = new File(imagePath);
             Uri fileUri = Uri.fromFile(file);
-
-            String newImageName = mProfileData.userUid + ".jpg";
 
             StorageReference storageRef = FirebaseReferences.getStorageReference();
 
             StorageMetadata metadata = new StorageMetadata.Builder()
                     .setContentType("image")
                     .build();
-
-            mStorageImagePath = "profilesImage/" + newImageName;
 
             UploadTask uploadTask = storageRef.child(mStorageImagePath)
                     .putFile(fileUri, metadata);
@@ -142,19 +147,6 @@ public class ProfileUploader extends Uploader<ProfileData>{
 
                     updateImagePath();
 
-                    //TODO put to another place
-                    /*LocalUserData.getInstance().setTimeLastImageUpdate(Long.toString(System.currentTimeMillis()))
-                            .putToPreferences(this);*/
-
-                    /*StorageReference storageReference = FirebaseReferences.getStorageReference(
-                            mStorageImagePath);
-
-                    GlideApp.with(context.getApplicationContext())
-                            .load(storageReference)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .signature(new ObjectKey(LocalUserData.getInstance().getTimeLastImageUpdate()))
-                            .submit();
-                    */
                 }else {
                     mProfileResource = Resource.error(task.getException(), mProfileData);
 
