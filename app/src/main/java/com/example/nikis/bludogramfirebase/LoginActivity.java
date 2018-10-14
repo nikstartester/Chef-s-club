@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nikis.bludogramfirebase.Profile.CreateNewProfile;
+import com.example.nikis.bludogramfirebase.Profile.ProfileActivity;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void startFirstEditProfile(){
         Intent intent = new Intent(LoginActivity.this,
-                CreateNewProfile.class);
+                ProfileActivity.class);
         startActivity(intent);
         finish();
     }
@@ -398,7 +398,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     private void updateUiToStartVerificationWithCode(){
         if(!mVerificationInProgress)
-            progressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.INVISIBLE);
 
         findViewById(R.id.enter_phone).setVisibility(View.GONE);
         //findViewById(R.id.other_sign_in).setVisibility(View.INVISIBLE);

@@ -1,4 +1,4 @@
-package com.example.nikis.bludogramfirebase.Profile;
+package com.example.nikis.bludogramfirebase.Profile.Upload;
 
 import android.app.IntentService;
 import android.content.Context;

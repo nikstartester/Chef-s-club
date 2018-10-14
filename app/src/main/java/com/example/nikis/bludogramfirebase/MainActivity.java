@@ -25,7 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.nikis.bludogramfirebase.Profile.ProfileActivity;
-import com.example.nikis.bludogramfirebase.Profile.ui.ProfileViewModel;
+import com.example.nikis.bludogramfirebase.Profile.ViewModel.ProfileViewModel;
 import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.NewRecipeTestActivity;
 import com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.AllRecipes;
 import com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.UserRecipes;
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the menu; this adds items build the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
