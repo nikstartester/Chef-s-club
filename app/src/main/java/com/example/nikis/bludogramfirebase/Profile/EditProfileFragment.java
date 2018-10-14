@@ -1,5 +1,6 @@
 package com.example.nikis.bludogramfirebase.Profile;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.nikis.bludogramfirebase.App;
@@ -29,7 +31,10 @@ import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.Helpers.MatisseHelper;
 import com.example.nikis.bludogramfirebase.Helpers.PermissionHelper;
 import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
-import com.example.nikis.bludogramfirebase.Profile.db.ProfileEntity;
+import com.example.nikis.bludogramfirebase.Profile.Repository.Local.LocalUserProfile;
+import com.example.nikis.bludogramfirebase.Profile.Repository.ProfileRepository;
+import com.example.nikis.bludogramfirebase.Profile.Upload.ProfileUploaderService;
+import com.example.nikis.bludogramfirebase.Profile.ViewModel.ProfileViewModel;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.Resource;
 import com.google.firebase.storage.StorageReference;
@@ -44,6 +49,7 @@ import butterknife.OnClick;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.RecipesListFragment.getUid;
 
 
 public class EditProfileFragment extends Fragment implements View.OnClickListener {
@@ -85,11 +91,21 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
     private ProfileUploaderBroadcastReceiver mBroadcastReceiver;
 
+    private ProfileViewModel mProfileViewModel;
+
     private String mImagePath;
 
     @OnClick(R.id.btn_update) void test(){
         startEditProfile();
     }
+
+    @OnClick(R.id.btn_deleteFromDisk) void delete(){
+        new Thread(() -> ((App)getActivity().getApplication())
+                .getDatabase()
+                .profileDao()
+                .deleteByUserUid(getUid())).start();
+
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,10 +146,41 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                 ProfileUploaderService.ACTION_RESPONSE);
         intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
 
-        getActivity().registerReceiver(mBroadcastReceiver = new ProfileUploaderBroadcastReceiver()
-                , intentFilter);
+        getActivity().registerReceiver(mBroadcastReceiver = new ProfileUploaderBroadcastReceiver(),
+                intentFilter);
+
+        mProfileViewModel = ViewModelProviders.of(getActivity()).get(ProfileViewModel.class);
+        mProfileViewModel.getResourceLiveData().observe(this, resource -> {
+            if(resource != null){
+                if(resource.status == Resource.Status.SUCCESS){
+                    ProfileData profileData = resource.data;
+                    if(profileData != null){
+                        setData(profileData);
+                        if(profileData.imageURL != null){
+                            setImageFromCacheOrFireBaseStorage(profileData.imageURL,
+                                    profileData.timeLastImageUpdate);
+
+                            mImagePath = profileData.imageURL;
+                        }
+                    }
+                }
+            }
+        });
+        mProfileViewModel.loadData(ProfileRepository.getFireBaseAuthUid());
 
         return v;
+    }
+
+    private void setData(ProfileData profileData){
+        edtLogin.setText(profileData.login);
+        edtFirstName.setText(profileData.firstName);
+        edtLastName.setText(profileData.secondName);
+
+        if (profileData.gender.equals(ProfileData.GENDER_MALE)) {
+            radioButtonMaleClick();
+        } else {
+            radioButtonFemaleClick();
+        }
     }
 
     @Override
@@ -226,6 +273,21 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                 .into(circularImageView);
     }
 
+    private void setImageFromCacheOrFireBaseStorage(String imageURL, String lastTimeToUpdate){
+        StorageReference storageReference = FirebaseReferences.getStorageReference(imageURL);
+
+        GlideApp.with(this)
+                .load(storageReference)
+                .override(720,720)
+                .thumbnail(0.2f)
+                .error(R.drawable.ic_add_a_photo_blue_108dp)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .apply(RequestOptions.circleCropTransform())
+                .signature(new ObjectKey(lastTimeToUpdate))
+                .into(circularImageView);
+    }
 
 ////////////////////////////////////////////////
 
@@ -321,36 +383,11 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         private void onSuccess(Resource<ProfileData> resource){
             hideProgress();
 
-            String time = Long.toString(System.currentTimeMillis());
-
-            final ProfileEntity profileEntity = new ProfileEntity();
-            profileEntity.profileData = resource.data;
-            profileEntity.profileData.timeLastImageUpdate = time;
-
-            startThreadToInsertData(profileEntity);
-
-            String imageUrl = resource.data.imageURL;
-
-            if(imageUrl != null) loadImageToDisk(imageUrl, time);
+            if(resource.data != null)
+                new LocalUserProfile(getActivity().getApplication()).save(resource.data, null);
 
         }
 
-        private void startThreadToInsertData(ProfileEntity profileEntity){
 
-            new Thread(() -> ((App)getActivity().getApplication())
-                    .getDatabase()
-                    .profileDao()
-                    .insert(profileEntity)).start();
-        }
-
-        private void loadImageToDisk(String imageUrl, String time) {
-            StorageReference storageReference = FirebaseReferences.getStorageReference(imageUrl);
-
-            GlideApp.with(getActivity().getApplicationContext())
-                    .load(storageReference)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .signature(new ObjectKey(time))
-                    .submit();
-        }
     }
 }
