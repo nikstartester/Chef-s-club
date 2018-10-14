@@ -1,4 +1,4 @@
-package com.example.nikis.bludogramfirebase.Profile.ui;
+package com.example.nikis.bludogramfirebase.Profile.ViewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -6,14 +6,9 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
-import com.example.nikis.bludogramfirebase.App;
 import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
+import com.example.nikis.bludogramfirebase.Profile.Repository.ProfileRepository;
 import com.example.nikis.bludogramfirebase.Resource;
-
-import java.util.List;
-
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 public class ProfileViewModel extends AndroidViewModel {
@@ -27,23 +22,16 @@ public class ProfileViewModel extends AndroidViewModel {
     }
 
     public void loadData(String userUid){
-        Flowable<List<ProfileData>> flowable = ((App) getApplication())
-                .getDatabase()
-                .profileDao()
-                .getByUid(userUid);
-        flowable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(profilesData -> {
-                    if(!profilesData.isEmpty())
-                    mResourceLiveData.setValue(Resource.success(profilesData.get(0)));
-
-                });
+         ProfileRepository.with(getApplication())
+                 .setUserUid(userUid)
+                 .to(mResourceLiveData)
+                 .build()
+                 .loadData();
     }
 
     public LiveData<Resource<ProfileData>> getResourceLiveData() {
         if(mResourceLiveData == null){
             mResourceLiveData = new MutableLiveData<>();
-
         }
         return mResourceLiveData;
 
