@@ -5,12 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +24,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.nikis.bludogramfirebase.App;
+import com.example.nikis.bludogramfirebase.BaseFragments.BaseFragmentWithMatisseGallery;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
 import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.Helpers.MatisseHelper;
@@ -38,7 +37,6 @@ import com.example.nikis.bludogramfirebase.Profile.ViewModel.ProfileViewModel;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.Resource;
 import com.google.firebase.storage.StorageReference;
-import com.zhihu.matisse.Matisse;
 
 import java.util.List;
 
@@ -48,11 +46,10 @@ import butterknife.OnClick;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.app.Activity.RESULT_OK;
 import static com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.RecipesListFragment.getUid;
 
 
-public class EditProfileFragment extends Fragment implements View.OnClickListener {
+public class EditProfileFragment extends BaseFragmentWithMatisseGallery implements View.OnClickListener {
     protected static final String KEY_GENDER = "gender";
     private static final int PERMISSION_REQUEST_CODE = 5;
     private static final int REQUEST_CODE_CHOOSE = 6;
@@ -199,7 +196,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
                 radioButtonFemaleClick();
                 break;
             case R.id.circularImageView:
-                imageViewClick();
+                super.startMatisseGallery(1);
                 break;
         }
     }
@@ -230,38 +227,11 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         gender = ProfileData.GENDER_FEMALE;
     }
 
-    private void imageViewClick() {
-        if(mPermissionHelper.isPermissionsGranted()){
-            startGallery();
-        }else mPermissionHelper.requestPermissionsFragment(PERMISSION_REQUEST_CODE);
-
-    }
-
-    private void startGallery() {
-        MatisseHelper.getMatisseBuilder(this, 1)
-                .forResult(REQUEST_CODE_CHOOSE);
-    }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == PERMISSION_REQUEST_CODE){
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                startGallery();
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-            List<Uri> mSelected = Matisse.obtainResult(data);
-
-            mImagePath = MatisseHelper.getRealPathFromURIPath(getActivity(), mSelected.get(0));
-            setImage();
-        }
+    protected void onGalleryFinish(List<Uri> selected) {
+        mImagePath = MatisseHelper.getRealPathFromURIPath(getActivity(), selected.get(0));
+        setImage();
     }
 
     private void setImage() {
