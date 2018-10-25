@@ -1,4 +1,4 @@
-package com.example.nikis.bludogramfirebase.Work;
+package com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.SingleRecipe;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

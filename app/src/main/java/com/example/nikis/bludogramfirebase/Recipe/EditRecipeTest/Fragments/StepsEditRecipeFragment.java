@@ -1,6 +1,7 @@
-package com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest;
+package com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.Fragments;
 
 import android.animation.LayoutTransition;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,9 +22,11 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.example.nikis.bludogramfirebase.Helpers.MatisseHelper;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.Recipe.Data.StepOfCooking;
-import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.DialogTimePicker;
-import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems.StepAddItem;
 import com.example.nikis.bludogramfirebase.Recipe.Data.StepsData;
+import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.DialogTimePicker;
+import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems.StepAddItem;
+import com.example.nikis.bludogramfirebase.Recipe.ViewModel.RecipeViewModel;
+import com.example.nikis.bludogramfirebase.Resource;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
@@ -34,9 +37,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.example.nikis.bludogramfirebase.Recipe.NewRecipe.DialogTimePicker.NOT_SELECTED;
+import static com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.DialogTimePicker.NOT_SELECTED;
 
-public class StepsEditRecipeFragment extends BaseEditRecipeFragment implements View.OnClickListener {
+public class StepsEditRecipeFragment extends BaseEditRecipeFragment
+        implements View.OnClickListener, BaseEditRecipeFragment.StepsDataSender {
 
     private static final String KEY_STEPS_DATA = "stepsData";
 
@@ -69,6 +73,8 @@ public class StepsEditRecipeFragment extends BaseEditRecipeFragment implements V
 
     private DialogFragment mTimeDialog;
 
+    private RecipeViewModel mRecipeViewModel;
+
     public static Fragment getInstance(@Nullable String recipeId){
 
         Bundle bundle = new Bundle();
@@ -82,6 +88,8 @@ public class StepsEditRecipeFragment extends BaseEditRecipeFragment implements V
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mRecipeViewModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
 
         if(savedInstanceState != null){
             mStepsData = savedInstanceState.getParcelable(KEY_STEPS_DATA);
@@ -107,18 +115,42 @@ public class StepsEditRecipeFragment extends BaseEditRecipeFragment implements V
 
         setOnClickListeners();
 
-        if(savedInstanceState != null){
-            tvTimeMain.setText(mStepsData.timeMain);
+        mRecipeViewModel.getResourceLiveData().observe(this, resource -> {
+            if(resource != null){
+                if(resource.status == Resource.Status.SUCCESS){
 
-            for(int i = 0; i < mStepsData.stepsOfCooking.size(); i++){
-                mStepsAdapter.add(new StepAddItem(mStepsData.stepsOfCooking.get(i)));
+                    mStepsData = resource.data.stepsData;
+
+                    setDataToViews();
+
+                }else if(resource.status == Resource.Status.ERROR){
+
+                }
             }
-        }else {
+        });
 
-            addEmptyStep(false);
+        if(savedInstanceState != null){
+
+            if(recipeId == null){
+                setDataToViews();
+            }
+
+        }else {
+            if(recipeId == null){
+
+                addEmptyStep(false);
+
+            }else mRecipeViewModel.loadData(recipeId);
+
         }
 
         return view;
+    }
+
+    private void setDataToViews() {
+        tvTimeMain.setText(mStepsData.timeMain);
+
+        setStepsToAdapter();
     }
 
     private void unitViews(){
@@ -213,10 +245,17 @@ public class StepsEditRecipeFragment extends BaseEditRecipeFragment implements V
         setImageToCurrentPosition(imagePath);
     }
 
+    private void setStepsToAdapter(){
+        mStepsAdapter.clear();
+
+        for(int i = 0; i < mStepsData.stepsOfCooking.size(); i++){
+            mStepsAdapter.add(new StepAddItem(mStepsData.stepsOfCooking.get(i)));
+        }
+    }
+
     private void setImageToCurrentPosition(String imagePath) {
         mStepsAdapter.getAdapterItem(mCurrentPosition).setImage(imagePath);
     }
-
 
     private void addEmptyStep(boolean isFocusOnBind){
         mStepsAdapter.add(new StepAddItem(isFocusOnBind));
@@ -293,4 +332,16 @@ public class StepsEditRecipeFragment extends BaseEditRecipeFragment implements V
         }
     }
 
+    @Override
+    public boolean isValidate() {
+        return true;
+    }
+
+    @Override
+    public StepsData getData() {
+
+        setTextsToData();
+
+        return mStepsData;
+    }
 }

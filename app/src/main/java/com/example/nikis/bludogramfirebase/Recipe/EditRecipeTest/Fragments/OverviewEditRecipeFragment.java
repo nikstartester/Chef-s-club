@@ -1,6 +1,7 @@
-package com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest;
+package com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.Fragments;
 
 import android.animation.LayoutTransition;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,16 +17,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.nikis.bludogramfirebase.ChooseCategoriesActivity;
+import com.example.nikis.bludogramfirebase.FirebaseReferences;
 import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.Recipe.Data.OverviewData;
-import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.RecyclerViewItems.ChipCategoryWithRemoveItem;
-import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.RecyclerViewItems.ImageAddItem;
-import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.RecyclerViewItems.IngredientsAddItem;
+import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems.ChipCategoryWithRemoveItem;
+import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems.ImageAddItem;
+import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems.IngredientsAddItem;
+import com.example.nikis.bludogramfirebase.Recipe.ViewModel.RecipeViewModel;
+import com.example.nikis.bludogramfirebase.Resource;
+import com.google.firebase.storage.StorageReference;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
@@ -36,14 +43,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.nikis.bludogramfirebase.ChooseCategoriesActivity.SELECTED_ITEMS;
 import static com.example.nikis.bludogramfirebase.ChooseCategoriesActivity.SELECTED_NONE;
 
-public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implements View.OnClickListener {
+public class OverviewEditRecipeFragment extends BaseEditRecipeFragment
+        implements View.OnClickListener, BaseEditRecipeFragment.OverviewDataSender {
 
-    private static final String KEY_INGREDIENTS = "ingredients";
+    private static final String TAG = "OverviewEditRecipeFragm";
+
 
     public static final int REQUEST_CODE_CHOOSE_CATEGORIES = 89;
 
@@ -76,15 +86,19 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
     @BindView(R.id.btn_addCategories)
     protected Button btnAddCategories;
 
+    @OnClick(R.id.btn_test) void test(){
+        mRecipeViewModel.loadData("-LPfwWW9BCYiG0YBNigI");
+    }
+
     private FastItemAdapter<IngredientsAddItem> mIngredientsAdapter;
     private FastItemAdapter<ImageAddItem> mImagesAdapter;
     private FastItemAdapter<ChipCategoryWithRemoveItem> mCategoriesAdapter;
 
-    private ArrayList<Integer> mSelectedCategories;
-
     private boolean isMainPictureClick;
 
     private OverviewData mOverviewData;
+
+    private RecipeViewModel mRecipeViewModel;
 
     public static Fragment getInstance(@Nullable String recipeId){
 
@@ -105,11 +119,17 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
         mImagesAdapter = new FastItemAdapter<>();
         mCategoriesAdapter = new FastItemAdapter<>();
 
+        mRecipeViewModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+
+        Toast.makeText(getActivity(), recipeId, Toast.LENGTH_SHORT).show();
+
         if(savedInstanceState != null){
             mOverviewData = savedInstanceState.getParcelable(KEY_OVERVIEW_DATA);
         }else {
             mOverviewData = new OverviewData();
+
         }
+
     }
 
     @Nullable
@@ -125,23 +145,54 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
         unitView();
         setOnClickListeners();
 
+        mRecipeViewModel.getResourceLiveData().observe(this, resource -> {
+            if(resource != null){
+                if(resource.status == Resource.Status.SUCCESS){
+
+                    mOverviewData = resource.data.overviewData;
+
+                    setOverviewDataToViews();
+
+                }else if(resource.status == Resource.Status.ERROR){
+
+                }
+            }
+        });
+
         if (savedInstanceState != null){
-            ArrayList<String> ingredientsArray = savedInstanceState.getStringArrayList(KEY_INGREDIENTS);
-            setIngredientsToRv(ingredientsArray);
-            mSelectedCategories = savedInstanceState.getIntegerArrayList(SELECTED_ITEMS);
 
-            setImages();
+            if(recipeId == null){
+                setIngredientsToRv();
+
+                setCategoriesToRv();
+
+                setImages();
+            }
         }else {
-            mSelectedCategories = new ArrayList<>();
 
-            mIngredientsAdapter.add(new IngredientsAddItem());
-            mIngredientsAdapter.add(new IngredientsAddItem());
+            if(recipeId == null){
+
+                mIngredientsAdapter.add(new IngredientsAddItem());
+                mIngredientsAdapter.add(new IngredientsAddItem());
+
+            }else mRecipeViewModel.loadData(recipeId);
+
         }
-
-        setCategoriesToRv();
 
         return view;
 
+    }
+
+    private void setOverviewDataToViews(){
+        edtName.setText(mOverviewData.name);
+
+        edtDescription.setText(mOverviewData.description);
+
+        setIngredientsToRv();
+
+        setCategoriesToRv();
+
+        setImages();
     }
 
     private void unitView() {
@@ -209,7 +260,7 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
             @Override
             public void onClick(View v, int position, FastAdapter<ChipCategoryWithRemoveItem> fastAdapter, ChipCategoryWithRemoveItem item) {
                 mCategoriesAdapter.remove(position);
-                mSelectedCategories.set(item.getCategoryType(), SELECTED_NONE);
+                mOverviewData.categories.set(item.getCategoryType(), SELECTED_NONE);
             }
         });
 
@@ -233,10 +284,9 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
     }
 
     private void setImages(){
-        setMainImage(mOverviewData.mainImagePath);
+        setMainImage();
 
-        List<String> imagePaths = mOverviewData.imagePathsWithoutMainList;
-        setRecyclerViewImages(imagePaths.toArray(new String[0]));
+        setRecyclerViewImages();
     }
 
     @Override
@@ -254,21 +304,23 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
             case R.id.btn_addCategories:
                 startActivityForResult(
                         new Intent(getActivity(), ChooseCategoriesActivity.class)
-                                .putExtra(SELECTED_ITEMS, mSelectedCategories),
+                                .putExtra(SELECTED_ITEMS, (ArrayList<Integer>)mOverviewData.categories),
                         REQUEST_CODE_CHOOSE_CATEGORIES);
         }
     }
 
-    private void setIngredientsToRv(ArrayList<String> ingredientsArray) {
-        for (String ing : ingredientsArray){
+    private void setIngredientsToRv() {
+        mIngredientsAdapter.clear();
+
+        for (String ing : mOverviewData.ingredientsList){
             mIngredientsAdapter.add(new IngredientsAddItem(ing));
         }
     }
 
     private void setCategoriesToRv(){
         mCategoriesAdapter.removeItemRange(0, mCategoriesAdapter.getItemCount());
-        for(int i = 0; i < mSelectedCategories.size(); i++){
-            int pos = mSelectedCategories.get(i);
+        for(int i = 0; i < mOverviewData.categories.size(); i++){
+            int pos = mOverviewData.categories.get(i);
             if(pos != SELECTED_NONE) {
                 String category = "unknown";
                 switch (i){
@@ -296,7 +348,8 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE_CHOOSE_CATEGORIES && resultCode == RESULT_OK){
-            mSelectedCategories = data.getIntegerArrayListExtra(SELECTED_ITEMS);
+            mOverviewData.categories = data.getIntegerArrayListExtra(SELECTED_ITEMS);
+
             setCategoriesToRv();
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -306,32 +359,59 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
     protected void onGalleryFinish(List<Uri> selected) {
         String[] paths = super.covert(selected);
 
-        if(isMainPictureClick){
-            setMainImage(paths[0]);
-        }
-        setRecyclerViewImages(paths);
-
         setData(paths);
+
+        if(isMainPictureClick){
+            setMainImage();
+        }
+
+        setRecyclerViewImages();
+
+
     }
 
-    private void setMainImage(String imagePath){
+    private void setMainImage(){
+        String imagePath = mOverviewData.mainImagePath;
+
         if(imagePath == null){
             imageView.setImageResource(R.drawable.ic_add_a_photo_blue_108dp);
-        } else GlideApp.with(this)
-                .load(imagePath)
-                .centerCrop()
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(imageView);
+        } else if(!imagePath.split("/")[0].equals("recipe_images"))
+                GlideApp.with(this)
+                    .load(imagePath)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(imageView);
+
+        else setMainImageFromCacheOrFribaseStorage();
+
     }
 
-    private void setRecyclerViewImages(String[] imagePaths){
-        int startIndex = 0;
-        if(isMainPictureClick){
-            startIndex = 1;
+    private void setRecyclerViewImages(){
+        mImagesAdapter.clear();
+
+        for (String imagePath : mOverviewData.imagePathsWithoutMainList){
+            if(imagePath.split("/")[0].equals("recipe_images")){
+                StorageReference storageReference = FirebaseReferences.getStorageReference(imagePath);
+
+                mImagesAdapter.add(new ImageAddItem(storageReference));
+            }else {
+                mImagesAdapter.add(new ImageAddItem(imagePath));
+            }
         }
-        for (int i = startIndex; i < imagePaths.length; i++) {
-            mImagesAdapter.add(new ImageAddItem(imagePaths[i]));
-        }
+    }
+
+    private void setMainImageFromCacheOrFribaseStorage(){
+        StorageReference storageReference = FirebaseReferences.getStorageReference(mOverviewData.mainImagePath);
+
+        GlideApp.with(this)
+                .load(storageReference)
+                .thumbnail(0.2f)
+                .centerCrop()
+                .error(R.drawable.ic_add_a_photo_blue_108dp)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imageView);
     }
 
     private void setData(String[] imagePaths){
@@ -350,8 +430,9 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putStringArrayList(KEY_INGREDIENTS, getAllIngredients());
-        outState.putIntegerArrayList(SELECTED_ITEMS, mSelectedCategories);
+
+        mOverviewData.ingredientsList = getAllIngredients();
+        ;
         outState.putParcelable(KEY_OVERVIEW_DATA, mOverviewData);
     }
 
@@ -361,5 +442,21 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeFragment implement
             ingredientsArray.add(mIngredientsAdapter.getAdapterItem(i).getIngredient());
         }
         return ingredientsArray;
+    }
+
+    @Override
+    public boolean isValidate() {
+        return true;
+    }
+
+    @Override
+    public OverviewData getData() {
+
+        mOverviewData.name = edtName.getText().toString();
+        mOverviewData.description = edtDescription.getText().toString();
+
+        mOverviewData.ingredientsList = getAllIngredients();
+
+        return mOverviewData;
     }
 }

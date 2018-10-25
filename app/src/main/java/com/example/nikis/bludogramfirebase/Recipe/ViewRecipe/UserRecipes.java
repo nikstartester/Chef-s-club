@@ -53,8 +53,8 @@ public class UserRecipes extends Fragment {
 
     /*@Override
     public Query getQuery(DatabaseReference databaseReference) {
-        Toast.makeText(getActivity(), getUid(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getFireBaseAuthUid(), Toast.LENGTH_SHORT).show();
         return databaseReference.child("user-recipes").
-                child(getUid());
+                child(getFireBaseAuthUid());
     }*/
 }

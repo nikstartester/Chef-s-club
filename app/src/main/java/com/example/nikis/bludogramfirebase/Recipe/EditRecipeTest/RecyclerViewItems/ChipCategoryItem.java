@@ -1,4 +1,4 @@
-package com.example.nikis.bludogramfirebase.Recipe.NewRecipe.RecyclerViewItems;
+package com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems;
 
 
 import android.support.v7.widget.RecyclerView;

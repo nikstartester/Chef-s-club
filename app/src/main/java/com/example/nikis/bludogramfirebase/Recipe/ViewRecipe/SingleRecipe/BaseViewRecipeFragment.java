@@ -1,4 +1,4 @@
-package com.example.nikis.bludogramfirebase.Work;
+package com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.SingleRecipe;
 
 
 import android.os.Bundle;
@@ -9,10 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
-import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.RecipeData.RecipeAdapterData;
 import com.example.nikis.bludogramfirebase.RecipeData.RecipeData;
@@ -57,7 +54,7 @@ public class BaseViewRecipeFragment extends Fragment implements ViewRecipeActivi
 
             StorageReference storageReference = FirebaseReferences.getStorageReference(imgPath);
 
-            GlideApp.with(imgMain.getContext())
+            /*GlideApp.with(imgMain.getContext())
                     .load(storageReference)
                     //.asBitmap()
                     .override(1080,1080)
@@ -68,8 +65,8 @@ public class BaseViewRecipeFragment extends Fragment implements ViewRecipeActivi
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(imgMain);
-        }else GlideApp.with(imgMain.getContext())
+                    .into(imgMain);*/
+        }/*else GlideApp.with(imgMain.getContext())
                 .load(R.drawable.ic_add_a_photo_blue_108dp)
                 //.asBitmap()
                 .override(1080,1080)
@@ -78,7 +75,7 @@ public class BaseViewRecipeFragment extends Fragment implements ViewRecipeActivi
                 .error(R.drawable.ic_add_a_photo_blue_108dp)
                 .fitCenter()
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(imgMain);
+                .into(imgMain);*/
     }
 
 }

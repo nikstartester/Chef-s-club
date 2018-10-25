@@ -5,10 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
-import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.RecipeData.RecipeAdapterData;
 import com.example.nikis.bludogramfirebase.UserData.UserNickName;
@@ -61,7 +58,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
 
             StorageReference storageReference = FirebaseReferences.getStorageReference(recipeAdapterData.uploadMainImagePath);
 
-            GlideApp.with(image.getContext())
+            /*GlideApp.with(image.getContext())
                     .load(storageReference)
                     //.asBitmap()
                     .override(1080,1080)
@@ -72,8 +69,8 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .fitCenter()
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .into(image);
-        }else GlideApp.with(image.getContext())
+                    .into(image);*/
+        }/*else GlideApp.with(image.getContext())
                 .load(R.drawable.ic_add_a_photo_blue_108dp)
                 //.asBitmap()
                 .override(1080,1080)
@@ -82,7 +79,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
                 .error(R.drawable.ic_add_a_photo_blue_108dp)
                 .fitCenter()
                 .transition(DrawableTransitionOptions.withCrossFade())
-                .into(image);
+                .into(image);*/
     }
 
     private void setUserLogin(String uid){

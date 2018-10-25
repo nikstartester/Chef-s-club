@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.RecipeData.RecipeAdapterData;
-import com.example.nikis.bludogramfirebase.Work.ViewRecipeActivity;
+import com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.SingleRecipe.ViewRecipeActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +31,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 
-import static com.example.nikis.bludogramfirebase.Work.ViewRecipeActivity.KEY_TAG;
+import static com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.SingleRecipe.ViewRecipeActivity.KEY_TAG;
 
 
 public abstract class RecipesListFragment extends Fragment {
@@ -130,7 +130,7 @@ public abstract class RecipesListFragment extends Fragment {
                     recipeAdapterData.starCount = recipeAdapterData.starCount - 1;
                     recipeAdapterData.stars.remove(getUid());
                 } else {
-                    // Star the post and add self to stars
+                    // Star the post and add self build stars
                     recipeAdapterData.starCount = recipeAdapterData.starCount + 1;
                     recipeAdapterData.stars.put(getUid(), true);
                 }
@@ -144,7 +144,7 @@ public abstract class RecipesListFragment extends Fragment {
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
                 // Transaction completed
-                Log.d("click", "postTransaction:onComplete:" + databaseError);
+                Log.d("click", "postTransaction:onStatusChanged:" + databaseError);
             }
         });
     }

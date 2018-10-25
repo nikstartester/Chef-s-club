@@ -1,4 +1,4 @@
-package com.example.nikis.bludogramfirebase.Recipe.NewRecipe.RecyclerViewItems;
+package com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,15 +10,25 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.R;
+import com.google.firebase.storage.StorageReference;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
 import java.util.List;
 
 public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHolder> {
     private String imagePath;
+
     private boolean isInUploadTask;
+
     private ImageView imageView;
+
     private ProgressBar progressBar;
+
+    private StorageReference mStorageReference;
+
+    public ImageAddItem(StorageReference storageReference){
+        mStorageReference = storageReference;
+    }
 
     public ImageAddItem(String imagePath) {
         this.imagePath = imagePath;
@@ -53,12 +63,32 @@ public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHo
             imageView.setColorFilter(R.color.colorPrimary);
             progressBar.setVisibility(View.VISIBLE);
         }
+
+
+        if(mStorageReference == null) setImage();
+        else setImageFromStorageRef();
+    }
+
+    private void setImage(){
         GlideApp.with(imageView.getContext())
                 .load(imagePath)
-                .override(320,320)
+                .override(480,480)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .placeholder(R.color.zhihu_album_placeholder)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(imageView);
+    }
+
+    private void setImageFromStorageRef(){
+        GlideApp.with(imageView.getContext())
+                .load(mStorageReference)
+                .override(480,480)
+                .thumbnail(0.2f)
+                .centerCrop()
+                .error(R.drawable.ic_add_a_photo_blue_108dp)
+                .skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageView);
     }

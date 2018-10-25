@@ -7,10 +7,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.example.nikis.bludogramfirebase.FirebaseReferences;
 import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.R;
 import com.example.nikis.bludogramfirebase.Recipe.Data.StepOfCooking;
+import com.google.firebase.storage.StorageReference;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
 import java.util.List;
@@ -98,15 +101,36 @@ public class StepAddItem extends AbstractItem<StepAddItem, StepAddItem.ViewHolde
     }
 
     public void setImage(final String imagePath){
+
         mStepOfCooking.imagePath = imagePath;
-        GlideApp.with(mImageView.getContext())
-                .load(imagePath)
-                .override(480,480)
-                .centerCrop()
-                .placeholder(R.color.zhihu_album_placeholder)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(mImageView);
+
         btnRemove.setVisibility(View.VISIBLE);
+
+        if(!imagePath.split("/")[0].equals("recipe_images")){
+
+            GlideApp.with(mImageView.getContext())
+                    .load(imagePath)
+                    .override(480,480)
+                    .centerCrop()
+                    .placeholder(R.color.zhihu_album_placeholder)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(mImageView);
+
+        }else {
+            StorageReference reference = FirebaseReferences.getStorageReference(imagePath);
+
+            GlideApp.with(mImageView.getContext())
+                    .load(reference)
+                    .override(480,480)
+                    .thumbnail(0.2f)
+                    .error(R.drawable.ic_add_a_photo_blue_108dp)
+                    .centerCrop()
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(mImageView);
+        }
+
     }
 
     public void setFocus(){
