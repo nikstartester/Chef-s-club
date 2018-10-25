@@ -2,28 +2,25 @@ package com.example.nikis.bludogramfirebase.Profile.Repository.Local;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.nikis.bludogramfirebase.App;
+import com.example.nikis.bludogramfirebase.BaseLocalDataSaver;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
 import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
 import com.example.nikis.bludogramfirebase.Profile.db.ProfileEntity;
 import com.google.firebase.storage.StorageReference;
 
-public class LocalUserProfile {
-    private Application mApplication;
-
-    private OnComplete mOnComplete;
+public class LocalUserProfile extends BaseLocalDataSaver<ProfileData> {
 
     public LocalUserProfile(Application application) {
-        mApplication = application;
+        super(application);
     }
 
-    public void save(@NonNull ProfileData profileData, @Nullable OnComplete onComplete){
-        mOnComplete = onComplete;
+    @Override
+    public void save(@NonNull ProfileData profileData){
 
         String time = Long.toString(System.currentTimeMillis());
 
@@ -60,7 +57,5 @@ public class LocalUserProfile {
                 .submit();
     }
 
-    public interface OnComplete{
-        public void onComplete();
-    }
+
 }
