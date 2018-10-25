@@ -2,37 +2,25 @@ package com.example.nikis.bludogramfirebase.Profile.Repository;
 
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.example.nikis.bludogramfirebase.App;
-import com.example.nikis.bludogramfirebase.FirebaseReferences;
+import com.example.nikis.bludogramfirebase.BaseRepository;
 import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
 import com.example.nikis.bludogramfirebase.Profile.Repository.Local.LocalUserProfile;
-import com.example.nikis.bludogramfirebase.Profile.Repository.Exceptions.NothingFoundException;
 import com.example.nikis.bludogramfirebase.Resource;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class ProfileRepository {
+public class ProfileRepository extends BaseRepository<ProfileData> {
 
-    @Nullable
-    private MutableLiveData<Resource<ProfileData>> data;
-
-    private String mUserUid;
-
-    private Application mApplication;
+    public static final String CHILD_USERS = "users";
 
     private ProfileRepository(){
-
+        super();
     }
 
     public static Builder with(Application application){
@@ -42,86 +30,50 @@ public class ProfileRepository {
         return repository.new Builder();
     }
 
-    public void loadData(){
 
-        data.setValue(Resource.loading(null));
+    @Override
+    public void loadDataFromDB(){
+
+        resData.setValue(Resource.loading(null));
 
         Flowable<List<ProfileData>> flowable = ((App) mApplication)
                 .getDatabase()
                 .profileDao()
-                .getByUid(mUserUid);
+                .getByUid(mFirebaseId);
         flowable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(profilesData -> {
-                    if(!profilesData.isEmpty())
-                        data.setValue(Resource.success(profilesData.get(0)));
-                    else {
-                        loadDataFromServer();
-                    }
+                    super.onDataLoadedFromDB(profilesData);
                 });
-
     }
 
-    private void loadDataFromServer(){
-        DatabaseReference ref = FirebaseReferences.getDataBaseReference();
-
-        ref.child("users").child(mUserUid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final ProfileData profileData = dataSnapshot.getValue(ProfileData.class);
-                if(profileData !=null){
-
-                    new LocalUserProfile(mApplication).save(profileData, () -> {
-                        data.postValue(Resource.success(profileData));
-                    });
-
-                }else {
-                    data.setValue(Resource.error(new NothingFoundException(), null));
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                data.setValue(Resource.error(databaseError.toException(), null));
-            }
-        });
-    }
-
-    @Nullable
-    public MutableLiveData<Resource<ProfileData>> getData() {
-        return data;
+    @Override
+    public Class<ProfileData> getDataClass() {
+        return ProfileData.class;
     }
 
     public static String getFireBaseAuthUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    public class Builder{
-
-        public Builder setUserUid(@Nullable String userUid){
-            ProfileRepository.this.mUserUid = userUid;
-
-            return this;
-        }
-
-        public Builder to(MutableLiveData<Resource<ProfileData>> data){
-            ProfileRepository.this.data = data;
-
-            return this;
-        }
+    public class Builder extends BaseRepository<ProfileData>.Builder{
 
         /*
+
         if userUid == null -> use Uid from FireBaseAuth
-        if data == null -> use new MutableLiveData()
+        if resData == null -> use new MutableLiveData()
+        if firebaseChild == null -> use "users"
+        if mLocalSaver == null -> use new LocalUserProfile(mApplication)
         */
-        public ProfileRepository build(){
-            if(data == null) data = new MutableLiveData<>();
+        @Override
+        protected void checkAndSetStandardValue() {
+            if(resData == null) resData = new MutableLiveData<>();
 
-            if(mUserUid == null) mUserUid = getFireBaseAuthUid();
+            if(mFirebaseId == null) mFirebaseId = getFireBaseAuthUid();
 
-            return ProfileRepository.this;
+            if(mFirebaseChild == null) mFirebaseChild = CHILD_USERS;
+
+            if(mLocalSaver == null) mLocalSaver = new LocalUserProfile(mApplication);
         }
 
     }
