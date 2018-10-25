@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,7 @@ public class EditProfileFragment extends BaseFragmentWithMatisseGallery implemen
     @BindView(R.id.circularImageView)
     protected ImageView circularImageView;
 
+    @VisibleForTesting
     @BindView(R.id.filter)
     protected RelativeLayout filterForProgress;
 
@@ -136,7 +138,6 @@ public class EditProfileFragment extends BaseFragmentWithMatisseGallery implemen
             if (isInProgress) {
                 showProgress();
             }
-
         }
 
         IntentFilter intentFilter = new IntentFilter(
@@ -357,7 +358,6 @@ public class EditProfileFragment extends BaseFragmentWithMatisseGallery implemen
                 new LocalUserProfile(getActivity().getApplication()).save(resource.data, null);
 
         }
-
 
     }
 }

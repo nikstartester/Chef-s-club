@@ -7,6 +7,8 @@ import android.content.res.Configuration;
 
 import com.squareup.leakcanary.RefWatcher;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 
 public class App extends Application {
     private static Context context;
@@ -24,6 +26,8 @@ public class App extends Application {
         database = Room.databaseBuilder(this, AppDatabase.class, "profilesDatabase")
                 .build();
 
+        JodaTimeAndroid.init(this);
+
         /*if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -31,8 +35,6 @@ public class App extends Application {
         }
         refWatcher = LeakCanary.install(this);
         context = getApplicationContext();*/
-
-        LocalUserData.getInstance().getValueFromPreferences(getApplicationContext());
 
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 

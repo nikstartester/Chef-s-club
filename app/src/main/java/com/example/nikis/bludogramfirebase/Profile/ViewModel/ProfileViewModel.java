@@ -7,12 +7,16 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 
 import com.example.nikis.bludogramfirebase.Profile.Data.ProfileData;
+import com.example.nikis.bludogramfirebase.Profile.Repository.Local.LocalUserProfile;
 import com.example.nikis.bludogramfirebase.Profile.Repository.ProfileRepository;
 import com.example.nikis.bludogramfirebase.Resource;
+
+import static com.example.nikis.bludogramfirebase.Profile.Repository.ProfileRepository.CHILD_USERS;
 
 
 public class ProfileViewModel extends AndroidViewModel {
     private static final String TAG = "ProfileViewModel";
+
     private MutableLiveData<Resource<ProfileData>> mResourceLiveData;
 
     public ProfileViewModel(@NonNull Application application) {
@@ -23,10 +27,12 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public void loadData(String userUid){
          ProfileRepository.with(getApplication())
-                 .setUserUid(userUid)
+                 .setFirebaseId(userUid)
+                 .setFirebaseChild(CHILD_USERS)
+                 .setLocalSever(new LocalUserProfile(getApplication()))
                  .to(mResourceLiveData)
                  .build()
-                 .loadData();
+                 .loadDataFromDB();
     }
 
     public LiveData<Resource<ProfileData>> getResourceLiveData() {
@@ -36,7 +42,4 @@ public class ProfileViewModel extends AndroidViewModel {
         return mResourceLiveData;
 
     }
-
-
-
 }

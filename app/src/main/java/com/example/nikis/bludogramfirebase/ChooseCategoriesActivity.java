@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
-import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.RecyclerViewItems.ChipCategoryItem;
+import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.RecyclerViewItems.ChipCategoryItem;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 
 import java.util.ArrayList;

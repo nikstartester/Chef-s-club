@@ -26,7 +26,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.signature.ObjectKey;
 import com.example.nikis.bludogramfirebase.Profile.ProfileActivity;
 import com.example.nikis.bludogramfirebase.Profile.ViewModel.ProfileViewModel;
-import com.example.nikis.bludogramfirebase.Recipe.NewRecipe.NewRecipeTestActivity;
+import com.example.nikis.bludogramfirebase.Recipe.EditRecipeTest.EditRecipeActivity;
 import com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.AllRecipes;
 import com.example.nikis.bludogramfirebase.Recipe.ViewRecipe.UserRecipes;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view ->{
-            Intent intent = new Intent(this, NewRecipeTestActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this, EditRecipeActivity.class);
+            startActivity(EditRecipeActivity.getIntent(this, "-LPfwWW9BCYiG0YBNigI"));
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -181,8 +181,6 @@ public class MainActivity extends AppCompatActivity
                ftrans.commit();
                break;
             case R.id.nav_sign_out:
-                LocalUserData.getInstance().clear().putToPreferences(this);
-
                 FirebaseAuth.getInstance().signOut();
 
                 Intent intent1 = new Intent(this, LoginActivity.class);
