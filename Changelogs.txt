@@ -1,0 +1,7 @@
+v0.1.1:
+	Small changes of views in the display of compilations
+	Empty placeholder in the display of compilations
+
+	Button "Restriction of other cache data" has visibility = "gone" now (not displayed) in Cache fragment in Settings	
+
+	Bug fix: endless progress if enter wrong code in login
