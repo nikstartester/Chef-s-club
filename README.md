@@ -1,4 +1,5 @@
 # BludogramFireBase
-Social network of recipes. The next step is only refactoring the entire code. 09.2017 - ...
+Social network of recipes.
 
-Someday I'll write a readme file...
+Link for apks:
+  https://yadi.sk/d/z9-HLPhzvS_evg
