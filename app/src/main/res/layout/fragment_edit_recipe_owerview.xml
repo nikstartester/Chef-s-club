@@ -21,107 +21,121 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@color/zhihu_album_placeholder"
-            app:srcCompat="@drawable/ic_add_a_photo_blue_108dp" />
+            app:srcCompat="@drawable/ic_add_a_photo_blue_1080dp" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/root_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimary">
+            android:background="@drawable/shape_preview"
+            android:padding="4dp">
 
             <EditText
                 android:id="@+id/edt_name"
                 style="@style/WhiteEditText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/hint_recipe_name"
                 android:inputType="textPersonName"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/saved_on_device_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/checkBox_isSaveOnLocal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/save_on_local_storage"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imageView_sdStorage" />
+
+                <ImageView
+                    android:id="@+id/imageView_sdStorage"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintStart_toEndOf="@+id/checkBox_isSaveOnLocal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_sd_storage_blue_48dp" />
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:entries="@array/viewChoose"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                    app:layout_constraintStart_toStartOf="@+id/checkBox_isSaveOnLocal"
+                    app:layout_constraintTop_toBottomOf="@+id/checkBox_isSaveOnLocal" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/spinner"
+                    app:srcCompat="@drawable/ic_visibility_blue_32dp" />
+            </android.support.constraint.ConstraintLayout>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:background="@color/grey_300" />
 
         </LinearLayout>
 
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <CheckBox
-                android:id="@+id/checkBox2"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical"
-                android:text="@string/save_on_local_storage"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView3" />
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:scaleType="fitCenter"
-                app:layout_constraintStart_toEndOf="@+id/checkBox2"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_sd_storage_blue_48dp" />
-
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:entries="@array/viewChoose"
-                android:gravity="center_vertical"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
-                app:layout_constraintStart_toStartOf="@+id/checkBox2"
-                app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/spinner"
-                app:srcCompat="@drawable/ic_visibility_blue_32dp" />
-        </android.support.constraint.ConstraintLayout>
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/grey_300" />
-
         <TextView
             android:id="@+id/textView_categories"
+            style="@style/TextViewElementsTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/categories"
-            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_selectedCategories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:visibility="visible" />
 
         <Button
@@ -138,30 +152,29 @@
             android:id="@+id/view5"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="4dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
             android:background="@color/grey_300" />
 
         <TextView
             android:id="@+id/textView_description"
+            style="@style/TextViewElementsTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/description"
-            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
 
         <EditText
             android:id="@+id/edt_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:ems="10"
+            android:layout_marginEnd="16dp"
             android:hint="@string/hint_description"
             android:inputType="textMultiLine"
             android:maxLines="20"
@@ -170,34 +183,34 @@
             android:scrollbarStyle="insideInset"
 
             android:scrollbars="vertical"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="4dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
             android:background="@color/grey_300" />
 
         <TextView
             android:id="@+id/textView_ingredients"
+            style="@style/TextViewElementsTextColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/ingredients"
-            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_ingredients"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:animateLayoutChanges="false"
             android:orientation="vertical">
 
@@ -217,18 +230,18 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginEnd="4dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="4dp"
             android:background="@color/grey_300" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_images"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
             android:visibility="visible">
 
         </android.support.v7.widget.RecyclerView>
@@ -244,10 +257,5 @@
             android:text="@string/add_pictures"
             android:visibility="visible" />
 
-        <Button
-            android:id="@+id/btn_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

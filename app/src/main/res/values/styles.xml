@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppThemeLight.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -10,14 +10,24 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorForeground">@color/common_google_signin_btn_text_dark_focused
+        </item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
+    </style>
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>>
+        <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
     </style>
 
     <!-- Activity with no Title -->
-    <style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">
+    <style name="ThemeOverlay.MyNoTitleActivity" parent="AppThemeLight">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -33,7 +43,7 @@
     <!-- Light EditTexts -->
     <style name="ThemeOverlay.MyLightEditText" parent="ThemeOverlay.AppCompat.Dark" />
 
-    <style name="ThemeOverlay.MyTextDetail" parent="AppTheme">
+    <style name="ThemeOverlay.MyTextDetail" parent="AppThemeLight">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fadeScrollbars">true</item>
@@ -44,12 +54,12 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="ThemeOverlay.FirebaseIcon" parent="AppTheme">
+    <style name="ThemeOverlay.FirebaseIcon" parent="AppThemeLight">
         <item name="android:layout_marginTop">@dimen/icon_top_margin</item>
         <item name="android:layout_marginBottom">@dimen/icon_bottom_margin</item>
     </style>
 
-    <style name="ThemeOverlay.MyTitleText" parent="AppTheme">
+    <style name="ThemeOverlay.MyTitleText" parent="AppThemeLight">
         <item name="android:gravity">center</item>
         <item name="android:textSize">36sp</item>
     </style>
@@ -59,11 +69,11 @@
     </style>
 
     <style name="BaseNavigateImageButton.NavigateNextImageButton">
-        <item name="android:src">@drawable/ic_navigate_next_white_56dp</item>
+        <item name="srcCompat">@drawable/ic_navigate_next_white_56dp</item>
     </style>
 
     <style name="BaseNavigateImageButton.NavigateBackImageButton">
-        <item name="android:src">@drawable/ic_navigate_before_white_56dp</item>
+        <item name="srcCompat">@drawable/ic_navigate_before_white_56dp</item>
     </style>
 
     <style name="WhiteEditText" parent="Base.Widget.AppCompat.EditText">
@@ -72,11 +82,31 @@
     </style>
 
     <style name="TextViewWhiteTextColor" parent="android:style/Widget.DeviceDefault.TextView">
+        <item name="android:textColor">@color/md_grey_100</item>
+    </style>
+
+    <style name="TextViewElementsTextColor" parent="android:style/Widget.DeviceDefault.TextView">
+        <item name="android:textColor">@color/colorElements</item>
+    </style>
+
+    <style name="BaseAppButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/shape_button_selector</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="BaseAppButtonLight" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/shape_button_selector_light</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="BaseAppButton" parent="Base.TextAppearance.AppCompat.Button">
-        <item name="android:background">@color/colorAccent</item>
-        <item name="android:textColor">@color/white</item>
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="MyDialogFragmentStyle" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
 </resources>

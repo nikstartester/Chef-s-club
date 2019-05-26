@@ -11,14 +11,16 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:theme="@style/AppTheme.AppBarOverlay">
+
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:layout_scrollFlags="scroll|enterAlways"/>
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
@@ -27,6 +29,70 @@
 
         </android.support.design.widget.TabLayout>
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/not_sync_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_300"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView_recipe_changed"
+                style="@style/TextViewElementsTextColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Recipe has been changed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_update"
+                style="@style/BaseAppButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Update"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView_recipe_changed" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/removed_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_300"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView_recipe_removed"
+                style="@style/TextViewElementsTextColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Recipe has been deleted"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/btn_remove_undo"
+                style="@style/BaseAppButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="16dp"
+                android:text="Undo"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/textView_recipe_removed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
@@ -35,5 +101,13 @@
         android:layout_height="wrap_content"
         app:layout_anchorGravity="top|center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include
+        android:id="@+id/filter"
+        layout="@layout/content_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.design.widget.CoordinatorLayout>

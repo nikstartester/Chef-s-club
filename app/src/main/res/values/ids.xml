@@ -6,4 +6,16 @@
     <item name="step_item_add" type="id"/>
     <item name="chip_category_item" type="id"/>
     <item name="chip_category_with_remove_item" type="id"/>
+    <item name="ingredients_item_view" type="id" />
+    <item name="image_item_view" type="id" />
+    <item name="step_item_view" type="id" />
+    <item name="act_edit" type="id" />
+    <item name="shopping_list_ingredient_item_view" type="id" />
+    <item name="recipe_subsrc_item" type="id" />
+    <item name="search_recipe_item" type="id" />
+    <item name="search_profiles_item" type="id" />
+    <item name="compilation_tittle_item" type="id" />
+    <item name="compilation_item" type="id" />
+    <item name="compilation_short_item" type="id" />
+    <item name="required_field_item" type="id" />
 </resources>

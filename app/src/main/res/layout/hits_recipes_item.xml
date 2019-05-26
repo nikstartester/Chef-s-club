@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:algolia="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/grey_300"
+            algolia:layout_constraintEnd_toEndOf="parent"
+            algolia:layout_constraintStart_toStartOf="parent"
+            algolia:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/title_activity_new_recipe_test"
+            algolia:attribute='@{"overviewData.name"}'
+            algolia:highlighted='@{true}'
+            algolia:layout_constraintBottom_toBottomOf="parent"
+            algolia:layout_constraintEnd_toEndOf="parent"
+            algolia:layout_constraintStart_toStartOf="parent"
+            algolia:layout_constraintTop_toBottomOf="@+id/view8" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

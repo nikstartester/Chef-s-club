@@ -1,45 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/ingr_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/inputIngredient"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical">
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/btn_delete_ingredient_from_rv"
+        android:ems="10"
+        android:hint="Enter the ingredient"
+        android:inputType="text"
+        android:maxLines="2"
+        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/ingr_id"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="invisible" />
+    <ImageButton
+        android:id="@+id/btn_delete_ingredient_from_rv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/inputIngredient"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="?actionBarItemBackground"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:scaleType="fitCenter"
+        card_view:srcCompat="@drawable/ic_close_blue_48dp" />
 
-        <EditText
-            android:id="@+id/inputIngredient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_toStartOf="@+id/btn_delete_ingredient_from_rv"
-            android:ems="10"
-            android:hint="Enter the ingredient"
-            android:inputType="text"
-            android:textSize="15sp" />
-
-        <ImageButton
-            android:id="@+id/btn_delete_ingredient_from_rv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/inputIngredient"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:background="?actionBarItemBackground"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:scaleType="fitCenter"
-            card_view:srcCompat="@drawable/ic_close_blue_48dp" />
-
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

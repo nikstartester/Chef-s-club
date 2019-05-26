@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textView_ingredients"
+            style="@style/TextViewElementsTextColor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/ingredients"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageBtn_ingredients_actions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageBtn_ingredients_actions" />
+
+        <ImageButton
+            android:id="@+id/imageBtn_ingredients_actions"
+            style="@style/BaseNavigateImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_more_vert_gray_24dp" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/imageBtn_ingredients_actions"
+            app:layout_constraintStart_toEndOf="@+id/textView_ingredients"
+            app:layout_constraintTop_toTopOf="@+id/imageBtn_ingredients_actions" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/edit_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_300"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey_300"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/checkBox_all_to_shoppingList"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/checkBox_all_available" />
+
+        <CheckBox
+            android:id="@+id/checkBox_all_available"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/shopping_list_selector"
+            android:button="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgBtn_close_edit_mode" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_close_edit_mode"
+            style="@style/BaseNavigateImageButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:srcCompat="@drawable/ic_close_blue_48dp" />
+
+        <TextView
+            android:id="@+id/textView24"
+            style="@style/TextViewElementsTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="All"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBox_all_available"
+            app:layout_constraintEnd_toStartOf="@+id/checkBox_all_available"
+            app:layout_constraintTop_toTopOf="@+id/checkBox_all_available" />
+
+        <TextView
+            android:id="@+id/textView26"
+            style="@style/TextViewElementsTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="All"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBox_all_available"
+            app:layout_constraintStart_toEndOf="@+id/checkBox_all_to_shoppingList"
+            app:layout_constraintTop_toTopOf="@+id/checkBox_all_available" />
+
+        <TextView
+            android:id="@+id/textView27"
+            style="@style/TextViewElementsTextColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="Close"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imgBtn_close_edit_mode"
+            app:layout_constraintEnd_toStartOf="@+id/imgBtn_close_edit_mode"
+            app:layout_constraintTop_toTopOf="@+id/imgBtn_close_edit_mode" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

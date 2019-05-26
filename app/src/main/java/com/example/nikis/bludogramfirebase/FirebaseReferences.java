@@ -15,13 +15,23 @@ public class FirebaseReferences {
         return storage.getReference(ref);
     }
     public static DatabaseReference getDataBaseReference(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        return database.getReference();
+        return getDataBaseReference(false);
     }
     public static DatabaseReference getSyncDataBaseReference(){
 
-        DatabaseReference dr = getDataBaseReference();
-        dr.keepSynced(true);
+        return getDataBaseReference(true);
+    }
+
+    private static DatabaseReference getDataBaseReference(boolean keepSynced) {
+        DatabaseReference dr = getStandardDataBaseReference();
+        dr.keepSynced(keepSynced);
+
         return dr;
     }
+
+    private static DatabaseReference getStandardDataBaseReference() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        return database.getReference();
+    }
+
 }

@@ -5,24 +5,30 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import io.reactivex.annotations.Nullable;
+
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
+    public static final int CONTAINER_ID = R.id.fragment_container;
+    public static final int LAYOUT_RES = R.layout.activity_fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(getLayoutRes());
 
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = createFragment();
 
-        if(fragment == null){
-            fragment = createFragment();
+        if (savedInstanceState == null && fragment != null) {
+            FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
+                    .add(CONTAINER_ID, fragment)
                     .commit();
         }
     }
 
+    @Nullable
     protected abstract Fragment createFragment();
+
+    protected abstract int getLayoutRes();
 }

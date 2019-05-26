@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/act_edit_available"
+        android:title="@string/edit_available" />
+    <item
+        android:id="@+id/act_add_all_to_shopping_list"
+        android:title="Add all to shopping list" />
+    <item
+        android:id="@+id/act_delete_all_from_shopping_list"
+        android:title="Remove all" />
+    <item
+        android:id="@+id/act_open_shopping_list"
+        android:title="Open shopping list" />
+</menu>

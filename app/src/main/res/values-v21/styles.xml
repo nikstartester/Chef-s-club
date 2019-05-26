@@ -1,1 +1,10 @@
-<resources></resources>
+<resources>
+
+    <style name="BaseNavigateImageButton.NavigateNextImageButton">
+        <item name="android:src">@drawable/ic_navigate_next_white_56dp</item>
+    </style>
+
+    <style name="BaseNavigateImageButton.NavigateBackImageButton">
+        <item name="android:src">@drawable/ic_navigate_before_white_56dp</item>
+    </style>
+</resources>

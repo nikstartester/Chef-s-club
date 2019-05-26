@@ -60,7 +60,7 @@ public class GlideEngineV4 implements ImageEngine {
 
     @Override
     public boolean supportAnimatedGif() {
-        return true;
+        return false;
     }
 
 }

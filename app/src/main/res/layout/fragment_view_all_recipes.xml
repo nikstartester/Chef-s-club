@@ -5,13 +5,17 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <include layout="@layout/content_filter" />
+    <include layout="@layout/content_filter_light" />
 
     <include layout="@layout/content_no_internet_placeholder" />
+
+    <include layout="@layout/content_empty_placeholder" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_allRecipes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp" />
 
 </RelativeLayout>

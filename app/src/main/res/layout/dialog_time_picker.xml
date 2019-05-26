@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -70,20 +72,27 @@
 
             <Button
                 android:id="@+id/btn_timeDialog_cancel"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/btn_timeDialog_clear"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="36dp"
                 android:layout_weight="1"
-                android:background="@color/cardview_light_background"
-                android:text="Cancel"
-                android:textColor="@color/colorAccent" />
+                android:text="Clear" />
 
             <Button
                 android:id="@+id/btn_timeDialog_accept"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="36dp"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:text="Accept"
@@ -92,3 +101,4 @@
         </LinearLayout>
 
     </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:id="@+id/action"
+        android:name="Actions">
+        <item
+            android:id="@+id/act_preview"
+            android:title="Show preview(only for develop)" />
+        <item
+            android:id="@+id/act_save_in_draft"
+            android:enabled="false"
+            android:title="Save in draft(in developing)"
+            android:visible="true" />
+        <item
+            android:id="@+id/act_choose_from_draft"
+            android:enabled="false"
+            android:title="Choose from draft(in developing)"
+            android:visible="true" />
+        <item
+            android:id="@+id/act_clear"
+            android:title="Clear all" />
+
+    </group>
+
+    <item
+        android:id="@+id/action_done"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:title="Add"
+        app:showAsAction="always" />
+
+
+</menu>

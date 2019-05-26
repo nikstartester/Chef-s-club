@@ -6,17 +6,17 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
+# and specify the fully qualified class name build the JavaScript interface
 # class:
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
 
-# Uncomment this to preserve the line number information for
+# Uncomment this build preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
 
-# If you keep the line number information, uncomment this to
+# If you keep the line number information, uncomment this build
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keepattributes Signature
@@ -25,7 +25,7 @@
 -keepattributes Signature
 
 # This rule will properly ProGuard all the model classes in
-# the package com.yourcompany.models. Modify to fit the structure
+# the package com.yourcompany.models. Modify build fit the structure
 # of your app.
 -keepclassmembers class com.example.nikis.bludogramfirebase.** {
   *;
@@ -39,5 +39,5 @@
   }
 
   # for DexGuard only
-  #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+  #-keepresourcexmlelements manifest/application/meta-profileData@value=GlideModule
 -dontwarn com.squareup.picasso.**

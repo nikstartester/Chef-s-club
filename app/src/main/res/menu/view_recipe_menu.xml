@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/action"
+        android:name="Actions">
+
+        <item
+            android:title="Edit"
+            android:visible="false"
+            android:id="@+id/act_edit" />
+        <item
+            android:id="@+id/act_add_to_db"
+            android:icon="@drawable/ic_sd_storage_blue_48dp"
+            android:title="Save on device" />
+        <item
+            android:id="@+id/act_delete_from_db"
+            android:title="Remove from device" />
+
+        <item
+            android:id="@+id/act_add_to_compilation"
+            android:title="Add to compilation" />
+
+        <item
+            android:title="Open shopping list"
+            android:id="@+id/act_open_shopping_list" />
+
+        <item
+            android:title="Remove from compilation"
+            android:id="@+id/act_remove_from_compilation"
+            android:visible="false" />
+
+        <item
+            android:title="Delete"
+            android:visible="false"
+            android:id="@+id/act_delete" />
+
+    </group>
+
+
+</menu>

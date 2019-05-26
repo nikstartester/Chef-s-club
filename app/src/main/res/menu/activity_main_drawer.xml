@@ -8,43 +8,52 @@
             android:id="@+id/nav_recipes"
             android:icon="@drawable/ic_view_list_black_24dp"
             android:name="Recipes"
-            android:title="Recipes"/>
+            android:title="@string/all_recipes" />
         <item
             android:id="@+id/nav_user_cookbook"
             android:icon="@drawable/ic_book_black_24dp"
             android:name="My cookbook"
-            android:title="My cookbook" />
+            android:title="@string/my_cookbook" />
         <item
             android:id="@+id/nav_local_cookbook"
             android:icon="@drawable/ic_local_library_black_24dp"
-            android:title="Local cookbook"/>
+            android:title="@string/local_cookbook" />
+        <item
+            android:id="@+id/nav_compilations"
+            android:icon="@drawable/ic_featured_play_list_black_24dp"
+            android:title="Compilations" />
         <item
             android:id="@+id/nav_subscription"
-            android:icon="@drawable/ic_subscriptions_black_24dp"
+            android:icon="@drawable/ic_people_blue_48dp"
             android:name="Subscriptions"
-            android:title="Subscriptions"/>
-
+            android:title="@string/subscriptions" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@drawable/ic_search_black_24dp"
+            android:title="@string/search" />
     </group>
     <item android:name="Other"
-        android:title="Other">
+        android:title="@string/other">
         <menu>
+
             <item
-                android:id="@+id/nav_search"
-                android:icon="@drawable/ic_search_black_24dp"
-                android:title="Search"
-                />
+                android:id="@+id/nav_shopping_list"
+                android:title="@string/shopping_list"
+                android:icon="@drawable/ic_playlist_add_check_black_24dp" />
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_settings_applications_black_24dp"
                 android:name="@string/action_settings"
                 android:title="@string/action_settings"
                 />
+            <!--
             <item
                 android:id="@+id/nav_sign_out"
                 android:name = "Sign out"
                 android:icon="@drawable/ic_all_out_black_24dp"
-                android:title= "Sign out (Ох, лучше бы ты не тыкал)"
+                android:title= "Sign out"
                 />
+                -->
         </menu>
     </item>
 

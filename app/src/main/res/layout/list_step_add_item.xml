@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:layout_marginBottom="16dp">
 
     <EditText
         android:id="@+id/edt_stepText"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:focusable="auto"
+        android:focusableInTouchMode="true"
         android:hint="Enter the step"
         android:inputType="textMultiLine"
-        android:maxLines="6"
-        android:text="tons in Holo.Light, or better yet, simply apply a borderless tag without specifying which theme it belongs in, so the app can pick the proper style at runtime?  Holo.ButtonBar seems to fit the bill for what I am looking for, except it provides no user feedback that it's been "
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_image"
+        android:maxLines="28"
+        android:minLines="6"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/img_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="tons in Holo.Light, or better yet, simply apply a borderless tag without specifying which theme it belongs in, so the app can pick the proper style at runtime?  Holo.ButtonBar seems to fit the bill for what I am looking for, except it provides no user feedback that it's been " />
 
     <ImageView
         android:id="@+id/img_time"
@@ -32,10 +34,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="?actionBarItemBackground"
-        android:paddingStart="2dp"
-        android:paddingTop="2dp"
-        android:paddingEnd="2dp"
-        android:paddingBottom="2dp"
+        android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/edt_stepText"
         app:layout_constraintTop_toBottomOf="@+id/edt_stepText"
@@ -44,14 +43,15 @@
     <ImageView
         android:id="@+id/img_image"
         android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_height="120dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackground"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_add_a_photo_blue_108dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_add_a_photo_blue_1080dp" />
 
     <ImageButton
         android:id="@+id/img_btn_remove"
@@ -69,11 +69,11 @@
 
     <TextView
         android:id="@+id/tv_time"
+        style="@style/TextViewElementsTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:text="1h 15m"
-        android:textColor="@color/colorPrimaryDark"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/img_time"
         app:layout_constraintStart_toEndOf="@+id/img_time"
@@ -92,13 +92,13 @@
 
     <Button
         android:id="@+id/btn_deleteStep"
-        android:layout_width="0dp"
+        style="@style/BaseAppButton"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:background="@color/colorAccent"
         android:text="Delete"
-        android:textColor="@color/cardview_light_background"
         app:layout_constraintBottom_toBottomOf="@+id/img_time"
         app:layout_constraintEnd_toEndOf="@+id/img_image"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/img_image"
         app:layout_constraintTop_toTopOf="@+id/img_time" />
 

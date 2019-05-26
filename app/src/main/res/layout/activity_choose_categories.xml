@@ -1,97 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:fragment="com.example.nikis.bludogramfirebase.ChooseCategoriesActivity">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/root3"
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:fragment="com.example.nikis.bludogramfirebase.ChooseCategoriesActivity">
 
-        <TextView
-            android:id="@+id/textView19"
+        <LinearLayout
+            android:id="@+id/root3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Meal Type:"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_categories_mealType"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp" />
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/select_one"
+                android:textSize="24sp" />
 
-        <View
-            android:id="@+id/view10"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/grey_300" />
+            <TextView
+                android:id="@+id/textView19"
+                style="@style/TextViewElementsTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Meal Type:"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Dish Type:"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_categories_mealType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_categories_dishType"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp" />
+            <View
+                android:id="@+id/view10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:background="@color/grey_300" />
 
-        <View
-            android:id="@+id/view9"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/grey_300" />
+            <TextView
+                android:id="@+id/textView18"
+                style="@style/TextViewElementsTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Dish Type:"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="World Cuisine:"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="18sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_categories_dishType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_categories_worldCuisine"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp" />
+            <View
+                android:id="@+id/view9"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
+                android:background="@color/grey_300" />
 
-        <View
-            android:id="@+id/view6"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/grey_300" />
+            <TextView
+                android:id="@+id/textView15"
+                style="@style/TextViewElementsTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="World Cuisine:"
+                android:textSize="18sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_categories_worldCuisine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="96dp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+
+        app:cardBackgroundColor="@color/white_transparent"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal">
 
             <Button
@@ -106,13 +132,14 @@
 
             <Button
                 android:id="@+id/btn_apply"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:text="Apply"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="@color/white" />
         </LinearLayout>
-    </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>
