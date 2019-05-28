@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.nikis.bludogramfirebase.Constants.Constants;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
+import com.example.nikis.bludogramfirebase.Helpers.NetworkHelper;
 import com.example.nikis.bludogramfirebase.Main.MainActivity;
 import com.example.nikis.bludogramfirebase.Profiles.EditProfile.EditProfileActivityTest;
 import com.example.nikis.bludogramfirebase.R;
@@ -62,7 +63,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.progressBar_loading)
     protected ProgressBar progressBar;
 
-    private boolean mVerificationInProgress = false;
+    private boolean isToShowProgress = false;
+
+    private boolean isCanSendRequest = true;
 
     private String mVerificationId;
 
@@ -140,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 Toast.makeText(LoginActivity.this, databaseError.getMessage(),
                         LENGTH_SHORT).show();
-                Log.d(TAG, "onCancelled: " + databaseError.getMessage());
+                //Log.d(TAG, "onCancelled: " + databaseError.getMessage());
             }
         };
     }
@@ -149,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new HandlerExecutor(getMainLooper()), task -> {
                     if (task.isSuccessful()) {
-                        Log.d(TAG, "signInWithCredential: success");
+                        //Log.d(TAG, "signInWithCredential: success");
 
                         DatabaseReference myRef = FirebaseReferences.getDataBaseReference();
 
@@ -190,15 +193,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) edtPhone.setText(user.getPhoneNumber());
-
-            //startFirstEditProfile();
         }
     }
 
     private void startFirstEditProfile() {
-        //startActivity(EditProfileActivity.getIntent(this, false));
         startActivity(new Intent(this, EditProfileActivityTest.class));
-        //finish();
     }
 
     private void startMainActivity() {
@@ -217,7 +216,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             startNext();
-        } else if (mVerificationInProgress && isValidateForm(STATE_START_VERIFICATION)) {
+        } else if (isToShowProgress && isValidateForm(STATE_START_VERIFICATION)) {
             startPhoneNumberVerification(edtPhone.getText().toString());
 
             updateUi(STATE_IN_PROGRESS);
@@ -232,13 +231,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        mVerificationInProgress = savedInstanceState.getBoolean(KEY_VERIFY_IN_PROGRESS);
+        isToShowProgress = savedInstanceState.getBoolean(KEY_VERIFY_IN_PROGRESS);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(KEY_VERIFY_IN_PROGRESS, mVerificationInProgress);
+        outState.putBoolean(KEY_VERIFY_IN_PROGRESS, isToShowProgress);
     }
 
     @Override
@@ -246,10 +245,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.btn_startVerification:
                 if (isValidateForm(STATE_START_VERIFICATION)) {
-                    mPhoneNumber = edtPhone.getText().toString();
-                    startPhoneNumberVerification(mPhoneNumber);
+                    String currPhoneNumber = edtPhone.getText().toString();
 
-                    updateUi(STATE_IN_PROGRESS);
+                    if (mPhoneNumber == null || !mPhoneNumber.equals(currPhoneNumber))
+                        isCanSendRequest = true;
+
+                    if (isCanSendRequest) {
+                        mPhoneNumber = currPhoneNumber;
+
+                        if (NetworkHelper.isConnected(this))
+                            updateUi(STATE_IN_PROGRESS);
+                        startPhoneNumberVerification(mPhoneNumber);
+
+                    } else {
+                        updateUi(STATE_START_VERIFICATION_WITH_CODE);
+                    }
+
                 }
                 break;
             case R.id.btn_startVerificationWithCode:
@@ -265,7 +276,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_back:
                 updateUi(STATE_START_VERIFICATION);
-                stopTimer();
                 break;
         }
     }
@@ -316,15 +326,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 new HandlerExecutor(getMainLooper()),
                 mCallbacks);
 
-        mVerificationInProgress = true;
-        Log.d(TAG, "startPhoneNumberVerification: " + phoneNumber);
+        isToShowProgress = true;
+        //Log.d(TAG, "startPhoneNumberVerification: " + phoneNumber);
     }
 
     private void verifyPhoneNumberWithCode(String verificationId, String code) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
 
         signInWithPhoneAuthCredential(credential);
-        Log.d(TAG, "verifyPhoneNumberWithCode: ");
+        //Log.d(TAG, "verifyPhoneNumberWithCode: ");
     }
 
     private void resendVerificationCode(String phoneNumber,
@@ -337,24 +347,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mCallbacks,
                 token);
 
-        Log.d(TAG, "resendVerificationCode: " + phoneNumber);
+        //Log.d(TAG, "resendVerificationCode: " + phoneNumber);
     }
 
     private void startTimer() {
         setStandardStatusWithText(getString(R.string.status_request_after_while));
 
-        mCountDownTimer = new CountDownTimer(60000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timerTick(millisUntilFinished);
-            }
+        if (mCountDownTimer == null) {
+            mCountDownTimer = new CountDownTimer(60000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    timerTick(millisUntilFinished);
+                }
 
-            @Override
-            public void onFinish() {
-                timerFinish();
-            }
-        }.start();
-        Log.d(TAG, "startTimer: ");
+                @Override
+                public void onFinish() {
+                    timerFinish();
+                }
+            };
+        } else {
+            mCountDownTimer.cancel();
+        }
+        mCountDownTimer.start();
+
+        //Log.d(TAG, "startTimer: ");
     }
 
 
@@ -379,18 +395,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setTimerText("");
 
         setStandardStatusWithText(getString(R.string.status_request_new_code_available));
+
+        isCanSendRequest = true;
     }
 
     private void setButtonResendEnabled(boolean isEnabled) {
         Button btnResend = findViewById(R.id.btn_resend);
         btnResend.setEnabled(isEnabled);
-
-        /*
-        if(isEnabled)
-            btnResend.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        else
-            btnResend.setBackgroundColor(getResources().getColor(R.color.grey_300));
-            */
     }
 
     private void updateUi(State toState) {
@@ -410,34 +421,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateUiToStartVerification() {
-        if (!mVerificationInProgress)
+        if (!isToShowProgress)
             progressBar.setVisibility(View.INVISIBLE);
 
         findViewById(R.id.enter_phone).setVisibility(View.VISIBLE);
         findViewById(R.id.other_sign_in).setVisibility(View.VISIBLE);
         findViewById(R.id.verification_fields).setVisibility(View.GONE);
 
-        Log.d(TAG, "updateAllUiViews: To state StartVerification");
+        //Log.d(TAG, "updateAllUiViews: To state StartVerification");
     }
 
     private void updateUiToStartVerificationWithCode() {
-        if (!mVerificationInProgress)
+        if (!isToShowProgress)
             progressBar.setVisibility(View.INVISIBLE);
 
         findViewById(R.id.enter_phone).setVisibility(View.GONE);
-        //findViewById(R.id.other_sign_in).setVisibility(View.INVISIBLE);
         findViewById(R.id.verification_fields).setVisibility(View.VISIBLE);
 
-        //setButtonResendEnabled(false);
-
-        //startTimer();
-
-        Log.d(TAG, "updateAllUiViews: To state StartVerificationWithCode");
+        //Log.d(TAG, "updateAllUiViews: To state StartVerificationWithCode");
     }
 
     private void updateUiToShowProgress() {
         findViewById(R.id.enter_phone).setVisibility(View.GONE);
-        //findViewById(R.id.other_sign_in).setVisibility(View.GONE);
         findViewById(R.id.verification_fields).setVisibility(View.GONE);
 
         progressBar.setVisibility(View.VISIBLE);
@@ -449,7 +454,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             setTimerText("");
             setStandardStatusWithText("");
         }
-        Log.d(TAG, "stopTimer: ");
+        //Log.d(TAG, "stopTimer: ");
     }
 
     enum State {
@@ -461,10 +466,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private class VerificationCallbacks extends OnVerificationStateChangedCallbacks {
         @Override
         public void onVerificationCompleted(PhoneAuthCredential credential) {
-            Log.d(TAG, "onVerificationCompleted: ");
+            //Log.d(TAG, "onVerificationCompleted: ");
 
             edtCode.setText(credential.getSmsCode());
-            //mVerificationInProgress = false;
 
             signInWithPhoneAuthCredential(credential);
             updateUi(STATE_IN_PROGRESS);
@@ -474,7 +478,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         public void onVerificationFailed(FirebaseException e) {
             Log.w(TAG, "onVerificationFailed", e);
 
-            mVerificationInProgress = false;
+            isToShowProgress = false;
 
             updateUi(STATE_START_VERIFICATION);
 
@@ -494,18 +498,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void onCodeSent(String verificationId,
                                PhoneAuthProvider.ForceResendingToken token) {
-            Log.d(TAG, "onCodeSent:" + verificationId);
+            //Log.d(TAG, "onCodeSent:" + verificationId);
 
             // Save verification ID and resending token so we can use them later
             mVerificationId = verificationId;
             mResendToken = token;
 
             //TODO hasChanged this string
-            mVerificationInProgress = false;
+            isToShowProgress = false;
 
             updateUi(STATE_START_VERIFICATION_WITH_CODE);
-            startTimer();
-            setButtonResendEnabled(false);
+
+            if (isCanSendRequest) {
+                startTimer();
+                setButtonResendEnabled(false);
+            }
+
+            isCanSendRequest = false;
         }
     }
 }
