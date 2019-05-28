@@ -6,8 +6,8 @@ android {
         applicationId "com.example.nikis.bludogramfirebase"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 2
-        versionName "0.1.1"
+        versionCode 3
+        versionName "0.1.2-b1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
