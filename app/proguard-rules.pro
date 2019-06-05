@@ -27,7 +27,7 @@
 # This rule will properly ProGuard all the model classes in
 # the package com.yourcompany.models. Modify build fit the structure
 # of your app.
--keepclassmembers class com.example.nikis.bludogramfirebase.** {
+-keepclassmembers class com.xando.chefsclub.** {
   *;
   }
 

@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:fragment="com.example.nikis.bludogramfirebase.ChooseCategoriesActivity">
+        tools:fragment="com.example.bludogramfirebase.ChooseCategoriesActivity">
 
         <LinearLayout
             android:id="@+id/root3"

@@ -8,7 +8,7 @@
     tools:context=".Images.ViewImages.ViewImagesActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <com.example.nikis.bludogramfirebase.Images.ViewImages.PreviewViewPager
+    <com.xando.chefsclub.Images.ViewImages.PreviewViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"

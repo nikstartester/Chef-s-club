@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_primary_accent_tansparent_up"
     android:orientation="vertical"
-    tools:context="com.example.nikis.bludogramfirebase.Login.LoginActivity">
+    tools:context="com.xando.chefsclub.Login.LoginActivity">
 
 
     <TextView
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            tools:fragment="com.example.nikis.bludogramfirebase.VerificationFragment">
+            tools:fragment="com.example.bludogramfirebase.VerificationFragment">
 
             <ImageButton
                 android:id="@+id/btn_back"
