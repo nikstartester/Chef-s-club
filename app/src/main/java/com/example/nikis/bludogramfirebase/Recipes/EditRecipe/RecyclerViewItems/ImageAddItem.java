@@ -7,15 +7,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.signature.ObjectKey;
-import com.example.nikis.bludogramfirebase.FirebaseReferences;
-import com.example.nikis.bludogramfirebase.GlideApp;
 import com.example.nikis.bludogramfirebase.Images.ImageData.ImageData;
 import com.example.nikis.bludogramfirebase.Images.ImageLoaders.GlideImageLoader;
 import com.example.nikis.bludogramfirebase.R;
-import com.google.firebase.storage.StorageReference;
 import com.mikepenz.fastadapter.items.AbstractItem;
 
 import java.util.List;
@@ -68,41 +62,6 @@ public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHo
     private void setImage() {
         GlideImageLoader.getInstance()
                 .loadImage(imageView.getContext(), imageView, mImageData);
-
-        /*if(mImageData.imagePath.split("/")[0].equals("recipe_images")){
-            setImageFromStorageRef();
-        }else {
-            setImage();
-        }*/
-    }
-
-    @Deprecated
-    private void setImageFromStorageRef() {
-        StorageReference storageReference = FirebaseReferences.getStorageReference(mImageData.imagePath);
-
-        GlideApp.with(imageView.getContext())
-                .load(storageReference)
-                .thumbnail(0.2f)
-                .centerCrop()
-                .placeholder(R.color.zhihu_album_placeholder)
-                .error(R.drawable.ic_add_a_photo_blue_1080dp)
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .signature(new ObjectKey(mImageData.lastUpdateTime))
-                .into(imageView);
-    }
-
-    @Deprecated
-    private void setLocalImage() {
-        GlideApp.with(imageView.getContext())
-                .load(mImageData.imagePath)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .centerCrop()
-                .placeholder(R.color.zhihu_album_placeholder)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(imageView);
     }
 
     public void setInUploadTask(boolean isInUploadTask) {
