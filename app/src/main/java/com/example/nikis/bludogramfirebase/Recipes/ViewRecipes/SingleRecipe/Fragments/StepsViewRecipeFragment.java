@@ -54,6 +54,9 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
     @BindView(R.id.rv_steps)
     protected RecyclerView recyclerViewSteps;
 
+    @BindView(R.id.allTimeCooking_content)
+    protected View allTimeCookingContent;
+
     private StepsData mStepsData;
 
     private FastItemAdapter<StepViewItem> mStepsAdapter;
@@ -124,7 +127,14 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
     }
 
     private void setDataToViews() {
-        tvTimeMain.setText(DateTimeHelper.convertTime(mStepsData.timeMainNum));
+        int timeMain = mStepsData.timeMainNum;
+
+        if (timeMain > 0) {
+            tvTimeMain.setText(DateTimeHelper.convertTime(mStepsData.timeMainNum));
+
+            allTimeCookingContent.setVisibility(View.VISIBLE);
+        } else allTimeCookingContent.setVisibility(View.GONE);
+
 
         setStepsToAdapter();
     }

@@ -306,9 +306,9 @@ public class IngredientsListFragment extends Fragment {
         popupMenu.inflate(R.menu.ingredients_menu);
 
         if (isEditMode)
-            popupMenu.getMenu().findItem(R.id.act_edit_available).setTitle(R.string.stop_edit_available);
+            popupMenu.getMenu().findItem(R.id.act_edit_available).setVisible(false);
         else
-            popupMenu.getMenu().findItem(R.id.act_edit_available).setTitle(R.string.edit_available);
+            popupMenu.getMenu().findItem(R.id.act_edit_available).setVisible(true);
 
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {

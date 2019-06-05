@@ -128,6 +128,7 @@
             android:layout_marginEnd="4dp"
             android:text="Close"
             android:textSize="18sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/imgBtn_close_edit_mode"
             app:layout_constraintEnd_toStartOf="@+id/imgBtn_close_edit_mode"
             app:layout_constraintTop_toTopOf="@+id/imgBtn_close_edit_mode" />
