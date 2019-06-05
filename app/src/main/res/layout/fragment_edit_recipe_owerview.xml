@@ -20,7 +20,6 @@
             android:id="@+id/imgView_main"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@color/zhihu_album_placeholder"
             app:srcCompat="@drawable/ic_add_a_photo_blue_1080dp" />
 
         <android.support.constraint.ConstraintLayout

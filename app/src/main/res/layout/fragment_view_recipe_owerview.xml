@@ -23,7 +23,6 @@
                 android:id="@+id/imgView_main"
                 android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:background="@color/zhihu_album_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
