@@ -5,3 +5,7 @@ v0.1.1:
 	Button "Restriction of other cache data" has visibility = "gone" now (not displayed) in Cache fragment in Settings	
 
 	Bug fix: endless progress if enter wrong code in login
+v0.1.2-beta-1:
+	New logic of send request in login activity
+	
+	Bug fix: ñrash at app launch on android pie 
