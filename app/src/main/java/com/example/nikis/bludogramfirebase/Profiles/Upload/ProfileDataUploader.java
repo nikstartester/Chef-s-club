@@ -1,20 +1,27 @@
 package com.example.nikis.bludogramfirebase.Profiles.Upload;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.nikis.bludogramfirebase.Constants.Constants;
 import com.example.nikis.bludogramfirebase.DataWorkers.DataUploader;
 import com.example.nikis.bludogramfirebase.DataWorkers.ParcResourceByParc;
 import com.example.nikis.bludogramfirebase.FirebaseReferences;
+import com.example.nikis.bludogramfirebase.Helpers.FirebaseHelper;
 import com.example.nikis.bludogramfirebase.Images.ImageUploader;
 import com.example.nikis.bludogramfirebase.Profiles.Data.ProfileData;
 import com.example.nikis.bludogramfirebase.Profiles.Upload.Exceptions.ExistLoginException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -37,20 +44,45 @@ public class ProfileDataUploader extends DataUploader<ProfileData> {
     }
 
     private void updateProfile() {
-        if (isLoginExist()) {
-            mDataResource = ParcResourceByParc.error(new ExistLoginException(), mData);
-        } else {
-            mDataResource = ParcResourceByParc.loading(mData);
+        mDataResource = ParcResourceByParc.loading(mData);
 
-            updateChildren();
-        }
         super.updateProgress(mDataResource);
+
+        checkLoginExistAndStart();
     }
 
 
-    private boolean isLoginExist() {
-        //TODO написать проверку существования выбранного логина
-        return false;
+    private void checkLoginExistAndStart() {
+        DatabaseReference ref = FirebaseReferences.getDataBaseReference();
+
+        ref.child("users").orderByChild("login").equalTo(mData.login).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<ProfileData> profileDataList = new ArrayList<>(1);
+
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    profileDataList.add(snap.getValue(ProfileData.class));
+                }
+
+                ProfileData profileWithExistLogin = profileDataList.size() > 0 ? profileDataList.get(0) : null;
+
+                if (profileWithExistLogin == null
+                        || (FirebaseHelper.getUid() != null
+                        && profileWithExistLogin.userUid.equals(FirebaseHelper.getUid()))) {
+
+                    updateChildren();
+                } else {
+                    mDataResource = ParcResourceByParc.error(new ExistLoginException(), mData);
+
+                    ProfileDataUploader.this.updateProgress(mDataResource);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void updateChildren() {

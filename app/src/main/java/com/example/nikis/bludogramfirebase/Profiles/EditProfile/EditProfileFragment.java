@@ -35,6 +35,7 @@ import com.example.nikis.bludogramfirebase.Images.ImageData.ImageData;
 import com.example.nikis.bludogramfirebase.Images.ImageLoaders.GlideImageLoader;
 import com.example.nikis.bludogramfirebase.Main.MainActivity;
 import com.example.nikis.bludogramfirebase.Profiles.Data.ProfileData;
+import com.example.nikis.bludogramfirebase.Profiles.Upload.Exceptions.ExistLoginException;
 import com.example.nikis.bludogramfirebase.Profiles.Upload.ProfileUploaderService;
 import com.example.nikis.bludogramfirebase.Profiles.ViewModel.ProfileViewModel;
 import com.example.nikis.bludogramfirebase.R;
@@ -143,15 +144,7 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         profileViewModel.getResourceLiveData().observe(this, resource -> {
             if (resource != null) {
                 if (resource.status == ParcResourceByParc.Status.SUCCESS) {
-                    ProfileData profileData = resource.data;
-                    if (profileData != null) {
-                        setData(profileData);
-                        if (profileData.imageURL != null) {
-                            setImage(profileData.imageURL, profileData.lastTimeUpdate);
-
-                            mImagePath = profileData.imageURL;
-                        }
-                    }
+                    onSuccessLoaded(resource);
                 }
             }
         });
@@ -167,6 +160,18 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
 
         if (context instanceof OnSuccessListener) {
             mOnSuccessListener = (OnSuccessListener) context;
+        }
+    }
+
+    private void onSuccessLoaded(ParcResourceByParc<ProfileData> resource) {
+        ProfileData profileData = resource.data;
+        if (profileData != null) {
+            setData(profileData);
+            if (profileData.imageURL != null) {
+                setImage(profileData.imageURL, profileData.lastTimeUpdate);
+
+                mImagePath = profileData.imageURL;
+            }
         }
     }
 
@@ -313,12 +318,11 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
     }
 
     private void indicateToChoiceGender() {
-        //TODO написать метод для подсвечивания "RadioGroup", если пол не выбран
         Toast.makeText(getActivity(), "Choose gender!", Toast.LENGTH_LONG).show();
     }
 
     private void removeIndicateToChoiceGender() {
-        //TODO написать метод для снятия подсвечивания "RadioGroup"
+
     }
 
     private void startEdit() {
@@ -358,7 +362,7 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    public void onSuccess(boolean isAlreadyCreated) {
+    public void onSuccessUploaded(boolean isAlreadyCreated) {
 
         SettingsCacheFragment.deleteDir(new File(Constants.Files.getDirectoryForEditProfileImages(getActivity())));
 
@@ -375,6 +379,12 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
             startMainActivity();
 
         } else getActivity().onBackPressed();
+    }
+
+    public void onErrorUploaded(ParcResourceByParc<ProfileData> resource) {
+        if (resource.exception instanceof ExistLoginException) {
+            edtLogin.setError("Login already exist");
+        }
     }
 
     private void startMainActivity() {
@@ -400,11 +410,16 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
             } else if (dataResource != null && dataResource.status == ParcResourceByParc.Status.LOADING) {
                 showProgress();
             } else if (dataResource != null && dataResource.status == ParcResourceByParc.Status.ERROR) {
-                hideProgress();
-                Toast.makeText(getActivity(), dataResource.exception.getMessage(), Toast.LENGTH_SHORT).show();
+                onError(dataResource);
             } else {
                 hideProgress();
             }
+        }
+
+        private void onError(ParcResourceByParc<ProfileData> dataResource) {
+            hideProgress();
+
+            EditProfileFragment.this.onErrorUploaded(dataResource);
         }
 
         private void onSuccess(ParcResourceByParc<ProfileData> resource) {
@@ -413,7 +428,7 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
             if (mOnSuccessListener != null) {
                 mOnSuccessListener.onSuccess();
             }
-            EditProfileFragment.this.onSuccess(isProfileAlreadyCreated(getActivity()));
+            EditProfileFragment.this.onSuccessUploaded(isProfileAlreadyCreated(getActivity()));
         }
     }
 }
