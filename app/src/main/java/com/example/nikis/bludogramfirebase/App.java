@@ -1,11 +1,11 @@
 package com.example.nikis.bludogramfirebase;
 
+import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.multidex.MultiDexApplication;
 
 import com.example.nikis.bludogramfirebase.Compilations.Sync.SyncCompilationService;
 import com.example.nikis.bludogramfirebase.Constants.Constants;
@@ -21,7 +21,7 @@ import java.io.File;
 import static com.example.nikis.bludogramfirebase.Helpers.FirebaseHelper.getUid;
 
 
-public class App extends MultiDexApplication {
+public class App extends Application {
     private static Context context;
     private RefWatcher refWatcher;
 
