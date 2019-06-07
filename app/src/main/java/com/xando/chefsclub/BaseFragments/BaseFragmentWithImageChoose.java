@@ -117,7 +117,7 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
             captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         Uri uri = FileProvider.getUriForFile(getActivity(),
-                "com.example.bludogramfirebase.fileprovider", mPhotoFile);
+                "com.xando.chefsclub.fileprovider", mPhotoFile);
 
         captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 
@@ -179,7 +179,7 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
             }
         } else if (requestCode == REQUEST_CODE_PHOTO && resultCode == RESULT_OK) {
             Uri uri = FileProvider.getUriForFile(getActivity(),
-                    "com.example.bludogramfirebase.fileprovider",
+                    "com.xando.chefsclub.fileprovider",
                     mPhotoFile);
 
             getActivity().revokeUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
