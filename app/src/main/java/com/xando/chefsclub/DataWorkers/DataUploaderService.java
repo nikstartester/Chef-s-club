@@ -8,10 +8,10 @@ import java.util.List;
 
 public abstract class DataUploaderService<Data extends BaseData> extends Service {
 
-    public static final String ACTION_RESPONSE = "com.example.bludogramfirebase.DataWorkers.action.RESPONSE";
-    public static final String EXTRA_RESOURCE = "com.example.bludogramfirebase.DataWorkers.extra.RESOURCE";
-    protected static final String EXTRA_DATA = "com.example.bludogramfirebase.DataWorkers.extra.DATA";
-    protected static final String EXTRA_ACTIONS = "com.example.bludogramfirebase.DataWorkers.extra.Action";
+    public static final String ACTION_RESPONSE = "com.xando.chefsclub.DataWorkers.action.RESPONSE";
+    public static final String EXTRA_RESOURCE = "com.xando.chefsclub.DataWorkers.extra.RESOURCE";
+    protected static final String EXTRA_DATA = "com.xando.chefsclub.DataWorkers.extra.DATA";
+    protected static final String EXTRA_ACTIONS = "com.xando.chefsclub.DataWorkers.extra.Action";
 
     private List<DataUploader<Data>> mDataUploaders = new ArrayList<>();
 

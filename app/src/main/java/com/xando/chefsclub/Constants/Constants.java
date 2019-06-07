@@ -76,7 +76,7 @@ public final class Constants {
     }
 
     public static final class Login {
-        public static final String KEY_IS_ALREADY_REGISTERED = "com.example.bludogramfirebase." +
+        public static final String KEY_IS_ALREADY_REGISTERED = "com.xando.chefsclub." +
                 "Constants.isAlreadyRegistered";
     }
 
