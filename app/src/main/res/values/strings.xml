@@ -13,6 +13,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="login_filter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789</string>
+    <string name="login_already_exist">Sorry, this login is already taken.</string>
     <string name="title_activity_email_password">EmailPasswordActivity</string>
     <string name="hint_user_id">User ID</string>
     <string name="get_custom_token">Get Token</string>

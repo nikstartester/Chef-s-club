@@ -10,8 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.Snackbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,14 +23,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.xando.chefsclub.BaseFragments.BaseFragmentWithImageChoose;
 import com.xando.chefsclub.Constants.Constants;
 import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
+import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.Helpers.FirebaseHelper;
 import com.xando.chefsclub.Helpers.MatisseHelper;
 import com.xando.chefsclub.Helpers.NetworkHelper;
@@ -42,8 +50,8 @@ import com.xando.chefsclub.R;
 import com.xando.chefsclub.Settings.SettingsCacheFragment;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +63,7 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
     private static final String KEY_GENDER = "gender";
     private static final String KEY_IMAGE_PATH = "imagePath";
     private static final String KEY_IS_IN_PROGRESS = "isProgress";
+    public static final int MIN_CHAR_FOR_LOGIN = 5;
 
     @BindView(R.id.edt_firstName)
     protected EditText edtFirstName;
@@ -74,11 +83,13 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
     @BindView(R.id.circularImageView)
     protected ImageView circularImageView;
 
-    @BindView(R.id.seekBar_skill)
-    protected SeekBar seekBarSkillTroll;
-
     @BindView(R.id.filter)
     protected RelativeLayout filterForProgress;
+
+    @BindView(R.id.progress_login)
+    protected ProgressBar progressLogin;
+
+    private String mLastLoginToCheck = "";
 
     private String gender;
 
@@ -121,8 +132,6 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         rdnFemale.setOnClickListener(this);
         circularImageView.setOnClickListener(this);
 
-        seekBarSkillTroll.setProgress(new Random().nextInt(98) + 1);
-
         if (savedInstanceState != null) {
             setImage(mImagePath, Constants.ImageConstants.DEF_TIME);
 
@@ -150,6 +159,27 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         });
         if (profileViewModel.getResourceLiveData().getValue() == null)
             profileViewModel.loadDataWithSaver(FirebaseHelper.getUid());
+
+        edtLogin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() >= MIN_CHAR_FOR_LOGIN && !s.toString().equals(mLastLoginToCheck)) {
+                    startCheckLogin();
+
+                    mLastLoginToCheck = s.toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         return v;
     }
@@ -185,6 +215,41 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         } else {
             radioButtonFemaleClick();
         }
+    }
+
+    private void startCheckLogin() {
+        showLoginProgress();
+
+        DatabaseReference ref = FirebaseReferences.getDataBaseReference();
+
+        ref.child("users").orderByChild("login").equalTo(edtLogin.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<ProfileData> profileDataList = new ArrayList<>(1);
+
+                for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                    profileDataList.add(snap.getValue(ProfileData.class));
+                }
+
+                ProfileData profileWithExistLogin = profileDataList.size() > 0 ? profileDataList.get(0) : null;
+
+                if (profileWithExistLogin == null
+                        || (FirebaseHelper.getUid() != null
+                        && profileWithExistLogin.userUid.equals(FirebaseHelper.getUid()))) {
+
+                    //nothing
+                } else {
+                    setLoginExistError();
+                }
+
+                hideLoginProgress();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -286,24 +351,27 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         String lastName = edtLastName.getText().toString();
         String login = edtLogin.getText().toString();
 
-        String error = getResources().getString(R.string.error_field_required);
+        String requiredError = getResources().getString(R.string.error_field_required);
 
         if (TextUtils.isEmpty(firstName)) {
-            edtFirstName.setError(error);
+            edtFirstName.setError(requiredError);
         } else {
             edtFirstName.setError(null);
             isValidate = true;
         }
 
         if (TextUtils.isEmpty(lastName)) {
-            edtLastName.setError(error);
+            edtLastName.setError(requiredError);
             isValidate = false;
         } else {
             edtFirstName.setError(null);
         }
 
         if (TextUtils.isEmpty(login)) {
-            edtLogin.setError(error);
+            edtLogin.setError(requiredError);
+            isValidate = false;
+        } else if (login.length() < MIN_CHAR_FOR_LOGIN) {
+            edtLogin.setError("Min length is 5 characters");
             isValidate = false;
         } else edtLogin.setError(null);
 
@@ -383,8 +451,28 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
 
     public void onErrorUploaded(ParcResourceByParc<ProfileData> resource) {
         if (resource.exception instanceof ExistLoginException) {
-            edtLogin.setError("Login already exist");
+            setLoginExistError();
+
+            hideLoginProgress();
         }
+    }
+
+    private void setLoginExistError() {
+        edtLogin.setError(getString(R.string.login_already_exist));
+    }
+
+    @VisibleForTesting
+    private void showLoginProgress() {
+        //progressLogin.setVisibility(View.VISIBLE);
+
+        //nothing
+    }
+
+    @VisibleForTesting
+    private void hideLoginProgress() {
+        //progressLogin.setVisibility(View.INVISIBLE);
+
+        //nothing
     }
 
     private void startMainActivity() {
