@@ -1,3 +1,9 @@
+v0.1.2-beta-3:
+	Check for the existence of a login in real time 
+	Added input restrictions(now only a-z, A-Z, 0-9 and _) for a login
+	
+	Bug fix: crash at make photo
+
 v0.1.2-beta-2:
 	Added check for a login when registering or changing the profile
 
