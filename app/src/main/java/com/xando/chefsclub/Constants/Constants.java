@@ -70,6 +70,8 @@ public final class Constants {
 
         public static final int DRAWABLE_ERROR = R.drawable.ic_add_a_photo_blue_1080dp;
 
+        public static final int DRAWABLE_ADD_PHOTO_PLACEHOLDER = R.drawable.ic_add_a_photo_blue_1080dp;
+
         public static final int PLACEHOLDER = R.color.image_placeholder;
 
         public static final long DEF_TIME = -1354;
