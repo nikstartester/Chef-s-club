@@ -7,17 +7,18 @@
         android:name="Actions">
         <item
             android:id="@+id/act_preview"
-            android:title="Show preview(only for develop)" />
+            android:title="Show preview(only for develop)"
+            android:visible="false" />
         <item
             android:id="@+id/act_save_in_draft"
             android:enabled="false"
             android:title="Save in draft(in developing)"
-            android:visible="true" />
+            android:visible="false" />
         <item
             android:id="@+id/act_choose_from_draft"
             android:enabled="false"
             android:title="Choose from draft(in developing)"
-            android:visible="true" />
+            android:visible="false" />
         <item
             android:id="@+id/act_clear"
             android:title="Clear all" />

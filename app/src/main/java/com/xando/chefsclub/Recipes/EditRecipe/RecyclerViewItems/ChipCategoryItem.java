@@ -12,6 +12,7 @@ import com.xando.chefsclub.R;
 import java.util.List;
 
 public class ChipCategoryItem extends AbstractItem<ChipCategoryItem, ChipCategoryItem.ViewHolder> {
+
     private final String categoryText;
     private boolean isActive;
     private TextView tvCategory;

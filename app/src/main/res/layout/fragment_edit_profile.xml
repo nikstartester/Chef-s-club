@@ -69,11 +69,11 @@
 
                     <EditText
                         android:id="@+id/edt_firstName"
+                        style="@style/StartCapEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/hint_first_name"
-                        android:inputType="textPersonName"
                         android:textSize="15sp" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -87,15 +87,14 @@
 
                     <EditText
                         android:id="@+id/edt_lastName"
+                        style="@style/StartCapEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_alignStart="@+id/inputLayout2"
                         android:layout_alignBottom="@+id/inputLayout2"
                         android:layout_marginTop="16dp"
                         android:ems="10"
                         android:hint="@string/hint_last_name"
-                        android:inputType="textPersonName"
                         android:textSize="15sp" />
                 </android.support.design.widget.TextInputLayout>
 

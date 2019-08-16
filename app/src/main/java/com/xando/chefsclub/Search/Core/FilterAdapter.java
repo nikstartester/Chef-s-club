@@ -3,6 +3,7 @@ package com.xando.chefsclub.Search.Core;
 import com.algolia.search.saas.Query;
 
 public abstract class FilterAdapter<T extends BaseFilterData> {
+
     protected T data;
 
     protected FilterAdapter() {

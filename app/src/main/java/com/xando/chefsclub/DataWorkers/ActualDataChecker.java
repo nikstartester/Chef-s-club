@@ -7,7 +7,6 @@ public abstract class ActualDataChecker<Data> {
     public abstract boolean hasChanged(Data data1, Data data2);
 
     public static boolean compareArrayList(List a, List b) {
-
         /*
          * If both reference points to same object
          */

@@ -9,6 +9,7 @@ import com.xando.chefsclub.DataWorkers.BaseLocalDataSaver;
 
 
 public class LocalCompilationSaver extends BaseLocalDataSaver<CompilationData> {
+
     protected LocalCompilationSaver(Application application) {
         super(application);
     }

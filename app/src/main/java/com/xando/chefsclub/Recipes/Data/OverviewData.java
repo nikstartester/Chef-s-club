@@ -26,7 +26,6 @@ public class OverviewData extends BaseData implements Cloneable {
 
     public List<String> strCategories;
 
-
     public OverviewData() {
         ingredientsList = new ArrayList<>();
         imagePathsWithoutMainList = new ArrayList<>();

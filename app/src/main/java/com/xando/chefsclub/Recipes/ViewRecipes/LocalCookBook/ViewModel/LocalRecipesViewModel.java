@@ -33,7 +33,6 @@ public class LocalRecipesViewModel extends AndroidViewModel {
 
     public MutableLiveData<List<RecipeData>> getData() {
         if (mData == null) mData = new MutableLiveData<>();
-
         return mData;
     }
 }

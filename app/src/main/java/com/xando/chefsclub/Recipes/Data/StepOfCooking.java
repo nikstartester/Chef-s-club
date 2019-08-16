@@ -7,6 +7,7 @@ import com.xando.chefsclub.DataWorkers.BaseData;
 import java.util.Map;
 
 public class StepOfCooking extends BaseData implements Cloneable {
+
     public String text;
 
     public int timeNum;

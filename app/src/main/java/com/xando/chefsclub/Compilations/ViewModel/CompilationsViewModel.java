@@ -12,6 +12,7 @@ import java.util.List;
 
 
 public class CompilationsViewModel extends AndroidViewModel {
+
     private MutableLiveData<List<CompilationData>> mData = new MutableLiveData<>();
 
     private final CompilationsRepository mRepository =

@@ -9,6 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class ProfileFilterData extends BaseFilterData {
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({FROM_ALL_PROFILES, FROM_SUBSCRIPTIONS,})
     public @interface SearchFrom {
@@ -18,7 +19,6 @@ public class ProfileFilterData extends BaseFilterData {
     public static final int FROM_SUBSCRIPTIONS = 1;
 
     int searchFrom = FROM_ALL_PROFILES;
-
 
     @SearchFrom
     public int getSearchFrom() {

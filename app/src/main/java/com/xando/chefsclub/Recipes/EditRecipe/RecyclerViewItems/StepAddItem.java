@@ -21,8 +21,6 @@ import java.util.List;
 import static com.xando.chefsclub.Recipes.EditRecipe.DialogTimePicker.NOT_SELECTED;
 
 public class StepAddItem extends AbstractItem<StepAddItem, StepAddItem.ViewHolder> {
-    public static final String DEFAULT_TEXT = "";
-    public static final String DEFAULT_TIME = "";
 
     private ImageView imageView;
 

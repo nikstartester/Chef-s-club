@@ -11,11 +11,11 @@ import com.xando.chefsclub.Recipes.Upload.SyncFavoriteService;
 
 
 public class ConnectivityChangeReceiver extends BroadcastReceiver {
+
     private static final String TAG = "ConnectivityChangeRecei";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         Log.d(TAG, "onReceive: " + NetworkHelper.isConnected(context));
 
         ComponentName comp = new ComponentName(context.getPackageName(),
@@ -23,6 +23,5 @@ public class ConnectivityChangeReceiver extends BroadcastReceiver {
         intent.putExtra("isNetworkConnected", NetworkHelper.isConnected(context));
 
         context.startService(intent.setComponent(comp));
-
     }
 }

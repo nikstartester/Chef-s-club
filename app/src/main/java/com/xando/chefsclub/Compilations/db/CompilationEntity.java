@@ -9,6 +9,7 @@ import com.xando.chefsclub.Compilations.Data.CompilationData;
 
 @Entity(indices = {@Index(value = "compilationKey", unique = true)})
 public class CompilationEntity {
+
     @PrimaryKey(autoGenerate = true)
     public long id;
 

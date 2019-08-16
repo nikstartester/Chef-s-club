@@ -32,7 +32,6 @@ public class CompilationShortItem extends AbstractItem<CompilationShortItem, Com
         return new ViewHolder(v);
     }
 
-
     @Override
     public void bindView(ViewHolder holder, List<Object> payloads) {
         super.bindView(holder, payloads);

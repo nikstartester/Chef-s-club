@@ -14,5 +14,4 @@ public interface FirebaseAdapter<T> extends ChangeEventListener, LifecycleObserv
 
     @NonNull
     ObservableSnapshotArray<T> getSnapshots();
-
 }

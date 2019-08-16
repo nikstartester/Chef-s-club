@@ -14,7 +14,6 @@ public class RecipeToFavoriteEntity {
 
     public final String authorId;
 
-
     public RecipeToFavoriteEntity(String recipeKey, String authorId) {
         this.recipeKey = recipeKey;
         this.authorId = authorId;

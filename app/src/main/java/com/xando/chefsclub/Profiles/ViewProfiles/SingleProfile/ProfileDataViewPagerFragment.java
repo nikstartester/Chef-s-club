@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 
 
 public class ProfileDataViewPagerFragment extends Fragment {
+
     private static final String KEY_USER_ID = "keyId";
 
     @BindView(R.id.tab_layout)

@@ -9,6 +9,7 @@ import java.util.List;
 import static com.xando.chefsclub.Recipes.db.RecipeEntity.EMPTY_FIELD;
 
 public class IngredientsConverter {
+
     private static final String STR_CONVERTER_SYMBOL = "//sAnd//";
 
     @TypeConverter

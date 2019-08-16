@@ -22,6 +22,7 @@ import com.xando.chefsclub.Search.Recipes.SearchRecipesFragmentTest;
 
 
 public class SearchFragment extends Fragment {
+
     private static final String KEY_FILTER_DATA = "keyFilterData";
 
     private RecipeFilterData mRecipeFilterData;
@@ -34,16 +35,12 @@ public class SearchFragment extends Fragment {
 
     public static Fragment getInstance(BaseFilterData filterData) {
         Fragment fragment = new SearchFragment();
-
         Bundle bundle = new Bundle();
-
         bundle.putParcelable(KEY_FILTER_DATA, filterData);
-
         fragment.setArguments(bundle);
 
         return fragment;
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

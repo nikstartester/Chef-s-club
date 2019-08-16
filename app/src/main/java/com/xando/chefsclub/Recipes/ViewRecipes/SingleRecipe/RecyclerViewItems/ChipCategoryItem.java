@@ -12,6 +12,7 @@ import com.xando.chefsclub.R;
 import java.util.List;
 
 public class ChipCategoryItem extends AbstractItem<ChipCategoryItem, ChipCategoryItem.ViewHolder> {
+
     private static final int NORMAL_SIZE = 0;
     public static final int SMALL_SIZE = 1;
 
@@ -59,6 +60,7 @@ public class ChipCategoryItem extends AbstractItem<ChipCategoryItem, ChipCategor
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         final TextView category;
 
         ViewHolder(View itemView) {

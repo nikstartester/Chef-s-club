@@ -20,7 +20,8 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 
-public class StickyHeaderAdapter<Item extends IItem> extends RecyclerView.Adapter implements StickyRecyclerHeadersAdapter {
+public class StickyHeaderAdapter<Item extends IItem> extends RecyclerView.Adapter
+        implements StickyRecyclerHeadersAdapter {
 
     @Override
     public long getHeaderId(int position) {

@@ -13,7 +13,9 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersTouchListener;
 import java.util.List;
 
 public class StickyHeadersTouchListener implements RecyclerView.OnItemTouchListener {
+
     private static final String TAG = "StickyHeadersTouchListe";
+
     private final GestureDetector mTapDetector;
     private final RecyclerView mRecyclerView;
     private final StickyHeadersDecoration mDecor;

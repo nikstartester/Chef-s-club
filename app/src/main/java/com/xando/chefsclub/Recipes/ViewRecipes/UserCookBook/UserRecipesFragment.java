@@ -17,6 +17,7 @@ import com.xando.chefsclub.Recipes.ViewRecipes.ToSearcher;
 import com.xando.chefsclub.Search.Recipes.Filter.RecipeFilterData;
 
 public class UserRecipesFragment extends FragmentWithSearchButton {
+
     private ViewPager mViewPager;
     private ToSearcher mToSearcher;
 

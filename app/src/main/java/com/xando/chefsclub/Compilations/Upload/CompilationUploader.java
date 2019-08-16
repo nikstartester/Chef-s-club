@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CompilationUploader extends DataUploader<CompilationData> {
+
     @Override
     protected void start() {
         mDataResource = ParcResourceByParc.loading(mData);

@@ -17,6 +17,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
+import com.xando.chefsclub.DataWorkers.OnItemCountChanged;
 import com.xando.chefsclub.FirebaseList.FirebaseListAdapter;
 import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.R;
@@ -34,10 +35,14 @@ import butterknife.ButterKnife;
 import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
 
 public abstract class RecipesListFragment extends RecipeEventHookFragment {
-    protected static final int REQUEST_CODE_RECIPE_ACTIVITY = 121;
+
     private static final String TAG = "RecipesListFragment";
+
+    protected static final int REQUEST_CODE_RECIPE_ACTIVITY = 121;
     private static final String KEY_DATA_LIST = "DATA_LIST";
+
     private final ActualRecipeDataChecker mDataChecker = new ActualRecipeDataChecker();
+
     @BindView(R.id.rv_allRecipes)
     protected RecyclerView allRecipesRv;
     @BindView(R.id.filter)
@@ -112,7 +117,7 @@ public abstract class RecipesListFragment extends RecipeEventHookFragment {
 
             @NonNull
             @Override
-            public RecipeItem getNewItemInstance(@NonNull RecipeData data) {
+            public RecipeItem getNewItemInstance(@NonNull RecipeData data, int pos) {
                 return new RecipeItem(data, RecipesListFragment.this);
             }
 

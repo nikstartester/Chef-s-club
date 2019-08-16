@@ -1,5 +1,6 @@
 package com.xando.chefsclub.Helpers;
 
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -11,7 +12,11 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.Recipes.Data.RecipeData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UiHelper {
+
     public static final int DURATION_NORMAL = 800;
     public static final int DURATION_SHORT = 400;
 
@@ -62,6 +67,32 @@ public class UiHelper {
                     .duration(duration)
                     .onEnd(animator -> view.setVisibility(toVisibility))
                     .playOn(view);
+        }
+
+        public static List<YoYo.YoYoString> highlight(final View view, @ColorInt int color, int[] durations) {
+            if (durations.length != 2) {
+                throw new IllegalArgumentException("Duration might have 2 params: start and end");
+            }
+
+            if (view == null) return new ArrayList<>();
+
+            List<YoYo.YoYoString> list = new ArrayList<>(2);
+
+            final YoYo.YoYoString[] fadeOut = new YoYo.YoYoString[1];
+
+            YoYo.YoYoString fadeIn = YoYo.with(Techniques.FadeIn)
+                    .duration(durations[0])
+                    .onStart(animator -> view.setBackgroundColor(color))
+                    .onEnd(animator -> fadeOut[0] = YoYo.with(Techniques.FadeOut)
+                            .duration(durations[1])
+                            .playOn(view))
+                    .playOn(view);
+
+            list.add(fadeIn);
+            list.add(fadeOut[0]);
+
+
+            return list;
         }
     }
 }

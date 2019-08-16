@@ -61,5 +61,4 @@ public class GlideEngineV4 implements ImageEngine {
     public boolean supportAnimatedGif() {
         return false;
     }
-
 }

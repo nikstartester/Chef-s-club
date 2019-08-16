@@ -108,5 +108,4 @@ public abstract class DataUploaderService<Data extends BaseData> extends Service
     public enum Action {
         START_UPLOAD, CANCEL_UPLOAD
     }
-
 }

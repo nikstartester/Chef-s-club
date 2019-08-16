@@ -51,14 +51,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ToSearcher {
 
     private static final int REQUEST_CODE_UPDATE_IMAGE = 532;
-
+    protected FloatingActionButton fab;
     private SparseArray<Fragment> fragments;
-
     private ImageView userProfileImage;
     private TextView tvLogin;
     private TextView tvName;
-    protected FloatingActionButton fab;
-
     private NavigationView mNavigationView;
 
     @Override
@@ -137,7 +134,7 @@ public class MainActivity extends AppCompatActivity
             GlideImageLoader.getInstance().loadNormalCircularImage(this,
                     userProfileImage,
                     imageData);
-        } //else userProfileImage.setImageResource(R.drawable.ic_account_circle_elements_48dp);
+        } else userProfileImage.setImageResource(R.mipmap.ic_launcher_round);
     }
 
     private void showStartFragment() {

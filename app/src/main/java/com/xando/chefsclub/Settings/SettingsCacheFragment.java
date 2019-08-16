@@ -28,7 +28,9 @@ import static com.xando.chefsclub.Constants.Constants.Settings.DEFAULT_MAX_IMAGE
 
 
 public class SettingsCacheFragment extends Fragment {
+
     private static final String TAG = "SettingsCacheFragment";
+
     @BindView(R.id.all_cache_size)
     protected TextView allCacheSize;
 

@@ -12,12 +12,10 @@ import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
 
 
 public class SyncCompilationService extends Service {
+
     public static final String ACTION_RESPONSE = "com.xando.chefsclub.Compilations.Sync.action.RESPONSE";
-
-    protected static final String EXTRA_DATA = "com.xando.chefsclub.Compilations.Sync.extra.DATA";
-
     public static final String EXTRA_RESOURCE = "com.xando.chefsclub.Compilations.Sync.extra.RESOURCE";
-
+    protected static final String EXTRA_DATA = "com.xando.chefsclub.Compilations.Sync.extra.DATA";
     private static final String TAG = "SyncCompilationTittleSe";
 
     public static Intent getIntent(Context context, String userUid) {

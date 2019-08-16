@@ -174,7 +174,6 @@ public class AddToCompilationDialogFragment extends AppCompatDialogFragment {
         });
     }
 
-
     private void onSuccessRecipeAdded(CompilationData compilationData) {
         Toast.makeText(getActivity(), "Recipe added to \"" + compilationData.name + " \"", Toast.LENGTH_SHORT)
                 .show();
@@ -247,5 +246,4 @@ public class AddToCompilationDialogFragment extends AppCompatDialogFragment {
             hideProgress();
         }
     }
-
 }

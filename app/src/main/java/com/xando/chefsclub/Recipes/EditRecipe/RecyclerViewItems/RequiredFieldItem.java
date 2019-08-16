@@ -14,10 +14,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RequiredFieldItem extends AbstractItem<RequiredFieldItem, RequiredFieldItem.ViewHolder> {
+public class RequiredFieldItem extends AbstractItem<RequiredFieldItem,
+        RequiredFieldItem.ViewHolder> {
+
     public boolean isSatisfy;
     public String text;
-
 
     public RequiredFieldItem(String text, boolean isSatisfy) {
         this.text = text;

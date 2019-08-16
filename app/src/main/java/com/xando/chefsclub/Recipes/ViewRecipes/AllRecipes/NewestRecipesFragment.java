@@ -10,6 +10,7 @@ import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.Item.RecipeIte
 import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.RecipesListFragment;
 
 public class NewestRecipesFragment extends RecipesListFragment {
+
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("recipes");
@@ -19,7 +20,6 @@ public class NewestRecipesFragment extends RecipesListFragment {
     public boolean isNestedScrolling() {
         return true;
     }
-
 
     @Nullable
     @Override

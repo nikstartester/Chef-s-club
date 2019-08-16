@@ -57,5 +57,4 @@ public class LocalUserProfileSaver extends BaseLocalDataSaver<ProfileData> {
                 .signature(new ObjectKey(time))
                 .submit();
     }
-
 }

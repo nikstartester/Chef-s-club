@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 public class ParcResourceByParc<T extends Parcelable> implements Parcelable {
+
     @NonNull
     public final Status status;
 

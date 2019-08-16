@@ -7,6 +7,7 @@ import com.mikepenz.fastadapter.listeners.ClickEventHook;
 import com.mikepenz.fastadapter.listeners.OnClickListener;
 
 public interface ItemsClickListenerGetter<Item extends AbstractItem> {
+
     @Nullable
     ClickEventHook<Item> getClickEventHookInstance();
 

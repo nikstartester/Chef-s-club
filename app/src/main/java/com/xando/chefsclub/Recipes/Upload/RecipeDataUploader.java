@@ -1,6 +1,7 @@
 package com.xando.chefsclub.Recipes.Upload;
 
 import android.content.Context;
+import android.util.SparseArray;
 
 import com.google.firebase.database.DatabaseReference;
 import com.xando.chefsclub.Constants.Constants;
@@ -18,9 +19,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class RecipeDataUploader extends DataUploader<RecipeData> {
+
     private static final String TAG = "RecipeDataUploader";
 
     private final BaseMultiImagesUploader mOverviewImagesUploader;
@@ -163,14 +166,16 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
         private final List<ImageUploader> mImageUploaders = new ArrayList<>();
 
-        private final List<String> mUploadedImagesUrlWithoutMain;
+        private final SparseArray<String> mUploadedImagesUrlWithoutMain;
 
         private String mUploadedMainUrl;
 
         private OverviewImagesUploader(Context context) {
             super(context);
 
-            mUploadedImagesUrlWithoutMain = new ArrayList<>();
+            mUploadedImagesUrlWithoutMain = new SparseArray<>();
+
+            //SparseArray<String> array = new SparseArray<>();
         }
 
         @Override
@@ -202,7 +207,7 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
             final String storageImagePath = Constants.ImageConstants.FIREBASE_STORAGE_AT_START + "/recipe_images/"
                     + mData.recipeKey + "/"
-                    + "overview_images" + "/" + "main.jpg";
+                    + "overview_images" + "/" + "m_" + UUID.randomUUID().toString() + ".jpg";
 
             final ImageUploader imageUploader = ImageUploader.with(context)
                     .setImagePath(mData.overviewData.mainImagePath)
@@ -211,12 +216,12 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
                     .setDirectoryPathForCompress(Constants.Files.getDirectoryForCompressRecipesImages(context))
                     .setOnProgressListener(new OnProgressListener() {
                         @Override
-                        protected void addDataOnSuccess(String path) {
+                        protected void addDataOnSuccess(String path, int tag) {
                             mUploadedMainUrl = path;
                         }
 
                         @Override
-                        protected boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath) {
+                        protected boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath, int tag) {
                             return isNeedStop;
                         }
                     }).build();
@@ -245,21 +250,22 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
                 if (isNeedStop) break;
 
-                String storageImagePath = prefixStorageImagePath + i + ".jpg";
+                String storageImagePath = prefixStorageImagePath + UUID.randomUUID().toString() + ".jpg";
 
                 final ImageUploader imageUploader = ImageUploader.with(context)
                         .setImagePath(imagePaths.get(i))
                         .setQuality(ImageUploader.Builder.NORMAL_QUALITY)
                         .setFullStoragePath(storageImagePath)
                         .setDirectoryPathForCompress(Constants.Files.getDirectoryForCompressRecipesImages(context))
+                        .setTag(i)
                         .setOnProgressListener(new OnProgressListener() {
                             @Override
-                            protected void addDataOnSuccess(String path) {
-                                mUploadedImagesUrlWithoutMain.add(path);
+                            protected void addDataOnSuccess(String path, int tag) {
+                                mUploadedImagesUrlWithoutMain.put(tag, path);
                             }
 
                             @Override
-                            protected boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath) {
+                            protected boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath, int tag) {
                                 return isNeedStop;
                             }
                         }).build();
@@ -285,16 +291,16 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
             String[] basePrefixes = {"/recipes/", "/user-recipes/" + mData.authorUId + "/"};
 
-            sort(mUploadedImagesUrlWithoutMain);
+            //sort(mUploadedImagesUrlWithoutMain);
 
             mData.overviewData.allImagePathList.clear();
             mData.overviewData.allImagePathList.add(0, mUploadedMainUrl);
-            mData.overviewData.allImagePathList.addAll(1, mUploadedImagesUrlWithoutMain);
+            mData.overviewData.allImagePathList.addAll(1, sparseToList(mUploadedImagesUrlWithoutMain));
 
             mData.overviewData.mainImagePath = mUploadedMainUrl;
 
             mData.overviewData.imagePathsWithoutMainList.clear();
-            mData.overviewData.imagePathsWithoutMainList.addAll(mUploadedImagesUrlWithoutMain);
+            mData.overviewData.imagePathsWithoutMainList.addAll(sparseToList(mUploadedImagesUrlWithoutMain));
 
             for (String basePrefix : basePrefixes) {
                 childUpdates.put(basePrefix + mData.recipeKey, mData.toMap());
@@ -314,9 +320,9 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
             List<String> urls = new ArrayList<>();
             urls.add(0, mUploadedMainUrl);
 
-            sort(mUploadedImagesUrlWithoutMain);
+            //sort(mUploadedImagesUrlWithoutMain);
 
-            urls.addAll(1, mUploadedImagesUrlWithoutMain);
+            urls.addAll(1, sparseToList(mUploadedImagesUrlWithoutMain));
 
             return urls;
         }
@@ -333,6 +339,16 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
                 return Integer.compare(num1, num2);
             });
+        }
+
+        private List<String> sparseToList(SparseArray<String> array) {
+            List<String> list = new ArrayList<>();
+
+            for (int i = 0; i < array.size(); i++) {
+                list.add(array.get(i));
+            }
+
+            return list;
         }
 
         @Override
@@ -382,11 +398,11 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
                     final ImageUploader imageUploader = ImageUploader.with(context)
                             .setImagePath(imagePath)
                             .setQuality(ImageUploader.Builder.NORMAL_QUALITY)
-                            .setFullStoragePath(prefixStorageImagePath + i + ".jpg")
+                            .setFullStoragePath(prefixStorageImagePath + UUID.randomUUID().toString() + ".jpg")
                             .setDirectoryPathForCompress(Constants.Files.getDirectoryForCompressRecipesImages(context))
                             .setOnProgressListener(new OnProgressListener() {
                                 @Override
-                                protected void addDataOnSuccess(String path) {
+                                protected void addDataOnSuccess(String path, int tag) {
                                     mData.stepsData
                                             .stepsOfCooking
                                             .get(currStepPos)
@@ -396,7 +412,7 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
                                 }
 
                                 @Override
-                                protected boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath) {
+                                protected boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath, int tag) {
                                     return isNeedStop;
                                 }
                             }).build();
@@ -408,6 +424,7 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
             }
 
             if (mCountStepsWithImage == 0) {
+                updateImagesUrlIfAllImagesUploaded();
                 onSuccessUpload();
             }
         }
@@ -467,6 +484,4 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
             }
         }
     }
-
-
 }

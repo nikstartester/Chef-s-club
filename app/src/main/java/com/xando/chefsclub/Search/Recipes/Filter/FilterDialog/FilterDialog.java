@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,13 +39,13 @@ import static com.xando.chefsclub.Recipes.EditRecipe.ChooseCategoriesActivity.SE
 import static com.xando.chefsclub.Recipes.EditRecipe.DialogTimePicker.NOT_SELECTED;
 
 
-public class FilterDialog extends AppCompatDialogFragment {
+public class FilterDialog extends BottomSheetDialogFragment {
 
-    private static final String KEY_FILTER_DATA = "keyFilterData";
     public static final String FILTER_DATA = "filterData";
+    public static final int RESULT_CODE_FILTER_APPLY = 421;
+    private static final String KEY_FILTER_DATA = "keyFilterData";
     private static final int REQUEST_CODE_CHOOSE_CATEGORIES = 89;
     private static final int REQUEST_CODE_TIME_PECKER = 7;
-    public static final int RESULT_CODE_FILTER_APPLY = 421;
     private static final int POS_MIN = 0;
     private static final int POS_MAX = 1;
 
@@ -261,7 +261,6 @@ public class FilterDialog extends AppCompatDialogFragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
     private void setCategoriesToRv() {
         mCategoriesAdapter.clear();

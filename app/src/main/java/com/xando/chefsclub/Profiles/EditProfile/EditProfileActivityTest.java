@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 
 
 public class EditProfileActivityTest extends SingleFragmentActivity {
+
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
 

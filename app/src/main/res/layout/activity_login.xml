@@ -19,8 +19,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
-        android:textColor="@color/md_grey_300"
         android:text="Welcome to the \nChef's Club!"
+        android:textColor="@color/md_grey_300"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +127,7 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/enter_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -138,23 +138,52 @@
             <EditText
                 android:id="@+id/edt_phone"
                 style="@style/WhiteEditText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp"
-                android:layout_weight="1"
                 android:hint="@string/hint_phone_number"
                 android:inputType="phone"
-                android:text="+7"
                 android:lines="1"
-                android:visibility="visible" />
+                android:text="+7"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/login_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/btn_startVerification"
+                android:id="@+id/login_info"
+                android:layout_width="40dp"
+                android:layout_height="0dp"
+                android:background="?actionBarItemBackground"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_phone"
+                app:layout_constraintEnd_toStartOf="@+id/btn_startVerification_old"
+                app:layout_constraintTop_toTopOf="@+id/edt_phone"
+                app:srcCompat="@drawable/ic_info_outline_gray_24dp" />
+
+            <ImageButton
+                android:id="@+id/btn_startVerification_old"
                 style="@style/BaseNavigateImageButton.NavigateNextImageButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_height="0dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/edt_phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/edt_phone" />
+
+            <Button
+                android:id="@+id/btn_startVerification"
+                style="@style/BaseAppButtonLight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="Send SMS with code"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_phone" />
+        </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 
@@ -180,8 +209,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/md_red_900"
-            android:text="@string/preview_info" />
+            android:text="@string/preview_info"
+            android:textColor="@color/md_red_900" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

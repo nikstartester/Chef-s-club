@@ -36,7 +36,6 @@ public class SettingsActivity extends SingleChangingFragmentActivity implements 
         }
     }
 
-
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_fragment;

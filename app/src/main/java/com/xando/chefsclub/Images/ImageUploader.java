@@ -18,25 +18,21 @@ import java.util.UUID;
 
 import id.zelory.compressor.Compressor;
 
+import static com.xando.chefsclub.Images.ImageUploader.Builder.DEF_TAG;
+
 public class ImageUploader {
+
     private static final String TAG = "ImageUploader";
 
+    public int tag = DEF_TAG;
     private StorageTask<UploadTask.TaskSnapshot> mUploadTask;
-
     private Context mContext;
-
     private String mImagePath;
-
     private String mFullStoragePath;
-
     private int mQuality = 0;
-
     private OnProgressListener<String> mOnProgressListener;
-
     private String mDirectoryPathForCompress;
-
     private boolean isCanceled;
-
     private boolean isSuccessful;
 
     private ImageUploader() {
@@ -55,7 +51,7 @@ public class ImageUploader {
         if (mImagePath.equals(mFullStoragePath) ||
                 mImagePath.startsWith(Constants.ImageConstants.FIREBASE_STORAGE_AT_START)) {
 
-            onProgress(ParcResourceBySerializable.success(mFullStoragePath));
+            onProgress(ParcResourceBySerializable.success(mImagePath));
 
             return;
         }
@@ -80,7 +76,6 @@ public class ImageUploader {
             startUploadImageTask(new File(mImagePath));
         }
     }
-
 
     private File compressImage() throws IOException {
 
@@ -120,7 +115,7 @@ public class ImageUploader {
 
     private void onProgress(ParcResourceBySerializable<String> resStoragePath) {
         if (mOnProgressListener != null)
-            mOnProgressListener.onStatusChanged(resStoragePath);
+            mOnProgressListener.onStatusChanged(resStoragePath, tag);
     }
 
     public void cancel() {
@@ -133,7 +128,7 @@ public class ImageUploader {
     }
 
     public interface OnProgressListener<T extends Serializable> {
-        void onStatusChanged(ParcResourceBySerializable<T> resStoragePath);
+        void onStatusChanged(ParcResourceBySerializable<T> resStoragePath, int tag);
     }
 
     public static class CancelUploadImage extends Exception {
@@ -145,6 +140,7 @@ public class ImageUploader {
     public class Builder {
         public static final int NORMAL_QUALITY = 75;
         public static final int MAX_QUALITY = 100;
+        public static final int DEF_TAG = -9999;
 
         private String mStoragePath;
 
@@ -186,6 +182,12 @@ public class ImageUploader {
 
         public Builder setQuality(int quality) {
             mQuality = quality;
+
+            return this;
+        }
+
+        public Builder setTag(int tag) {
+            ImageUploader.this.tag = tag;
 
             return this;
         }

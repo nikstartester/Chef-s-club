@@ -5,6 +5,7 @@ import android.app.Application;
 import com.xando.chefsclub.Profiles.Repository.Local.LocalUserProfileSaver;
 
 public abstract class BaseLocalDataSaver<Data extends BaseData> {
+
     protected Application mApplication;
 
     protected LocalUserProfileSaver.OnComplete mOnComplete;
@@ -23,7 +24,6 @@ public abstract class BaseLocalDataSaver<Data extends BaseData> {
     }
 
     protected abstract void save(Data data);
-
 
     public interface OnComplete {
         void onComplete();

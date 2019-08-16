@@ -43,6 +43,8 @@ import com.xando.chefsclub.Recipes.EditRecipe.RequiredFields.RequiredFieldsDialo
 import com.xando.chefsclub.Recipes.Local.LocalRecipeSaver;
 import com.xando.chefsclub.Recipes.Repository.RecipeRepository;
 import com.xando.chefsclub.Recipes.Upload.EditRecipeService;
+import com.xando.chefsclub.Recipes.Upload.ImageAdapter;
+import com.xando.chefsclub.Recipes.Upload.RecipeImagesData;
 import com.xando.chefsclub.Recipes.ViewModel.RecipeViewModel;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.ViewRecipeActivity;
 import com.xando.chefsclub.Settings.SettingsCacheFragment;
@@ -59,10 +61,10 @@ import static com.xando.chefsclub.Recipes.Repository.RecipeRepository.CHILD_RECI
 public class EditRecipeActivity extends AppCompatActivity {
     private static final String TAG = "EditRecipeActivity";
 
+    public static final String KEY_OLD_IMAGES = "key_oldImages";
     private static final String KEY_IS_IN_PROGRESS = "isProgress";
     private static final String KEY_IS_SAVE_ON_LOCAL = "isSave";
     private static final String KEY_RECIPE_DATA = "KeyEditRecipeDate";
-
     private static final String EXTRA_RECIPE_ID = "recipeId";
     private static final String EXTRA_RECIPE_DATA = "recipeData";
 
@@ -86,6 +88,8 @@ public class EditRecipeActivity extends AppCompatActivity {
     private boolean isSaveOnLocal;
 
     private RecipeViewModel mRecipeViewModel;
+
+    private RecipeImagesData mOldImages;
 
     public static Intent getIntent(Context context, @Nullable String recipeId) {
         Intent intent = new Intent(context, EditRecipeActivity.class);
@@ -175,6 +179,9 @@ public class EditRecipeActivity extends AppCompatActivity {
         registerReceiver(mBroadcastReceiver = new RecipeUploaderBroadcastReceiver(),
                 intentFilter);
 
+        if (savedInstanceState != null) {
+            mOldImages = savedInstanceState.getParcelable(KEY_OLD_IMAGES);
+        }
 
         mRecipeViewModel.getResourceLiveData().observe(this, resource -> {
             if (resource != null) {
@@ -183,9 +190,12 @@ public class EditRecipeActivity extends AppCompatActivity {
                         hideProgress();
 
                         if (resource.data.recipeKey != null)
-                            //getSupportActionBar().setTitle(resource.data.overviewData.name);
-
                             mRecipeData = resource.data;
+
+                        if (mOldImages == null) {
+                            mOldImages = ImageAdapter.toImagesData(resource.data);
+                        }
+
                         break;
                     case LOADING:
                         showProgress();
@@ -229,7 +239,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             }
         }
 
-        if (getRecipeId() != null) {
+        if (isEdit()) {
             getSupportActionBar().setTitle("Edit Recipe");
         }
 
@@ -290,11 +300,13 @@ public class EditRecipeActivity extends AppCompatActivity {
     }
 
     private void startEditRecipe() {
-        if (!NormalizeRecipeData.checkRequired(getRecipeData(), true)) {
+        setRecipeData();
+
+        if (!NormalizeRecipeData.checkRequired(mRecipeData, true)) {
             onRequiredFieldsError();
         } else {
             if (NetworkHelper.isConnected(this)) {
-                mRecipeData = getRecipeData();
+                //setRecipeData(mRecipeData);
 
                 startUpload();
             } else {
@@ -304,7 +316,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     }
 
     private void onRequiredFieldsError() {
-        RecipeData normalizedRecipeData = NormalizeRecipeData.normalizeRecipeData(getRecipeData());
+        RecipeData normalizedRecipeData = NormalizeRecipeData.normalizeRecipeData(setRecipeData());
 
         mRecipeViewModel.setResourceData(ParcResourceByParc.success(normalizedRecipeData));
 
@@ -312,7 +324,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         dialogFragment.show(getSupportFragmentManager(), "required_fields");
     }
 
-    private RecipeData getRecipeData() {
+    private RecipeData setRecipeData() {
         OverviewEditRecipeFragment overviewFragment = null;
         StepsEditRecipeFragment stepsFragment = null;
 
@@ -334,14 +346,13 @@ public class EditRecipeActivity extends AppCompatActivity {
 
             StepsData stepsData = stepsFragment.getData();
 
-            setRecipeData(overviewData, stepsData);
+            setDataToRecipeData(overviewData, stepsData);
 
         }
-
         return mRecipeData;
     }
 
-    private void setRecipeData(OverviewData overviewData, StepsData stepsData) {
+    private void setDataToRecipeData(OverviewData overviewData, StepsData stepsData) {
         if (mRecipeData == null) mRecipeData = new RecipeData();
 
         mRecipeData.overviewData = overviewData;
@@ -349,6 +360,10 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         if (mRecipeData.authorUId == null)
             mRecipeData.authorUId = FirebaseHelper.getUid();
+
+        mRecipeData.isUpdated = isEdit();
+
+        mRecipeData.overviewData.allImagePathList.clear();
 
         mRecipeData.overviewData.allImagePathList.add(0,
                 mRecipeData.overviewData.mainImagePath);
@@ -390,7 +405,7 @@ public class EditRecipeActivity extends AppCompatActivity {
         dialog.setIcon(R.drawable.ic_warning_red_24dp);
 
         dialog.setPositiveButton(positiveButtonStr, (dialog1, which) -> {
-            startActivity(ViewRecipeActivity.getIntent(this, getRecipeData(), false));
+            startActivity(ViewRecipeActivity.getIntent(this, setRecipeData(), false));
         });
 
         dialog.setNegativeButton(negativeButtonStr, (dialog12, which) -> dialog12.cancel());
@@ -419,11 +434,16 @@ public class EditRecipeActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_IS_IN_PROGRESS, isInProgress);
         outState.putBoolean(KEY_IS_SAVE_ON_LOCAL, isSaveOnLocal);
+        outState.putParcelable(KEY_OLD_IMAGES, mOldImages);
 
-        mRecipeData = getRecipeData();
+        setRecipeData();
 
         outState.putParcelable(KEY_RECIPE_DATA, mRecipeData);
         mRecipeViewModel.setResourceData(ParcResourceByParc.success(mRecipeData));
+    }
+
+    private boolean isEdit() {
+        return mRecipeData != null && mRecipeData.recipeKey != null;
     }
 
     private class RecipeUploaderBroadcastReceiver extends BroadcastReceiver {
@@ -447,7 +467,8 @@ public class EditRecipeActivity extends AppCompatActivity {
         private void onLoading(ParcResourceByParc<RecipeData> dataResource) {
             mUploadingRecipeData = dataResource.data;
 
-            if (mUploadingRecipeData != null && mUploadingRecipeData.recipeKey != null) {
+            if (mUploadingRecipeData != null && mUploadingRecipeData.recipeKey != null
+                    && !isEdit()) {
                 findViewById(R.id.btn_filter_cancel).setVisibility(View.VISIBLE);
             } else {
                 findViewById(R.id.btn_filter_cancel).setVisibility(View.GONE);
@@ -458,10 +479,11 @@ public class EditRecipeActivity extends AppCompatActivity {
         private void onSuccess(ParcResourceByParc<RecipeData> resource) {
             hideProgress();
 
-            Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+            showSuccessMessage(resource.data.overviewData.name);
 
-            SettingsCacheFragment.deleteDir(new File(Constants.Files.
-                    getDirectoryForEditRecipeImages(EditRecipeActivity.this)));
+            removeCaptures();
+
+            removedUnnecessaryImagesFromServer(resource.data);
 
             if (isSaveOnLocal) {
                 /*
@@ -484,8 +506,37 @@ public class EditRecipeActivity extends AppCompatActivity {
                             .deleteByRecipeKey(getRecipeId())).start();
             }
 
-            finish();
+            if (isEdit() && getRecipeId() != null) {
+                startActivity(ViewRecipeActivity.getIntent(EditRecipeActivity.this,
+                        getRecipeId(), true)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            }
 
+            finish();
+        }
+
+        private void showSuccessMessage(String recipeName) {
+            String message;
+            if (!isEdit()) {
+                message = "\"" + recipeName + "\" successfully added.";
+            } else message = "\"" + recipeName + "\" successfully edited.";
+
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+        private void removeCaptures() {
+            SettingsCacheFragment.deleteDir(new File(Constants.Files.
+                    getDirectoryForEditRecipeImages(EditRecipeActivity.this)));
+        }
+
+        private void removedUnnecessaryImagesFromServer(final RecipeData data) {
+            if (isEdit() && mOldImages != null) {
+                new Thread(() -> {
+                    RecipeRepository.deleteImages(ImageAdapter.getRemovedImages(mOldImages,
+                            ImageAdapter.toImagesData(data)));
+                }).start();
+            }
         }
 
         private void onError(ParcResourceByParc<RecipeData> resource) {

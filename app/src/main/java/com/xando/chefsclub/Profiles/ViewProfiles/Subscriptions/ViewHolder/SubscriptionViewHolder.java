@@ -21,7 +21,9 @@ import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
 
 
 public class SubscriptionViewHolder extends RecyclerView.ViewHolder {
+
     private static final String TAG = "SubscriptionViewHolder";
+
     @BindView(R.id.profile_image)
     protected ImageView profileImage;
 

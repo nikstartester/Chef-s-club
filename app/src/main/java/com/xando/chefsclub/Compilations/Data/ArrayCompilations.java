@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ArrayCompilations extends BaseData {
+
     public List<CompilationData> mCompilationData;
 
     public ArrayCompilations() {
@@ -23,7 +24,6 @@ public class ArrayCompilations extends BaseData {
     public Map<String, Object> toMap() {
         return null;
     }
-
 
     @Override
     public int describeContents() {

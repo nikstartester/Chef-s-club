@@ -53,6 +53,7 @@ public abstract class RecipeEventHookFragment extends Fragment {
     }
 
     public class EventHookForRecipeItem<T extends AbsRecipeItem> extends ClickEventHook<T> {
+
         @Nullable
         @Override
         public List<View> onBindMany(@NonNull RecyclerView.ViewHolder viewHolder) {

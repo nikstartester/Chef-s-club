@@ -5,6 +5,7 @@ import android.animation.LayoutTransition;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -57,6 +58,12 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
     @BindView(R.id.allTimeCooking_content)
     protected View allTimeCookingContent;
 
+    @BindView(R.id.filter)
+    protected View filterForProgress;
+
+    @BindView(R.id.all_content)
+    protected View allContent;
+
     private StepsData mStepsData;
 
     private FastItemAdapter<StepViewItem> mStepsAdapter;
@@ -68,12 +75,11 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
     private long mTime = Constants.ImageConstants.DEF_TIME;
 
     public static Fragment getInstance(@Nullable String recipeId) {
-
         Bundle bundle = new Bundle();
         bundle.putString(KEY_RECIPE_ID, recipeId);
-
         Fragment fragment = new StepsViewRecipeFragment();
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -114,12 +120,14 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
 
                         mTime = resource.data.dateTime;
 
+                        hideProgress();
+
                         setDataToViews();
                     }
 
                 } else if (resource.status == ParcResourceByParc.Status.ERROR) {
-
-                }
+                    hideProgress();
+                } else showProgress();
             }
         });
 
@@ -139,6 +147,18 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
         setStepsToAdapter();
     }
 
+    @MainThread
+    private void showProgress() {
+        allContent.setVisibility(View.INVISIBLE);
+        filterForProgress.setVisibility(View.VISIBLE);
+    }
+
+    @MainThread
+    private void hideProgress() {
+        filterForProgress.setVisibility(View.GONE);
+        allContent.setVisibility(View.VISIBLE);
+    }
+
     private void unitViews() {
         recyclerViewSteps.setLayoutManager(ChipsLayoutManager
                 .newBuilder(getActivity())
@@ -155,9 +175,9 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
         mStepsAdapter.withEventHook(initClickEventHook());
     }
 
-
     private ClickEventHook<StepViewItem> initClickEventHook() {
         return new ClickEventHook<StepViewItem>() {
+
             @Nullable
             @Override
             public List<View> onBindMany(@NonNull RecyclerView.ViewHolder viewHolder) {
@@ -184,13 +204,12 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
                         break;
                     case R.id.img_time:
 
-                        showTimerPicker(position);
+                        //showTimerPicker(position);
                         break;
                 }
             }
         };
     }
-
 
     private void setStepsToAdapter() {
 
@@ -237,7 +256,6 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
         mTimeDialog.setArguments(bundle);
         mTimeDialog.show(getFragmentManager(), "mTimeDialog");
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
