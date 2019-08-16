@@ -21,7 +21,9 @@ import id.zelory.compressor.Compressor;
 import static com.xando.chefsclub.Images.ImageUploader.Builder.DEF_TAG;
 
 public class ImageUploader {
+
     private static final String TAG = "ImageUploader";
+
     public int tag = DEF_TAG;
     private StorageTask<UploadTask.TaskSnapshot> mUploadTask;
     private Context mContext;
@@ -74,7 +76,6 @@ public class ImageUploader {
             startUploadImageTask(new File(mImagePath));
         }
     }
-
 
     private File compressImage() throws IOException {
 

@@ -22,6 +22,7 @@ import butterknife.OnClick;
 
 
 public class RestrictionCacheFragment extends BottomSheetDialogFragment {
+
     private static final String KEY_VALUES = "VALUES";
     private static final String KEY_CURR_INDEX = "CURR_INDEX";
 
@@ -113,5 +114,4 @@ public class RestrictionCacheFragment extends BottomSheetDialogFragment {
     protected void cancel() {
         dismiss();
     }
-
 }

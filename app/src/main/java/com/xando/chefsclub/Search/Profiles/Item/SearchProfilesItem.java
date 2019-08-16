@@ -13,6 +13,7 @@ import java.util.List;
 
 public class SearchProfilesItem extends AbstractItem<SearchProfilesItem, SubscriptionViewHolder>
         implements IData<ProfileData> {
+
     private ProfileData mProfileData;
 
     public SearchProfilesItem(ProfileData profileData) {

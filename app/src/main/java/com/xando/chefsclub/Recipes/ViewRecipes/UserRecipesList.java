@@ -12,6 +12,7 @@ import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.RecipesListFra
 
 
 public class UserRecipesList extends RecipesListFragment {
+
     private static final String KEY_USER_ID = "userId";
     private static final String KEY_SCROLL = "keyScroll";
 

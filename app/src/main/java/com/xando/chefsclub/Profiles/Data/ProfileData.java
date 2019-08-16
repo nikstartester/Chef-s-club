@@ -14,9 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfileData extends BaseData {
+
     public static final String GENDER_MALE = "Male";
     public static final String GENDER_FEMALE = "Female";
     public static final String GENDER_NONE = "none";
+
     public static final Creator<ProfileData> CREATOR = new Creator<ProfileData>() {
         @Override
         public ProfileData createFromParcel(Parcel source) {
@@ -28,6 +30,7 @@ public class ProfileData extends BaseData {
             return new ProfileData[size];
         }
     };
+
     public String firstName, secondName, login, gender;
     public String userUid;
     @Nullable
@@ -55,7 +58,6 @@ public class ProfileData extends BaseData {
         this.gender = gender;
         this.localImagePath = localImagePath;
     }
-
 
     protected ProfileData(Parcel in) {
         this.firstName = in.readString();

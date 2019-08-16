@@ -15,9 +15,12 @@ import butterknife.ButterKnife;
 
 
 public class ViewProfileActivityTest extends SingleFragmentActivity implements OnItemCountChanged {
+
     private final static String EXTRA_USER_ID = "userId";
+
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
+
     private String userid;
 
     public static Intent getIntent(Context context, String userId) {

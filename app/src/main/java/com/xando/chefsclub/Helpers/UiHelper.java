@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UiHelper {
+
     public static final int DURATION_NORMAL = 800;
     public static final int DURATION_SHORT = 400;
 

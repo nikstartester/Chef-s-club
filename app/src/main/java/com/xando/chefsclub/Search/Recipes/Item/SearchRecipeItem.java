@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 
 public class SearchRecipeItem extends AbstractItem<SearchRecipeItem, SearchRecipeItem.ViewHolder>
         implements IData<RecipeData> {
+
     private static final String TAG = "SearchRecipeItem";
 
     private RecipeData mRecipeData;

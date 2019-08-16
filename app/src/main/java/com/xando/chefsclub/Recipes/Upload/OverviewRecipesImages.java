@@ -10,6 +10,7 @@ import java.util.Map;
 
 
 class OverviewRecipesImages extends BaseData {
+
     public String mainImagePath;
 
     public List<String> imagePathsWithoutMainList = new ArrayList<>();

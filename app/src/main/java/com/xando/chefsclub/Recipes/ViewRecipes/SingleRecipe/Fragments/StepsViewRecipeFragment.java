@@ -75,12 +75,11 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
     private long mTime = Constants.ImageConstants.DEF_TIME;
 
     public static Fragment getInstance(@Nullable String recipeId) {
-
         Bundle bundle = new Bundle();
         bundle.putString(KEY_RECIPE_ID, recipeId);
-
         Fragment fragment = new StepsViewRecipeFragment();
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -176,9 +175,9 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
         mStepsAdapter.withEventHook(initClickEventHook());
     }
 
-
     private ClickEventHook<StepViewItem> initClickEventHook() {
         return new ClickEventHook<StepViewItem>() {
+
             @Nullable
             @Override
             public List<View> onBindMany(@NonNull RecyclerView.ViewHolder viewHolder) {
@@ -211,7 +210,6 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
             }
         };
     }
-
 
     private void setStepsToAdapter() {
 
@@ -258,7 +256,6 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
         mTimeDialog.setArguments(bundle);
         mTimeDialog.show(getFragmentManager(), "mTimeDialog");
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

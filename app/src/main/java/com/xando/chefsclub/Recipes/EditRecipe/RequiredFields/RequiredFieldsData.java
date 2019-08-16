@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.LinkedHashMap;
 
 public class RequiredFieldsData implements Parcelable {
+
     public LinkedHashMap<String, Boolean> fields;
 
     public RequiredFieldsData(LinkedHashMap<String, Boolean> fields) {

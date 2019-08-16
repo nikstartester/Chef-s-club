@@ -17,7 +17,9 @@ import com.timehop.stickyheadersrecyclerview.util.LinearLayoutOrientationProvide
 import com.timehop.stickyheadersrecyclerview.util.OrientationProvider;
 
 public class StickyHeadersDecoration extends RecyclerView.ItemDecoration {
+
     private static final String TAG = "StickyHeadersTouchListe";
+
     private final StickyRecyclerHeadersAdapter mAdapter;
     private final SparseArray<Rect> mHeaderRects = new SparseArray<>();
     private final HeaderProvider mHeaderProvider;

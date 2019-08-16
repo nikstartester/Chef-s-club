@@ -36,7 +36,6 @@ public class IngredientEntity implements Parcelable {
         this.time = time;
     }
 
-
     public void changeAvailable() {
         changeAvailable(!isAvailable);
     }
@@ -70,6 +69,7 @@ public class IngredientEntity implements Parcelable {
     }
 
     public static final Creator<IngredientEntity> CREATOR = new Creator<IngredientEntity>() {
+
         @Override
         public IngredientEntity createFromParcel(Parcel source) {
             return new IngredientEntity(source);

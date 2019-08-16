@@ -53,8 +53,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ViewShoppingListFragment extends Fragment implements ItemTouchCallback, SimpleSwipeCallback.ItemSwipeCallback {
+public class ViewShoppingListFragment extends Fragment
+        implements ItemTouchCallback, SimpleSwipeCallback.ItemSwipeCallback {
+
     private static final String TAG = "ViewShoppingListFragmen";
+
     private static final String KEY_INGREDIENT = "keyIngredient";
     private static final String KEY_RECIPE_ID = "keyRecipeId";
     private static final String KEY_DONT_SHOW_AGAIN_SWIPE_INFO = "DONT_SHOW_AGAIN_SWIPE_INFO";

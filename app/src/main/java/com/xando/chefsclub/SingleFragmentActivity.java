@@ -9,6 +9,7 @@ import io.reactivex.annotations.Nullable;
 
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
+
     public static final int CONTAINER_ID = R.id.fragment_container;
     public static final int LAYOUT_RES = R.layout.activity_fragment;
 

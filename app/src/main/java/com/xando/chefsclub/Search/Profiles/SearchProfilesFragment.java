@@ -26,6 +26,7 @@ import static com.xando.chefsclub.Search.Profiles.Filter.ProfileFilterData.FROM_
 import static com.xando.chefsclub.Search.Profiles.Filter.ProfileFilterData.FROM_SUBSCRIPTIONS;
 
 public class SearchProfilesFragment extends SearchListFragment<ProfileData, SearchProfilesItem, ProfileFilterData> {
+
     private static final String ALGOLIA_INDEX_NAME = "profiles";
 
     private PopupMenu mPopupMenu;
@@ -138,5 +139,4 @@ public class SearchProfilesFragment extends SearchListFragment<ProfileData, Sear
             return true;
         };
     }
-
 }

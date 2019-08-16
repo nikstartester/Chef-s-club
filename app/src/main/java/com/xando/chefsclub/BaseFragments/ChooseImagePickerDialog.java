@@ -18,6 +18,7 @@ import butterknife.OnClick;
 
 
 public class ChooseImagePickerDialog extends BottomSheetDialogFragment {
+
     public static final int RESULT_CODE_NEW_PHOTO_SELECTED = 127;
     public static final int RESULT_CODE_GALLERY_SELECTED = 128;
     public static final int RESULT_CODE_DELETE = 129;

@@ -15,6 +15,7 @@ import com.xando.chefsclub.R;
 import static com.xando.chefsclub.Recipes.Upload.NotificationsForUploadRecipe.O.CHANNEL_ID;
 
 class NotificationsForSyncFavorite {
+
     private static final int SMALL_ICON = R.drawable.ic_sync_blue_48dp;
 
     private static final int ONGOING_NOTIFICATION_ID = 2;
@@ -27,9 +28,9 @@ class NotificationsForSyncFavorite {
         return "Synchronization";
     }
 
-
     @TargetApi(26)
     static class O {
+
         static final String CHANNEL_ID = "Sync";
 
         public static void createNotification(Service context) {
@@ -73,6 +74,7 @@ class NotificationsForSyncFavorite {
 
     @TargetApi(25)
     public static class PreO {
+
         public static void createNotification(Service context) {
             // Create a notification.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)

@@ -53,9 +53,9 @@ import static com.xando.chefsclub.Login.LoginActivity.State.STATE_START_VERIFICA
 import static com.xando.chefsclub.Login.LoginActivity.State.STATE_START_VERIFICATION_WITH_CODE;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+
     private static final String TAG = "LoginActivity";
     private static final String KEY_VERIFY_IN_PROGRESS = "9671";
-
 
     @BindView(R.id.edt_phone)
     protected EditText edtPhone;
@@ -388,7 +388,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //Log.d(TAG, "startTimer: ");
     }
-
 
     private void setStandardStatusWithText(String text) {
         TextView status = findViewById(R.id.tv_status);

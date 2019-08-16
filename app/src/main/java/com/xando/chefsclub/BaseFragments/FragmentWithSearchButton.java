@@ -11,6 +11,7 @@ import com.xando.chefsclub.R;
 
 
 public abstract class FragmentWithSearchButton extends Fragment {
+
     private static final String TAG = "FragmentWithSearchButto";
 
     @Override
@@ -37,5 +38,4 @@ public abstract class FragmentWithSearchButton extends Fragment {
     }
 
     protected abstract void toSearch();
-
 }

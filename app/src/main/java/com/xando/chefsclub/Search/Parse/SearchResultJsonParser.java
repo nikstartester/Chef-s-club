@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SearchResultJsonParser<Data extends BaseData> {
+
     public List<Data> parseResults(JSONObject jsonObject) {
         if (jsonObject == null)
             return null;

@@ -262,7 +262,6 @@ public class FilterDialog extends BottomSheetDialogFragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     private void setCategoriesToRv() {
         mCategoriesAdapter.clear();
 

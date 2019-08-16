@@ -219,6 +219,7 @@ public class IngredientsViewItem extends AbstractItem<IngredientsViewItem, Ingre
     }
 
     public static class CheckBoxClickEvent extends ClickEventHook<IngredientsViewItem> {
+
         @Override
         public View onBind(@NonNull RecyclerView.ViewHolder viewHolder) {
             if (viewHolder instanceof IngredientsViewItem.ViewHolder) {

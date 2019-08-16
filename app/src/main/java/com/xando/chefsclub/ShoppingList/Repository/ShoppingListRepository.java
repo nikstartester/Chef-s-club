@@ -14,6 +14,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class ShoppingListRepository implements DataBaseLoader<IngredientEntity> {
+
     private final Application mApplication;
 
     private final MutableLiveData<List<IngredientEntity>> mLiveData;

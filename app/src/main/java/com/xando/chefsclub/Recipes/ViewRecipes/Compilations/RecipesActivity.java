@@ -25,9 +25,7 @@ public class RecipesActivity extends SingleFragmentActivity {
 
     public static Intent getIntent(Context context, CompilationData compilation) {
         Intent intent = new Intent(context, RecipesActivity.class);
-
         intent.putExtra(EXTRA_COMPILATION, compilation);
-
         return intent;
     }
 
@@ -40,7 +38,6 @@ public class RecipesActivity extends SingleFragmentActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(v -> super.onBackPressed());

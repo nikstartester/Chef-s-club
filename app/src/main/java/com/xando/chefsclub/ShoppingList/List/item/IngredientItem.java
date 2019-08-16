@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 
 public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.ViewHolder>
         implements ISwipeable<IngredientItem, IItem>, IDraggable<IngredientItem, IItem> {
+
     public final IngredientEntity entity;
     private TextView tvIngredient;
     private CheckBox checkBox;
@@ -167,6 +168,7 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         @BindView(R.id.checkBox)
         public CheckBox checkBox;
         @BindView(R.id.tv_ingredient)
@@ -179,7 +181,6 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
 
         @BindView(R.id.highlight)
         View root;
-
 
         Runnable swipedActionRunnable;
 

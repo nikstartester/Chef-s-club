@@ -9,6 +9,7 @@ import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.Item.RecipeIte
 import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.RecipesListFragment;
 
 public class BestMarkRecipesFragment extends RecipesListFragment {
+
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("recipes").orderByChild("tags/sortByStarTag");

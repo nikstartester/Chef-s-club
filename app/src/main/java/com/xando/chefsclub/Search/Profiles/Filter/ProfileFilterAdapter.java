@@ -7,6 +7,7 @@ import com.xando.chefsclub.Search.Core.FilterAdapter;
 import static com.xando.chefsclub.Search.Profiles.Filter.ProfileFilterData.FROM_SUBSCRIPTIONS;
 
 public class ProfileFilterAdapter extends FilterAdapter<ProfileFilterData> {
+
     @Override
     public FilterAdapter<ProfileFilterData> setEmptyData() {
         super.data = new ProfileFilterData();

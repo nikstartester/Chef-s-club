@@ -8,14 +8,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 
 public class RecipesCommentsFragment extends CommentsListFragment {
+
     private static final String KEY_RECIPE_ID = "keyRecipeId";
 
     public static Fragment getInstance(String recipeId) {
         Fragment fragment = new RecipesCommentsFragment();
-
         Bundle bundle = new Bundle();
         bundle.putString(KEY_RECIPE_ID, recipeId);
-
         fragment.setArguments(bundle);
 
         return fragment;

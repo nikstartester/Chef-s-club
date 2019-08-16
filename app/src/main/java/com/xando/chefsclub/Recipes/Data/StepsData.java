@@ -42,7 +42,6 @@ public class StepsData extends BaseData implements Cloneable {
         stepsOfCooking.remove(position);
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -53,7 +52,6 @@ public class StepsData extends BaseData implements Cloneable {
         dest.writeInt(this.timeMainNum);
         dest.writeTypedList(this.stepsOfCooking);
     }
-
 
     StepsData(Parcel in) {
         this.timeMainNum = in.readInt();

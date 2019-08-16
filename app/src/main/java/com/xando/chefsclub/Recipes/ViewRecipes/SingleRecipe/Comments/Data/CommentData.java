@@ -10,7 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommentData extends BaseData {
+
     public static final Creator<CommentData> CREATOR = new Creator<CommentData>() {
+
         @Override
         public CommentData createFromParcel(Parcel source) {
             return new CommentData(source);
@@ -21,6 +23,7 @@ public class CommentData extends BaseData {
             return new CommentData[size];
         }
     };
+
     public String commentId;
     public String text;
     public String authorId;
@@ -47,7 +50,6 @@ public class CommentData extends BaseData {
         this.recipeId = recipeId;
         this.date = date;
     }
-
 
     protected CommentData(Parcel in) {
         this.commentId = in.readString();

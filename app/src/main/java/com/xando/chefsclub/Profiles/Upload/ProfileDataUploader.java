@@ -25,17 +25,15 @@ import java.util.Map;
 
 
 public class ProfileDataUploader extends DataUploader<ProfileData> {
+
     private static final String TAG = "ProfileDataUploader";
 
-
     private final ProfileDataUploader.ProfileImageUploader mImageUploader;
-
 
     public ProfileDataUploader(Context context) {
         super();
         mImageUploader = new ProfileImageUploader(context);
     }
-
 
     @Override
     public void start() {
@@ -49,7 +47,6 @@ public class ProfileDataUploader extends DataUploader<ProfileData> {
 
         checkLoginExistAndStart();
     }
-
 
     private void checkLoginExistAndStart() {
         DatabaseReference ref = FirebaseReferences.getDataBaseReference();

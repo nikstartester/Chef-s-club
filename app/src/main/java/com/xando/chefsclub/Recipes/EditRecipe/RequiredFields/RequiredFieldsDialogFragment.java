@@ -25,6 +25,7 @@ import butterknife.OnClick;
 
 
 public class RequiredFieldsDialogFragment extends AppCompatDialogFragment {
+
     private static final String KEY_DATA = "DATA";
 
     private RequiredFieldsData mData;

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class ImageData implements Parcelable {
+
     public String imagePath;
 
     public final long lastUpdateTime;

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class NormalizeRecipeData {
+
     public static final String NAME_TEXT = "Name";
     public static final String INGREDIENTS_TEXT = "At least 2 unique ingredients";
     public static final String STEPS_TEXT = "At least 1 step of cooking";

@@ -45,7 +45,6 @@ public abstract class BaseRepository<Data extends BaseData> implements DataBaseL
     protected abstract Class<Data> getDataClass();
 
     public void loadData() {
-
         switch (mPriority) {
             case DATABASE_FIRST_AND_SERVER:
                 updateProgress(ParcResourceByParc.loading(null));

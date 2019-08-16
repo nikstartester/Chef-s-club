@@ -31,7 +31,6 @@ import butterknife.OnClick;
 
 public class SettingsFragment extends Fragment {
 
-
     @BindView(R.id.profile_image)
     protected ImageView profileImage;
     @BindView(R.id.profile_name)

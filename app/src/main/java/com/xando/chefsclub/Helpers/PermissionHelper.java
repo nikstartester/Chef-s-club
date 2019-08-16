@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
 public class PermissionHelper {
+
     private Fragment mFragment;
     private String[] mPermissions;
     private Activity mActivity;

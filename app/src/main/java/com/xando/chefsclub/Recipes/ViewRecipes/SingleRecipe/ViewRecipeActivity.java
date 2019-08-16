@@ -61,10 +61,12 @@ import static com.xando.chefsclub.Recipes.Repository.RecipeRepository.CHILD_RECI
 
 public class ViewRecipeActivity extends AppCompatActivity implements CommentsListFragment.OnUserAddedComment,
         CommentViewHolder.OnReplyComment, OnProgressListener, OnItemCountChanged, CommentsListFragment.OnReplyMessageClick {
+
+    private static final String TAG = "ViewRecipeActivity";
+
     public static final int RESULT_CODE_REMOVE_RECIPE = 152;
     public static final int RESULT_CODE_UNFAVORITE = 153;
     public static final String EXTRA_RECIPE_KEY = "recipe_key";
-    private static final String TAG = "ViewRecipeActivity";
     private static final String KEY_IS_IN_PROGRESS = "isProgress";
     private static final String KEY_RECIPE_DATA = "keyViewRecipeData";
     private static final String KEY_RECIPE_ID = "keyViewRecipeId";
@@ -73,22 +75,29 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
     private static final String EXTRA_RECIPE_ID = "recipeId";
     private static final String EXTRA_RECIPE_DATA = "recipeData";
     private static final String EXTRA_IS_CURR_USER_CREATE = "isCurrUser";
+
     private final ActualDataChecker<RecipeData> mDataChecker = new ActualRecipeDataChecker();
+
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
     @BindView(R.id.tab_layout)
     protected TabLayout tabLayout;
     @BindView(R.id.filter)
     protected View filterForProgress;
+
     @Nullable
     private String mRecipeId;
     @Nullable
     private RecipeData mRecipeData;
     private RecipeData mNotVisibleActualRecipeData;
+
     private boolean isInProgress;
+
     private RecipeViewModel mRecipeViewModel;
+
     private boolean isRecipeCreateCurrUser;
     private boolean isSaved;
+
     private Menu mMenu;
 
     private Boolean isRemovedFromServer = null;
@@ -112,7 +121,6 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
         intent.putExtra(EXTRA_IS_CURR_USER_CREATE, isRecipeCreateCurrUser);
         return intent;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

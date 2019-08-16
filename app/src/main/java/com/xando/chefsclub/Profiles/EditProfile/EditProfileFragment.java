@@ -61,6 +61,7 @@ import static com.xando.chefsclub.Constants.Constants.Login.KEY_IS_ALREADY_REGIS
 
 
 public class EditProfileFragment extends BaseFragmentWithImageChoose implements View.OnClickListener {
+
     public static final int MIN_CHAR_FOR_LOGIN = 5;
     private static final String KEY_GENDER = "gender";
     private static final String KEY_IMAGE_PATH = "imagePath";
@@ -350,8 +351,6 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
     private void showEmptyImage() {
         circularImageView.setImageResource(Constants.ImageConstants.DRAWABLE_ADD_PHOTO_PLACEHOLDER);
     }
-
-    ////////////////////////////////////////////////
 
     private void setImage(String imagePath, long lastTimeUpdate) {
         if (imagePath != null) {

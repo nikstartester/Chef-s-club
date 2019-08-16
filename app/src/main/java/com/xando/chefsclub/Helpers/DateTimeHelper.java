@@ -51,7 +51,6 @@ public class DateTimeHelper {
 
             df = DateTimeFormat.forPattern("HH:mm");
         }
-
         return dateTime.toString(df);
     }
 

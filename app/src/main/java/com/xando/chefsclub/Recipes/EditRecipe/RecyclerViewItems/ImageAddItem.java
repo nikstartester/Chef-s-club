@@ -15,6 +15,7 @@ import com.xando.chefsclub.R;
 import java.util.List;
 
 public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHolder> {
+
     private ImageData mImageData;
 
     private boolean isInUploadTask;

@@ -17,7 +17,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class IngredientsRepository implements DataBaseLoader<IngredientEntity> {
+
     private static final String TAG = "IngredientsRepository";
+
     private final WeakReference<Application> mApplicationWeakReference;
 
     private MutableLiveData<List<IngredientEntity>> mToLiveData;
@@ -25,7 +27,6 @@ public class IngredientsRepository implements DataBaseLoader<IngredientEntity> {
     private final CompositeDisposable mCompositeDisposable;
 
     private String mRecipeId;
-
 
     public IngredientsRepository(Application application) {
         mApplicationWeakReference = new WeakReference<>(application);

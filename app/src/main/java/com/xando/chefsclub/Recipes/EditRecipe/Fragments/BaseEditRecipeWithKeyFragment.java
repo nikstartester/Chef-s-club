@@ -11,6 +11,7 @@ import com.xando.chefsclub.Recipes.Data.StepsData;
 
 
 public abstract class BaseEditRecipeWithKeyFragment extends BaseFragmentWithImageChoose {
+
     static final String KEY_RECIPE_ID = "recipeId";
 
     @Nullable

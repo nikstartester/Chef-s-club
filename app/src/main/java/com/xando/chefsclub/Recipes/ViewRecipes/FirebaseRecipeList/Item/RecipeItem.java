@@ -20,5 +20,4 @@ public class RecipeItem extends AbsRecipeItem {
 
         super.bindToRecipe();
     }
-
 }

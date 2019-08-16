@@ -29,6 +29,7 @@ import butterknife.OnClick;
 
 
 public class ViewProfileFragment extends Fragment implements OnItemCountChanged {
+
     private static final String KEY_USER_ID = "keyId";
     private static final String KEY_PROFILE_DATA = "profileData";
 

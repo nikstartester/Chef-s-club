@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 
 
 public class ChooseIngredientDialog extends AppCompatDialogFragment implements View.OnClickListener {
+
     public static final String KEY_POSITION = "keyPosition";
     public static final String KEY_IS_CHECKED = "keyIsChecked";
     public static final String KEY_IS_CHECKED_CHANGED = "keyChanged";

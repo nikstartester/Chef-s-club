@@ -12,7 +12,9 @@ import com.xando.chefsclub.R;
 
 import java.util.List;
 
-public class ChipCategoryWithRemoveItem extends AbstractItem<ChipCategoryWithRemoveItem, ChipCategoryWithRemoveItem.ViewHolder> {
+public class ChipCategoryWithRemoveItem extends AbstractItem<ChipCategoryWithRemoveItem,
+        ChipCategoryWithRemoveItem.ViewHolder> {
+
     private static final int NORMAL_SIZE = 0;
     public static final int SMALL_SIZE = 1;
 

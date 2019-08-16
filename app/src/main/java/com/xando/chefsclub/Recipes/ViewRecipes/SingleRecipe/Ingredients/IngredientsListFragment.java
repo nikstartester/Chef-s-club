@@ -40,7 +40,9 @@ import butterknife.OnClick;
 
 
 public class IngredientsListFragment extends Fragment {
+
     private static final String TAG = "IngredientsListFragment";
+
     private static final int REQUEST_CODE_CHOOSE_INGREDIENT = 98;
     private static final String KEY_RECIPE_ID = "RECIPE_ID";
 
@@ -135,7 +137,6 @@ public class IngredientsListFragment extends Fragment {
 
         syncRemovedItemsAndHideProgress(changedPosList);
     }
-
 
     private void initViews() {
         recyclerViewIngredients.setLayoutManager(new LinearLayoutManager(getActivity()));

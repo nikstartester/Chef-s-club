@@ -11,7 +11,9 @@ import java.util.Map;
 
 
 public class RecipeImagesData extends BaseData {
+
     public static final Creator<RecipeImagesData> CREATOR = new Creator<RecipeImagesData>() {
+
         @Override
         public RecipeImagesData createFromParcel(Parcel source) {
             return new RecipeImagesData(source);
@@ -22,6 +24,7 @@ public class RecipeImagesData extends BaseData {
             return new RecipeImagesData[size];
         }
     };
+
     public String recipeKey;
     public OverviewRecipesImages overviewImages = new OverviewRecipesImages();
     public List<String> stepsImages = new ArrayList<>();

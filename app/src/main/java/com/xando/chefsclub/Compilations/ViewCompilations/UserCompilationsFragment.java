@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 
 
 public class UserCompilationsFragment extends Fragment {
+
     private static final String TAG = "UserCompilationsFragmen";
 
     @BindView(R.id.recycler_view)

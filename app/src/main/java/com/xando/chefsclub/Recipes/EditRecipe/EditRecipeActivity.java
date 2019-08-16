@@ -59,8 +59,9 @@ import static com.xando.chefsclub.Recipes.Repository.RecipeRepository.CHILD_RECI
 
 
 public class EditRecipeActivity extends AppCompatActivity {
-    public static final String KEY_OLD_IMAGES = "key_oldImages";
     private static final String TAG = "EditRecipeActivity";
+
+    public static final String KEY_OLD_IMAGES = "key_oldImages";
     private static final String KEY_IS_IN_PROGRESS = "isProgress";
     private static final String KEY_IS_SAVE_ON_LOCAL = "isSave";
     private static final String KEY_RECIPE_DATA = "KeyEditRecipeDate";

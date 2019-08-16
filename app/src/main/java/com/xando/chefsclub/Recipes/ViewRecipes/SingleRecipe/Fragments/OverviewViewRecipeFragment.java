@@ -79,7 +79,9 @@ import static com.xando.chefsclub.Helpers.UiHelper.DURATION_NORMAL;
 public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         implements View.OnClickListener, CommentsListFragment.OnUserAddedComment,
         CommentViewHolder.OnReplyComment, OnProgressListener, OnItemCountChanged, CommentsListFragment.OnReplyMessageClick {
+
     private static final String TAG = "OverviewEditRecipeFragm";
+
     private static final String KEY_REPLAY_PROCCESS = "key_replay_proccess";
     private static final String KEY_REPLAY_DATA = "key_replay_data";
 

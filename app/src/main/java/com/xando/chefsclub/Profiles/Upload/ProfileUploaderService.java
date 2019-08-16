@@ -11,7 +11,6 @@ import com.xando.chefsclub.Profiles.Data.ProfileData;
 
 public class ProfileUploaderService extends DataUploaderService<ProfileData> {
 
-
     public static Intent getIntent(Context context, ProfileData profileData) {
         Intent intent = new Intent(context, ProfileUploaderService.class);
         return intent.putExtra(EXTRA_DATA, profileData);

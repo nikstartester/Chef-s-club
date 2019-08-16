@@ -32,6 +32,7 @@ public class RecipeData extends BaseData implements Cloneable {
             return new RecipeData[size];
         }
     };
+
     public String recipeKey;
     public String authorUId;
     public int starCount;

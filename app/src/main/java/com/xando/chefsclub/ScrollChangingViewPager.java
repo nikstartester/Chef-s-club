@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 
 
 public class ScrollChangingViewPager extends ViewPager {
+
     private boolean isPagingEnabled = true;
 
     public ScrollChangingViewPager(Context context) {

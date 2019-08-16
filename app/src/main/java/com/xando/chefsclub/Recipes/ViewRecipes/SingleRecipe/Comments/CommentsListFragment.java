@@ -39,8 +39,10 @@ import butterknife.OnClick;
 
 
 public abstract class CommentsListFragment extends Fragment {
-    public static final int MAX_AT_START = 6;
+
     private static final String TAG = "CommentsListFragment";
+
+    public static final int MAX_AT_START = 6;
     private static final String KEY_IS_SHOWING_ALL = "key_is_showing_all";
 
     @BindView(R.id.recycler_view_more)
@@ -324,5 +326,4 @@ public abstract class CommentsListFragment extends Fragment {
     public interface OnReplyMessageClick {
         void onReplyMessageClick(Rect posInRv, String replyMesId);
     }
-
 }

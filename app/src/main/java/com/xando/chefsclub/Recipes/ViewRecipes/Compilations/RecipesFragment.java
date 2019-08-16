@@ -19,15 +19,14 @@ import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.RecipesListFra
 
 
 public class RecipesFragment extends RecipesListFragment {
+
     private static final String KEY_COMPILATION = "COMPILATION";
 
     private CompilationData mCompilation;
 
     public static Bundle getArguments(CompilationData compilation) {
         Bundle bundle = new Bundle();
-
         bundle.putParcelable(KEY_COMPILATION, compilation);
-
         return bundle;
     }
 
@@ -39,7 +38,6 @@ public class RecipesFragment extends RecipesListFragment {
             mCompilation = getArguments().getParcelable(KEY_COMPILATION);
         }
     }
-
 
     @Nullable
     @Override
@@ -59,6 +57,7 @@ public class RecipesFragment extends RecipesListFragment {
     }
 
     public class CompilationRecipeEventHook extends EventHookForRecipeItem<RecipeItem> {
+
         @Override
         protected void onPrepareMoreMenu(@NonNull PopupMenu popupMenu) {
             popupMenu.getMenu()

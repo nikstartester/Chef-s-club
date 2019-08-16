@@ -18,6 +18,7 @@ import java.util.List;
 
 public abstract class FirebaseListAdapter<T, I extends IItem> extends FastItemAdapter<I>
         implements FirebaseAdapter<T> {
+
     private static final String TAG = "FirebaseListAdapter";
     private final ObservableSnapshotArray<T> mSnapshots;
 

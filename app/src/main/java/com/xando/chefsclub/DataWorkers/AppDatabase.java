@@ -17,6 +17,7 @@ import com.xando.chefsclub.ShoppingList.db.IngredientsDao;
 @Database(entities = {ProfileEntity.class, RecipeEntity.class, RecipeToFavoriteEntity.class,
         IngredientEntity.class, CompilationEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
+
     public abstract ProfileDao profileDao();
 
     public abstract RecipeDao recipeDao();

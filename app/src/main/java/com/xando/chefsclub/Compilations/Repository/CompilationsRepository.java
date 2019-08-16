@@ -31,6 +31,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class CompilationsRepository implements DataBaseLoader<CompilationData>, DeletableData<CompilationData> {
+
     private final Application mApplication;
 
     @Nullable

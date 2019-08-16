@@ -29,6 +29,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 public abstract class BaseFragmentWithImageChoose extends Fragment {
+
     private static final int PERMISSION_REQUEST_CODE = 5;
     private static final int REQUEST_CODE_CHOOSE_MATISSE = 6;
     private static final int REQUEST_CODE_CHOOSE_DIALOG = 12;
@@ -47,7 +48,6 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
 
         mPermissionHelper = new PermissionHelper(this, mPermissions);
     }
-
 
     protected void showChooseDialog(int count, boolean withDelete) {
         this.mCount = count;

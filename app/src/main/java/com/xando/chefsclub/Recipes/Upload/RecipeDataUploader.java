@@ -23,6 +23,7 @@ import java.util.UUID;
 
 
 public class RecipeDataUploader extends DataUploader<RecipeData> {
+
     private static final String TAG = "RecipeDataUploader";
 
     private final BaseMultiImagesUploader mOverviewImagesUploader;
@@ -483,6 +484,4 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
             }
         }
     }
-
-
 }

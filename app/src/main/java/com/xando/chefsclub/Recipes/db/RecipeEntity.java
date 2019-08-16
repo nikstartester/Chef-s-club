@@ -23,7 +23,6 @@ public class RecipeEntity {
 
     public RecipeEntity(RecipeData recipeData) {
         updateData(recipeData);
-
     }
 
     private void updateData(RecipeData recipeData) {
@@ -59,20 +58,15 @@ public class RecipeEntity {
         return recipeData;
     }
 
-
     @PrimaryKey(autoGenerate = true)
     public long id;
 
     public boolean isNeedSync;
 
-
     @Embedded
     public RecipeData recipeData;
 
-    //////////////////////////////
-
     //OverviewData_START
-
     public String name;
 
     public String description;
@@ -90,22 +84,12 @@ public class RecipeEntity {
 
     @TypeConverters(AllImagePathConverter.class)
     public List<String> categories;
-
     //OverviewData_END
 
-
-///////////////////////////////////
-
-
     //StepsData_START
-
     public int timeMainNum;
 
     @TypeConverters(StepsOfCookingConverter.class)
     public List<StepOfCooking> stepsOfCooking;
-
     //StepsData_END
-
-
-    /////////////////////
 }

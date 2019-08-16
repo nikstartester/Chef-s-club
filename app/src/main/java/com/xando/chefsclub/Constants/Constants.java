@@ -7,7 +7,9 @@ import com.xando.chefsclub.R;
 import java.io.File;
 
 public final class Constants {
+
     public static final class Files {
+
         public static final String TEMPORARY_FILES_FOLDER_NAME = "temporary_files";
         public static final String EDIT_RECIPES_FOLDER_NAME = "edit_recipes";
         public static final String EDIT_PROFILES_FOLDER_NAME = "edit_profiles";
@@ -49,6 +51,7 @@ public final class Constants {
     }
 
     public static final class Settings {
+
         public static final String APP_PREFERENCES = "mysettings";
 
         public static final String MAX_IMAGE_CACHE_SIZE = "maxImageCacheSize";
@@ -63,28 +66,28 @@ public final class Constants {
     }
 
     public static final class ImageConstants {
+
         public static final String FIREBASE_STORAGE_AT_START = "fbs_chef's_club_images";
 
         public static final int RESIZE_PROFILE_SMALL_IMAGE_SIZE = 156;
         public static final int RESIZE_PROFILE_NORMAL_IMAGE_SIZE = 720;
 
         public static final int DRAWABLE_ERROR = R.drawable.ic_add_a_photo_blue_1080dp;
-
         public static final int DRAWABLE_ADD_PHOTO_PLACEHOLDER = R.drawable.ic_add_a_photo_blue_1080dp;
-
         public static final int PLACEHOLDER = R.color.image_placeholder;
 
         public static final long DEF_TIME = -1354;
     }
 
     public static final class Login {
+
         public static final String KEY_IS_ALREADY_REGISTERED = "com.xando.chefsclub." +
                 "Constants.isAlreadyRegistered";
     }
 
     public static final class AlgoliaSearch {
+
         public static final String ALGOLIA_APP_ID = "WTD7CAVR1C";
         public static final String ALGOLIA_SEARCH_API_KEY = "cc9dd431ad0646ca03f9a7d0b85a426f";
     }
-
 }

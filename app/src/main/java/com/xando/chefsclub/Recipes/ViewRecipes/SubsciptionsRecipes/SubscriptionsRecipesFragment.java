@@ -32,6 +32,7 @@ import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
 
 
 public class SubscriptionsRecipesFragment extends RecipeEventHookFragment {
+
     private static final String TAG = "SubscriptionsRecipesFra";
 
     @BindView(R.id.rv_allRecipes)

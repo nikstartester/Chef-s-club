@@ -65,7 +65,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     protected TextView replyProfileName;
     private CommentData commentData;
 
-
     public CommentViewHolder(View itemView) {
         super(itemView);
 

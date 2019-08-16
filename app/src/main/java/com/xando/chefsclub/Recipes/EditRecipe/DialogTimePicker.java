@@ -18,12 +18,13 @@ import com.xando.chefsclub.R;
 
 
 public class DialogTimePicker extends BottomSheetDialogFragment implements View.OnClickListener {
+    private static final String TAG = "DialogTimePicker";
+
     public static final int NOT_SELECTED = -1;
     public static final String SELECTED_TIME = "selectedTime";
     public static final String SELECTED_ITEM = "selectedItem";
     public static final int RESULT_CODE_TIME_SELECTED = 90;
     public static final int RESULT_CODE_TIME_CLEAR = 92;
-    private static final String TAG = "DialogTimePicker";
     private static final String TIME_LIMITS = "timeLimits";
     private static final int RESULT_CODE_TIME_CANCELED = 91;
     private static final String DEF_TIME = "defTime";
@@ -31,6 +32,7 @@ public class DialogTimePicker extends BottomSheetDialogFragment implements View.
     private static final int ITEM_MAX = 1;
     private static final int DEF_MAX_HOURS = 72, DEF_MAX_MINUTES = 60;
     private static final int DEF_MIN_HOURS = 0, DEF_MIN_MINUTES = 0;
+
     private NumberPicker numberPickerHours;
     private NumberPicker numberPickerMinutes;
     private TimeLimits mLimits;

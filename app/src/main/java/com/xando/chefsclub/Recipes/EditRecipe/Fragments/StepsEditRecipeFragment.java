@@ -46,10 +46,12 @@ import static com.xando.chefsclub.Recipes.EditRecipe.DialogTimePicker.NOT_SELECT
 public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         implements View.OnClickListener, BaseEditRecipeWithKeyFragment.StepsDataSender {
 
-    public static final int MAX_STEPS = 15;
     private static final String TAG = "StepsEditRecipeFragment";
+
+    public static final int MAX_STEPS = 15;
     private static final int REQUEST_CODE_TIME_PECKER = 7;
     private static final int POSITION_MAIN = -1;
+
     @BindView(R.id.tv_timeMain)
     protected TextView tvTimeMain;
 

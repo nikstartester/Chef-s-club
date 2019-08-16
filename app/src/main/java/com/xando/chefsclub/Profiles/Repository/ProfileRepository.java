@@ -30,7 +30,6 @@ public class ProfileRepository extends BaseRepository<ProfileData> {
         return repository.new Builder();
     }
 
-
     @Override
     public void loadDataFromDB() {
 
@@ -65,7 +64,6 @@ public class ProfileRepository extends BaseRepository<ProfileData> {
     protected BaseLocalDataSaver<ProfileData> getDefSaverIfRowExistInDB() {
         return new LocalUserProfileSaver(mApplication);
     }
-
 
     public class Builder extends BaseRepository<ProfileData>.Builder {
 

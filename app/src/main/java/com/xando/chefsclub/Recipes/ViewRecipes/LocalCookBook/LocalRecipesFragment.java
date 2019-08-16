@@ -38,7 +38,9 @@ import butterknife.ButterKnife;
 
 
 public class LocalRecipesFragment extends RecipeEventHookFragment {
+
     private static final String TAG = "LocalRecipesFragment";
+
     private final ActualRecipeDataChecker mDataChecker = new ActualRecipeDataChecker();
 
     @BindView(R.id.rv_allRecipes)
@@ -279,5 +281,4 @@ public class LocalRecipesFragment extends RecipeEventHookFragment {
 
         dialog.show();
     }
-
 }

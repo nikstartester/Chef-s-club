@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 abstract class BaseMultiImagesUploader {
+
     final Context context;
 
     BaseMultiImagesUploader(Context context) {

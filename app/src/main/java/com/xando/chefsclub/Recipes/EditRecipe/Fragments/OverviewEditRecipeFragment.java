@@ -57,9 +57,11 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         implements View.OnClickListener, BaseEditRecipeWithKeyFragment.OverviewDataSender,
         BaseEditRecipeWithKeyFragment.IsSaveOnLocal {
 
-    public static final int MAX_ADAPTER_PHOTOS = 6;
     private static final String TAG = "OverviewEditRecipeFragm";
+
     private static final int REQUEST_CODE_CHOOSE_CATEGORIES = 89;
+    public static final int MAX_ADAPTER_PHOTOS = 6;
+
     @BindView(R.id.imgView_main)
     protected ImageView imageView;
 
@@ -93,7 +95,6 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     @BindView(R.id.saved_on_device_content)
     protected View savedOnLocalContent;
 
-
     private FastItemAdapter<IngredientsAddItem> mIngredientsAdapter;
     private FastItemAdapter<ImageAddItem> mImagesAdapter;
     private FastItemAdapter<ChipCategoryWithRemoveItem> mCategoriesAdapter;
@@ -119,7 +120,6 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         fragment.setArguments(bundle);
         return fragment;
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
