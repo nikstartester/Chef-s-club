@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 public abstract class DataUploader<Data extends BaseData> implements ProgressUpdate<Data> {
+
     private static final String TAG = "DataUploader";
 
     protected Data mData;

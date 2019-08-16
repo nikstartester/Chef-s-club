@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ViewShoppingListActivity extends SingleFragmentActivity {
+
     private static final String EXTRA_INGREDIENT = "ExtraIngr";
     private static final String EXTRA_RECIPE_ID = "extraRecipeId";
 

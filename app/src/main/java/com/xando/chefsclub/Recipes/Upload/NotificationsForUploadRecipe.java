@@ -30,9 +30,9 @@ class NotificationsForUploadRecipe {
         return "Upload recipe";
     }
 
-
     @TargetApi(26)
     public static class O {
+
         public static final String CHANNEL_ID = "uploadRecipe";
 
         public static void createNotification(Service context) {
@@ -76,6 +76,7 @@ class NotificationsForUploadRecipe {
 
     @TargetApi(25)
     public static class PreO {
+
         public static void createNotification(Service context) {
             // Create a notification.
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)

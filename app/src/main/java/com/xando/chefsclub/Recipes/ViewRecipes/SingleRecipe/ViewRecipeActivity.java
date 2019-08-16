@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -25,6 +26,8 @@ import com.xando.chefsclub.App;
 import com.xando.chefsclub.Compilations.AddRecipe.AddToCompilationDialogFragment;
 import com.xando.chefsclub.DataWorkers.ActualDataChecker;
 import com.xando.chefsclub.DataWorkers.BaseRepository;
+import com.xando.chefsclub.DataWorkers.OnItemCountChanged;
+import com.xando.chefsclub.DataWorkers.OnProgressListener;
 import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
 import com.xando.chefsclub.Helpers.NetworkHelper;
 import com.xando.chefsclub.R;
@@ -57,13 +60,13 @@ import static com.xando.chefsclub.Recipes.Repository.RecipeRepository.CHILD_RECI
 
 
 public class ViewRecipeActivity extends AppCompatActivity implements CommentsListFragment.OnUserAddedComment,
-        CommentViewHolder.OnReplyComment {
+        CommentViewHolder.OnReplyComment, OnProgressListener, OnItemCountChanged, CommentsListFragment.OnReplyMessageClick {
+
     private static final String TAG = "ViewRecipeActivity";
 
     public static final int RESULT_CODE_REMOVE_RECIPE = 152;
     public static final int RESULT_CODE_UNFAVORITE = 153;
     public static final String EXTRA_RECIPE_KEY = "recipe_key";
-
     private static final String KEY_IS_IN_PROGRESS = "isProgress";
     private static final String KEY_RECIPE_DATA = "keyViewRecipeData";
     private static final String KEY_RECIPE_ID = "keyViewRecipeId";
@@ -73,6 +76,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
     private static final String EXTRA_RECIPE_DATA = "recipeData";
     private static final String EXTRA_IS_CURR_USER_CREATE = "isCurrUser";
 
+    private final ActualDataChecker<RecipeData> mDataChecker = new ActualRecipeDataChecker();
 
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
@@ -81,10 +85,8 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
     @BindView(R.id.filter)
     protected View filterForProgress;
 
-
     @Nullable
     private String mRecipeId;
-
     @Nullable
     private RecipeData mRecipeData;
     private RecipeData mNotVisibleActualRecipeData;
@@ -95,8 +97,6 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
 
     private boolean isRecipeCreateCurrUser;
     private boolean isSaved;
-
-    private final ActualDataChecker<RecipeData> mDataChecker = new ActualRecipeDataChecker();
 
     private Menu mMenu;
 
@@ -121,7 +121,6 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
         intent.putExtra(EXTRA_IS_CURR_USER_CREATE, isRecipeCreateCurrUser);
         return intent;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -391,6 +390,33 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
     }
 
     @Override
+    public void onItemCountChanged(int itemCount) {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof OnItemCountChanged) {
+                ((OnItemCountChanged) fragment).onItemCountChanged(itemCount);
+            }
+        }
+    }
+
+    @Override
+    public void onProgressChanged(ParcResourceByParc.Status status) {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof OnProgressListener) {
+                ((OnProgressListener) fragment).onProgressChanged(status);
+            }
+        }
+    }
+
+    @Override
+    public void onReplyMessageClick(Rect posInRv, String replyMesId) {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof CommentsListFragment.OnReplyMessageClick) {
+                ((CommentsListFragment.OnReplyMessageClick) fragment).onReplyMessageClick(posInRv, replyMesId);
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
@@ -428,7 +454,8 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
         int id = item.getItemId();
         switch (id) {
             case R.id.act_edit:
-                startActivity(EditRecipeActivity.getIntent(this, mRecipeData));
+                startActivity(EditRecipeActivity.getIntent(this, mRecipeData)
+                        .addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                 break;
             case R.id.act_open_shopping_list:
                 startActivity(ViewShoppingListActivity.getIntent(this, mRecipeId)
@@ -553,21 +580,21 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
     @MainThread
     private void showProgress() {
         isInProgress = true;
-        if (filterForProgress != null) {
+        /*if (filterForProgress != null) {
             findViewById(R.id.img_white).setVisibility(View.VISIBLE);
-            findViewById(R.id.img_fun).setVisibility(View.VISIBLE);
+            //findViewById(R.id.img_fun).setVisibility(View.VISIBLE);
             filterForProgress.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 
     @MainThread
     private void hideProgress() {
         isInProgress = false;
-        if (filterForProgress != null) {
+        /*if (filterForProgress != null) {
             filterForProgress.setVisibility(View.INVISIBLE);
-            findViewById(R.id.img_fun).setVisibility(View.GONE);
+            //findViewById(R.id.img_fun).setVisibility(View.GONE);
             findViewById(R.id.img_white).setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override

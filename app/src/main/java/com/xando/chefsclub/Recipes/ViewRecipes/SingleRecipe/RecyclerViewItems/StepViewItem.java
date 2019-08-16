@@ -98,10 +98,8 @@ public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         final TextView text;
-
         final ImageView image;
         final ImageView imageTime;
-
         final TextView time;
 
         ViewHolder(View itemView) {

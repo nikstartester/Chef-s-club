@@ -13,6 +13,7 @@ import static com.xando.chefsclub.Search.Recipes.Filter.RecipeFilterData.FROM_MY
 import static com.xando.chefsclub.Search.Recipes.Filter.RecipeFilterData.FROM_SUBSCRIPTIONS;
 
 public class RecipeFilterAdapter extends FilterAdapter<RecipeFilterData> {
+
     private static final String TAG = "RecipeFilterAdapter";
 
     public RecipeFilterAdapter() {

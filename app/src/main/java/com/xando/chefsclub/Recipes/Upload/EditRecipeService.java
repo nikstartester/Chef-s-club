@@ -15,6 +15,7 @@ import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
 
 
 public class EditRecipeService extends DataUploaderService<RecipeData> {
+
     private static final String TAG = "EditRecipeService";
 
     public static Intent getIntent(Context context, RecipeData recipeData) {

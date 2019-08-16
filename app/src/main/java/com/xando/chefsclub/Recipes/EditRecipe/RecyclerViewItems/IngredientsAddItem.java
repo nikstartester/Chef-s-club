@@ -12,7 +12,9 @@ import com.xando.chefsclub.R;
 import java.util.List;
 
 
-public class IngredientsAddItem extends AbstractItem<IngredientsAddItem, IngredientsAddItem.ViewHolder> {
+public class IngredientsAddItem extends AbstractItem<IngredientsAddItem,
+        IngredientsAddItem.ViewHolder> {
+
     private EditText edtIngredient;
     private final String ingredient;
     private final boolean isFocusOnBind;

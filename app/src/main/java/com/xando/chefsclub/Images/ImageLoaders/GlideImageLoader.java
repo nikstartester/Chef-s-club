@@ -16,6 +16,7 @@ import com.xando.chefsclub.GlideRequest;
 import com.xando.chefsclub.Images.ImageData.ImageData;
 
 public class GlideImageLoader implements ImageLoader {
+
     private static final int NORMAL_SIZE = -12;
     private static final long DEF_TIME = Constants.ImageConstants.DEF_TIME;
 
@@ -90,7 +91,6 @@ public class GlideImageLoader implements ImageLoader {
                 imageData.lastUpdateTime);
     }
 
-
     public void loadCircularImage(Context context, int resizeX, int resizeY, ImageView imageView, String imagePath, long time) {
         getCacheBuilder(
                 getResizeBuilder(getBaseBuilder(context, imagePath), resizeX, resizeY),
@@ -99,7 +99,6 @@ public class GlideImageLoader implements ImageLoader {
                 .apply(RequestOptions.circleCropTransform())
                 .into(imageView);
     }
-
 
     private GlideRequest<Drawable> getCacheBuilder(GlideRequest<Drawable> glideRequest, long time) {
         return glideRequest.skipMemoryCache(false)

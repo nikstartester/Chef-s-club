@@ -9,6 +9,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 
 public abstract class SingleChangingFragmentActivity extends SingleFragmentActivity {
+
     private static final String KEY_TITLE = "TITLE";
     private static final String KEY_START_TITLE = "START_TITLE";
 
@@ -46,7 +47,6 @@ public abstract class SingleChangingFragmentActivity extends SingleFragmentActiv
 
         setTitle(title);
     }
-
 
     private void changeFragment(@NonNull Fragment fragment, String title, boolean isAddToBackStack) {
         FragmentTransaction ftrans = getSupportFragmentManager().beginTransaction();

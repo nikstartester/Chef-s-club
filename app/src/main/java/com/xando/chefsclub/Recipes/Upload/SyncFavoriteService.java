@@ -19,7 +19,6 @@ public class SyncFavoriteService extends Service {
     public SyncFavoriteService() {
     }
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -38,8 +37,6 @@ public class SyncFavoriteService extends Service {
                     }
                     stopSelf();
                 });
-
-
         return super.onStartCommand(intent, flags, startId);
     }
 

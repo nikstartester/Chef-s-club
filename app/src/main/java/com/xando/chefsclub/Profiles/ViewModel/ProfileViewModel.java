@@ -18,6 +18,7 @@ import static com.xando.chefsclub.Profiles.Repository.ProfileRepository.CHILD_US
 
 
 public class ProfileViewModel extends AndroidViewModel {
+
     private static final String TAG = "ProfileViewModel";
 
     private MutableLiveData<ParcResourceByParc<ProfileData>> mResourceLiveData;

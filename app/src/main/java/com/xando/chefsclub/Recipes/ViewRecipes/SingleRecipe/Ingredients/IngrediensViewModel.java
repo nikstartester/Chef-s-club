@@ -11,6 +11,7 @@ import java.util.List;
 
 
 public class IngrediensViewModel extends AndroidViewModel {
+
     private MutableLiveData<List<IngredientEntity>> mIngrLiveData;
 
     private final IngredientsRepository mRepository;

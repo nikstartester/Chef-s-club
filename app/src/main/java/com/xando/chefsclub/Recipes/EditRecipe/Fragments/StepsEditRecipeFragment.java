@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.mikepenz.fastadapter.FastAdapter;
@@ -47,8 +48,8 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
 
     private static final String TAG = "StepsEditRecipeFragment";
 
+    public static final int MAX_STEPS = 15;
     private static final int REQUEST_CODE_TIME_PECKER = 7;
-
     private static final int POSITION_MAIN = -1;
 
     @BindView(R.id.tv_timeMain)
@@ -185,7 +186,7 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_addStep:
-                addEmptyStep(true);
+                onAddSteps();
                 break;
             case R.id.btn_chooseTimeMain:
                 showTimerPicker(POSITION_MAIN);
@@ -193,6 +194,17 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
             case R.id.imgView_chooseTimeMain:
                 showTimerPicker(POSITION_MAIN);
                 break;
+        }
+    }
+
+    private void onAddSteps() {
+        int stepsCount = mStepsAdapter.getAdapterItemCount();
+
+        if (MAX_STEPS - stepsCount > 0) {
+            addEmptyStep(true);
+        } else {
+            String m = "Maximum steps is " + MAX_STEPS;
+            Toast.makeText(getActivity(), m, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -225,16 +237,10 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
                     case R.id.img_image:
                         mCurrentPosition = position;
                         item.setFocus();
-                        StepsEditRecipeFragment.super.showChooseDialog(1);
+                        StepsEditRecipeFragment.super.showChooseDialog(1, isHavePhoto());
                         break;
                     case R.id.img_btn_remove:
-                        StepsEditRecipeFragment.super.
-                                addToDeleteIfCapture(mStepsData.stepsOfCooking.get(position).imagePath);
-
-                        item.removeImage();
-                        mStepsData.stepsOfCooking.get(position).imagePath = null;
-
-                        StepsEditRecipeFragment.super.deleteOldCaptures();
+                        removeImage(position);
                         break;
                     case R.id.img_time:
                         showTimerPicker(position);
@@ -254,6 +260,20 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         };
     }
 
+    private void removeImage(int position) {
+        StepsEditRecipeFragment.super.
+                addToDeleteIfCapture(mStepsData.stepsOfCooking.get(position).imagePath);
+
+        mStepsAdapter.getAdapterItem(position).removeImage();
+        mStepsData.stepsOfCooking.get(position).imagePath = null;
+
+        StepsEditRecipeFragment.super.deleteOldCaptures();
+    }
+
+    private boolean isHavePhoto() {
+        return mStepsData.stepsOfCooking.get(mCurrentPosition).imagePath != null;
+    }
+
     @Override
     protected void onGalleryFinish(List<Uri> selected) {
         final String imagePath = MatisseHelper.getRealPathFromURIPath(getActivity(), selected.get(0));
@@ -265,6 +285,11 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         setImageToCurrentPosition(imagePath);
 
         super.deleteOldCaptures();
+    }
+
+    @Override
+    protected void onDeleteImage() {
+        removeImage(mCurrentPosition);
     }
 
     private void setStepsToAdapter() {

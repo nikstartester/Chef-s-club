@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class SubscriptionsRecipesRepository {
+
     private static final String TAG = "SubscriptionsRecipesRep";
 
     private volatile long userCount = 0;

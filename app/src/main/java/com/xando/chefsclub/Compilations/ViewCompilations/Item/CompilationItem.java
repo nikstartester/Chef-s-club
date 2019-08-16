@@ -34,7 +34,6 @@ public class CompilationItem extends AbstractItem<CompilationItem, CompilationIt
         return new ViewHolder(v);
     }
 
-
     @Override
     public void bindView(ViewHolder holder, List<Object> payloads) {
         super.bindView(holder, payloads);

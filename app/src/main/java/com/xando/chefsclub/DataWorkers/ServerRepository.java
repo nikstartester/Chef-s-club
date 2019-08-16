@@ -15,6 +15,7 @@ import com.xando.chefsclub.Profiles.Repository.Exceptions.NothingFoundException;
 
 public abstract class ServerRepository<Data extends BaseData> implements
         ProgressUpdate<Data>, ServerLoader, DataBaseSaver<Data> {
+
     private static final String TAG = "ServerRepository";
 
     private MutableLiveData<ParcResourceByParc<Data>> resData;
@@ -49,7 +50,6 @@ public abstract class ServerRepository<Data extends BaseData> implements
 
         loadData();
     }
-
 
     @Override
     public void updateProgress(ParcResourceByParc<Data> resource) {

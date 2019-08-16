@@ -11,6 +11,7 @@ import static com.xando.chefsclub.Recipes.EditRecipe.DialogTimePicker.NOT_SELECT
 import static com.xando.chefsclub.Recipes.db.RecipeEntity.EMPTY_FIELD;
 
 public class StepsOfCookingConverter {
+
     private static final String STR_CONVERTER_SYMBOL = "//sAnd//";
     private static final String STEP_FIELDS_SYMBOL = "/&s&/";
 
@@ -37,7 +38,6 @@ public class StepsOfCookingConverter {
 
         return steps;
     }
-
 
     private static String stingConverter(List<StepOfCooking> data) {
         StringBuilder str = new StringBuilder();

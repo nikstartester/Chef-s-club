@@ -12,6 +12,7 @@ import java.util.List;
 
 
 public class SubscriptionsRecipesViewModel extends AndroidViewModel {
+
     private MutableLiveData<List<RecipeIdData>> data;
 
     public SubscriptionsRecipesViewModel(@NonNull Application application) {

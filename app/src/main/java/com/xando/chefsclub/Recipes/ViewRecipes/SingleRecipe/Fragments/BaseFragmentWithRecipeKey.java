@@ -19,5 +19,4 @@ public abstract class BaseFragmentWithRecipeKey extends Fragment {
             recipeId = getArguments().getString(KEY_RECIPE_ID);
         }
     }
-
 }

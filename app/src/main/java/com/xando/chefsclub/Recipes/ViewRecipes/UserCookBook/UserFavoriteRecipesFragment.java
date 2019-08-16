@@ -11,6 +11,7 @@ import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.RecipesListFra
 
 
 public class UserFavoriteRecipesFragment extends RecipesListFragment {
+
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("recipes").orderByChild("stars/" + FirebaseHelper.getUid())

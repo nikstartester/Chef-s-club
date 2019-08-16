@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchRecipesFragmentTest extends SearchListFragment<RecipeData, SearchRecipeItem, RecipeFilterData> {
+
     private static final String ALGOLIA_INDEX_NAME = "recipes";
     private static final int REQUEST_CODE_FILTER = 7;
 

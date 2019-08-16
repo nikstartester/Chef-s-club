@@ -12,6 +12,7 @@ import java.util.List;
 
 
 public class IngredientsViewModel extends AndroidViewModel {
+
     private MutableLiveData<List<IngredientEntity>> mIngredientsLiveData;
 
     public IngredientsViewModel(@NonNull Application application) {

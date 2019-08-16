@@ -19,7 +19,6 @@ public class RecipeViewModel extends AndroidViewModel {
 
     private MutableLiveData<ParcResourceByParc<RecipeData>> mResourceLiveData;
 
-
     public RecipeViewModel(@NonNull Application application) {
         super(application);
     }
@@ -53,7 +52,6 @@ public class RecipeViewModel extends AndroidViewModel {
                 .build()
                 .loadData();
     }
-
 
     public MutableLiveData<ParcResourceByParc<RecipeData>> getResourceLiveData() {
         if (mResourceLiveData == null) {

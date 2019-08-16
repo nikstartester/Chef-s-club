@@ -76,6 +76,7 @@ public class ImageViewItem extends AbstractItem<ImageViewItem, ImageViewItem.Vie
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         final ImageView imageView;
         final ProgressBar progressBar;
 

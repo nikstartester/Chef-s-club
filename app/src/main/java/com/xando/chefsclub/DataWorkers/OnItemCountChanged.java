@@ -1,5 +1,6 @@
-package com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList;
+package com.xando.chefsclub.DataWorkers;
 
 public interface OnItemCountChanged {
+
     void onItemCountChanged(int itemCount);
 }

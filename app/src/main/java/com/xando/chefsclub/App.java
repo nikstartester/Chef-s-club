@@ -22,6 +22,7 @@ import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
 
 
 public class App extends Application {
+
     private static Context context;
     private RefWatcher refWatcher;
 
@@ -95,5 +96,4 @@ public class App extends Application {
     public static Context getAppContext() {
         return context;
     }
-
 }

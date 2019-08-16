@@ -3,7 +3,9 @@ package com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments;
 
 import android.animation.LayoutTransition;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,8 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.xando.chefsclub.App;
 import com.xando.chefsclub.Constants.Constants;
 import com.xando.chefsclub.DataWorkers.BaseRepository;
+import com.xando.chefsclub.DataWorkers.OnItemCountChanged;
+import com.xando.chefsclub.DataWorkers.OnProgressListener;
 import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
 import com.xando.chefsclub.Helpers.DateTimeHelper;
 import com.xando.chefsclub.Helpers.FirebaseHelper;
@@ -74,8 +78,13 @@ import static com.xando.chefsclub.Helpers.UiHelper.DURATION_NORMAL;
 
 public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         implements View.OnClickListener, CommentsListFragment.OnUserAddedComment,
-        CommentViewHolder.OnReplyComment {
+        CommentViewHolder.OnReplyComment, OnProgressListener, OnItemCountChanged, CommentsListFragment.OnReplyMessageClick {
+
     private static final String TAG = "OverviewEditRecipeFragm";
+
+    private static final String KEY_REPLAY_PROCCESS = "key_replay_proccess";
+    private static final String KEY_REPLAY_DATA = "key_replay_data";
+
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private final List<YoYo.YoYoString> mAnimations = new ArrayList<>();
 
@@ -107,8 +116,8 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
     protected NestedScrollView scrollView;
     @BindView(R.id.comment_send)
     protected ImageButton sendComment;
-    @BindView(R.id.comment_progress)
-    protected ProgressBar progressComment;
+    @BindView(R.id.comment_upload_progress)
+    protected ProgressBar progressSendComment;
     @BindView(R.id.tv_time)
     protected TextView tvTime;
 
@@ -122,6 +131,26 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
     protected View ingredientsContent;
     @BindView(R.id.comments_content)
     protected View commentsContent;
+    @BindView(R.id.container_comments)
+    protected View commentsContainer;
+
+    @BindView(R.id.filter)
+    protected View filterForProgress;
+
+    @BindView(R.id.all_content)
+    protected View allContent;
+
+    @BindView(R.id.progress_comment)
+    protected View progressDownloadComments;
+
+    @BindView(R.id.comments_count)
+    protected TextView commentsCount;
+    @BindView(R.id.conteiner_reply)
+    protected View replyContent;
+    @BindView(R.id.reply_comment_pofile_name)
+    protected TextView replayUserName;
+    @BindView(R.id.reply_comment_text)
+    protected TextView replayText;
 
     private FastItemAdapter<ImageViewItem> mImagesAdapter;
     private FastItemAdapter<ChipCategoryItem> mCategoriesAdapter;
@@ -135,6 +164,9 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
 
     private String mAuthorId;
     private boolean isCommentInProgress;
+    private boolean isReplyProccess;
+
+    private CommentData mReplyComment;
 
     public static Fragment getInstance(@Nullable final String recipeId) {
 
@@ -182,10 +214,10 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
             if (resource != null) {
                 if (resource.status == ParcResourceByParc.Status.SUCCESS) {
                     onSuccessLoaded(resource);
-
                 } else if (resource.status == ParcResourceByParc.Status.ERROR) {
                     onErrorLoaded(resource);
-                }
+                    hideProgress();
+                } else showProgress();
             }
         });
 
@@ -207,6 +239,19 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
             }
         });
 
+        if (savedInstanceState != null) {
+            isReplyProccess = savedInstanceState.getBoolean(KEY_REPLAY_PROCCESS);
+
+            if (isReplyProccess) {
+                mReplyComment = savedInstanceState.getParcelable(KEY_REPLAY_DATA);
+
+                if (mReplyComment != null) {
+                    showReplay(mReplyComment);
+                }
+            }
+
+        }
+
         return view;
 
     }
@@ -215,7 +260,7 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         assert resource.data != null;
 
         if (mTime == Constants.ImageConstants.DEF_TIME) {
-            setDateAndUpdViews(resource);
+            setDataAndUpdViews(resource);
 
             if (mProfileViewModel.getResourceLiveData().getValue() == null) {
                 mProfileViewModel.loadDataWithoutSaver(resource.data.authorUId);
@@ -228,7 +273,7 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         }
     }
 
-    private void setDateAndUpdViews(ParcResourceByParc<RecipeData> resource) {
+    private void setDataAndUpdViews(ParcResourceByParc<RecipeData> resource) {
         assert resource.data != null;
 
         mOverviewData = resource.data.overviewData;
@@ -237,13 +282,15 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
 
         mTime = resource.data.dateTime;
 
-        setOverviewDataToViews();
+        setOverviewDataToViews(resource.data.isUpdated);
 
         setStars(resource.data);
 
+        hideProgress();
+
         setIngredients(mOverviewData.ingredientsList);
 
-        commentsContent.setVisibility(View.VISIBLE);
+        setComments();
 
         addCommentContent.setVisibility(View.VISIBLE);
     }
@@ -349,10 +396,13 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         });
     }
 
-    private void setOverviewDataToViews() {
+    private void setOverviewDataToViews(boolean isUpdated) {
         tvName.setText(mOverviewData.name);
 
-        tvTime.setText(DateTimeHelper.simpleTransform(mTime));
+        String time = isUpdated ? "(UPD) " : "";
+        time += DateTimeHelper.simpleTransform(mTime);
+
+        tvTime.setText(time);
 
         setCategoriesToRv();
 
@@ -369,6 +419,8 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
             descriptionContent.setVisibility(View.VISIBLE);
 
             tvDescription.setText(mOverviewData.description);
+
+            tvDescription.setVisibility(View.VISIBLE);
 
             YoYo.YoYoString anim = UiHelper.Other.showFadeAnim(tvDescription, View.VISIBLE);
 
@@ -418,11 +470,19 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
 
         IngredientsListFragment ingredientsFragment = (IngredientsListFragment) getChildFragmentManager()
                 .findFragmentById(R.id.container_ingredients);
-
         if (ingredientsFragment != null) {
             ingredientsFragment.refresh(getIngredientsEntity(ingredients));
         }
+    }
 
+    private void setComments() {
+        commentsContent.setVisibility(View.VISIBLE);
+
+        RecipesCommentsFragment commentsFragment = (RecipesCommentsFragment) getChildFragmentManager()
+                .findFragmentById(R.id.container_comments);
+        if (commentsFragment != null) {
+            commentsFragment.startListening();
+        }
     }
 
     private List<IngredientEntity> getIngredientsEntity(List<String> ingrStrList) {
@@ -436,6 +496,18 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
     private void setStars(@NonNull RecipeData data) {
         tvStartCount.setText(String.valueOf(data.starCount));
         UiHelper.Favorite.setFavoriteImage(imageFavorite, data);
+    }
+
+    @MainThread
+    private void showProgress() {
+        allContent.setVisibility(View.INVISIBLE);
+        filterForProgress.setVisibility(View.VISIBLE);
+    }
+
+    @MainThread
+    private void hideProgress() {
+        filterForProgress.setVisibility(View.GONE);
+        allContent.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -460,6 +532,37 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
     }
 
     @Override
+    public void onItemCountChanged(int itemCount) {
+        if (commentsCount != null) {
+            commentsCount.setText("(" + itemCount + ")");
+        }
+    }
+
+    @Override
+    public void onProgressChanged(ParcResourceByParc.Status status) {
+        if (progressDownloadComments != null) {
+            if (status == ParcResourceByParc.Status.SUCCESS || status == ParcResourceByParc.Status.ERROR) {
+                progressDownloadComments.setVisibility(View.INVISIBLE);
+            } else progressDownloadComments.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onReplyMessageClick(Rect posInRv, String replyMesId) {
+        scrollToComment(posInRv);
+    }
+
+    private void scrollToComment(Rect posInRv) {
+        int startContainer = commentsContent.getTop() + commentsContainer.getTop();
+        int viewHeight = Math.abs(posInRv.top - posInRv.bottom);
+        int screenSize = scrollView.getBottom();
+
+        int scrollY = startContainer + posInRv.top + viewHeight / 2 - screenSize / 2; //+ viewHeight/2;
+
+        scrollView.smoothScrollTo(posInRv.left, scrollY);
+    }
+
+    @Override
     public void onUserAddedComment() {
         if (isCommentInProgress) {
 
@@ -469,6 +572,8 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
 
             Keyboard.hideKeyboardFrom(getContext(), newCommentText);
 
+            showAllComments();
+
             //scrollView.fullScroll(View.FOCUS_DOWN);
 
             hideCommentProgress();
@@ -477,28 +582,56 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
 
     @Override
     public void onReplyComment(final CommentData commentData) {
-        newCommentText.setText(commentData.authorLogin + ", ");
-        newCommentText.setSelection(newCommentText.getText().length());
+        isReplyProccess = true;
+        mReplyComment = commentData;
 
-        //scrollView.fullScroll(View.FOCUS_DOWN);
+        /*newCommentText.setText(commentData.authorLogin + ", ");
+        newCommentText.setSelection(newCommentText.getText().length());*/
+
+        showReplay(commentData);
+
+        scrollView.fullScroll(View.FOCUS_DOWN);
 
         newCommentText.requestFocus();
 
         Keyboard.showKeyboardFrom(getContext(), newCommentText);
     }
 
+    private void showReplay(CommentData commentData) {
+        replayText.setText(commentData.text.replace("\n", " "));
+        replayUserName.setText(commentData.authorLogin);
+
+        replyContent.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.reply_close)
+    protected void closeReply() {
+        replyContent.setVisibility(View.GONE);
+
+        isReplyProccess = false;
+    }
 
     @OnClick(R.id.comment_send)
     protected void sendNewComment() {
         if (NetworkHelper.isConnected(getActivity())) {
             String commentText = newCommentText.getText().toString();
             if (!TextUtils.isEmpty(commentText) && commentText.charAt(0) != ' ') {
+                //showAllComments();
+
                 startSendComment();
             }
         } else {
             Toast.makeText(getActivity(), getString(R.string.network_error), Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void showAllComments() {
+        RecipesCommentsFragment commentsFragment = (RecipesCommentsFragment) getChildFragmentManager()
+                .findFragmentById(R.id.container_comments);
+        if (commentsFragment != null) {
+            commentsFragment.more();
+        }
     }
 
     private void startSendComment() {
@@ -509,9 +642,21 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         String commentText = newCommentText.getText().toString();
         CommentData data = new CommentData(commentText, FirebaseHelper.getUid(), recipeId);
 
+        if (isReplyProccess && mReplyComment != null) {
+            data.replyId = mReplyComment.commentId;
+            data.replyText = mReplyComment.text;
+            data.replyAuthorId = mReplyComment.authorId;
+        }
+
         new CommentUploader().start(data, resource -> {
             if (resource.status == ParcResourceByParc.Status.SUCCESS) {
                 onUserAddedComment();
+
+                if (isReplyProccess) {
+                    closeReply();
+                    CommentUploader.updtInReplays(mReplyComment, resource.data.commentId);
+                }
+
             } else if (resource.status == ParcResourceByParc.Status.ERROR) {
                 if (resource.exception instanceof BaseRepository.NothingFoundFromServerException) {
 
@@ -530,11 +675,11 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
 
     private void showCommentProgress() {
         sendComment.setVisibility(View.INVISIBLE);
-        progressComment.setVisibility(View.VISIBLE);
+        progressSendComment.setVisibility(View.VISIBLE);
     }
 
     private void hideCommentProgress() {
-        progressComment.setVisibility(View.INVISIBLE);
+        progressSendComment.setVisibility(View.INVISIBLE);
         sendComment.setVisibility(View.VISIBLE);
     }
 
@@ -620,5 +765,12 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         if (!dataList.isEmpty()) {
             startActivity(ViewImagesActivity.getIntent(getActivity(), dataList, isMain ? 0 : pos));
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(KEY_REPLAY_DATA, mReplyComment);
+        outState.putBoolean(KEY_REPLAY_PROCCESS, isReplyProccess);
+        super.onSaveInstanceState(outState);
     }
 }

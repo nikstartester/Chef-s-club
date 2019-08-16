@@ -6,8 +6,8 @@ android {
         applicationId "com.xando.chefsclub"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 5
-        versionName "0.1.2-b3"
+        versionCode 6
+        versionName "0.1.2-b4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -32,7 +32,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //MultiDex for prior to android 5
-   // implementation 'com.android.support:multidex:1.0.3'
+    // implementation 'com.android.support:multidex:1.0.3'
 
     //tests
     testImplementation 'junit:junit:4.12'
@@ -66,9 +66,8 @@ dependencies {
     //?googlePlayService?
     implementation "com.google.android.gms:play-services-auth:16.0.1"
 
-
     //matisse. NOTE: Read next before delete
-        implementation 'com.zhihu.android:matisse:0.5.2-beta4'
+    implementation 'com.zhihu.android:matisse:0.5.2-beta4'
 
     /*
         //if you want delete matisse dep -> add next strings(ImageZoom):
@@ -77,7 +76,6 @@ dependencies {
         implementation 'it.sephiroth.android.library.imagezoom:imagezoom:2.3.0'
 
     */
-
 
     //glide
     implementation 'com.github.bumptech.glide:glide:4.8.0'
@@ -97,7 +95,7 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
     //?kotlin?
-   // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //ChipsLayoutManager
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'

@@ -9,8 +9,8 @@ import java.util.Map;
 import static com.xando.chefsclub.Recipes.db.RecipeEntity.EMPTY_FIELD;
 
 public class MapBoolConverter {
-    private static final String TAG = "MapBoolConverter";
 
+    private static final String TAG = "MapBoolConverter";
 
     private static final String STR_CONVERTER_SYMBOL = "//sAnd//";
     private static final String STR_RESULT_SYMBOL = "//result//";

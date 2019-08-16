@@ -18,6 +18,7 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 public class ImageFragment extends Fragment {
+
     private static final String KEY_IMAGE_DATA = "keyImagePath";
 
     @BindView(R.id.imageView)
