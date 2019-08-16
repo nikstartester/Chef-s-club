@@ -65,7 +65,7 @@ public final class Constants {
     public static final class ImageConstants {
         public static final String FIREBASE_STORAGE_AT_START = "fbs_chef's_club_images";
 
-        public static final int RESIZE_PROFILE_SMALL_IMAGE_SIZE = 256;
+        public static final int RESIZE_PROFILE_SMALL_IMAGE_SIZE = 156;
         public static final int RESIZE_PROFILE_NORMAL_IMAGE_SIZE = 720;
 
         public static final int DRAWABLE_ERROR = R.drawable.ic_add_a_photo_blue_1080dp;
