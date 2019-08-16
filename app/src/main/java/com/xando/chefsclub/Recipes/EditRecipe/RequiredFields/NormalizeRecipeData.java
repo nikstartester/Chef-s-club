@@ -21,50 +21,24 @@ public class NormalizeRecipeData {
 
     private RecipeData mRecipeData;
 
-    public RequiredFieldsData getRequiredFields(RecipeData recipeData, boolean useNormalizeMethods) {
-        mRecipeData = recipeData;
-
-        LinkedHashMap<String, Boolean> map = new LinkedHashMap<>();
-
-        map.put(NAME_TEXT, checkName());
-
-        if (useNormalizeMethods) {
-            map.put(INGREDIENTS_TEXT, checkIngredients(getNormalizeIngredients(recipeData.overviewData.ingredientsList)));
-            map.put(STEPS_TEXT, checkSteps(getNormalizeSteps(recipeData.stepsData.stepsOfCooking)));
-        } else {
-            map.put(INGREDIENTS_TEXT, checkIngredients());
-            map.put(STEPS_TEXT, checkSteps());
-        }
-
-        return new RequiredFieldsData(map);
-    }
-
     public static boolean checkRequired(RecipeData recipeData, boolean useNormalizeMethods) {
         if (useNormalizeMethods) {
-            return checkName(recipeData.overviewData.name)
+            return checkText(recipeData.overviewData.name)
                     && checkIngredients(getNormalizeIngredients(recipeData.overviewData.ingredientsList))
                     && checkSteps(getNormalizeSteps(recipeData.stepsData.stepsOfCooking));
-        } else return checkName(recipeData.overviewData.name)
+        } else return checkText(recipeData.overviewData.name)
                 && checkIngredients(recipeData.overviewData.ingredientsList)
                 && checkSteps(recipeData.stepsData.stepsOfCooking);
     }
 
-    private boolean checkName() {
-        return checkName(mRecipeData.overviewData.name);
-    }
-
-    private static boolean checkName(String text) {
+    private static boolean checkText(String text) {
         return text != null && !TextUtils.isEmpty(text);
-    }
-
-    private boolean checkIngredients() {
-        return checkIngredients(mRecipeData.overviewData.ingredientsList);
     }
 
     private static boolean checkIngredients(List<String> list) {
         int count = 0;
         for (String ingr : list) {
-            if (ingr != null && !TextUtils.isEmpty(ingr)) {
+            if (checkText(ingr)) {
                 count++;
             }
 
@@ -73,14 +47,10 @@ public class NormalizeRecipeData {
         return count >= MIN_INGREDIENTS_COUNT;
     }
 
-    private boolean checkSteps() {
-        return checkSteps(mRecipeData.stepsData.stepsOfCooking);
-    }
-
     private static boolean checkSteps(List<StepOfCooking> steps) {
         int count = 0;
         for (StepOfCooking step : steps) {
-            if (step.text != null && !TextUtils.isEmpty(step.text)) {
+            if (checkText(step.text)) {
                 count++;
             }
 
@@ -101,7 +71,7 @@ public class NormalizeRecipeData {
         List<StepOfCooking> tmpList = new ArrayList<>();
 
         for (StepOfCooking step : toNormalize) {
-            if (step != null && step.text != null && !TextUtils.isEmpty(step.text)) {
+            if (step != null && checkText(step.text)) {
                 tmpList.add(step);
             }
         }
@@ -163,5 +133,35 @@ public class NormalizeRecipeData {
         }
 
         return tmpList;
+    }
+
+    public RequiredFieldsData getRequiredFields(RecipeData recipeData, boolean useNormalizeMethods) {
+        mRecipeData = recipeData;
+
+        LinkedHashMap<String, Boolean> map = new LinkedHashMap<>();
+
+        map.put(NAME_TEXT, checkName());
+
+        if (useNormalizeMethods) {
+            map.put(INGREDIENTS_TEXT, checkIngredients(getNormalizeIngredients(recipeData.overviewData.ingredientsList)));
+            map.put(STEPS_TEXT, checkSteps(getNormalizeSteps(recipeData.stepsData.stepsOfCooking)));
+        } else {
+            map.put(INGREDIENTS_TEXT, checkIngredients());
+            map.put(STEPS_TEXT, checkSteps());
+        }
+
+        return new RequiredFieldsData(map);
+    }
+
+    private boolean checkName() {
+        return checkText(mRecipeData.overviewData.name);
+    }
+
+    private boolean checkIngredients() {
+        return checkIngredients(mRecipeData.overviewData.ingredientsList);
+    }
+
+    private boolean checkSteps() {
+        return checkSteps(mRecipeData.stepsData.stepsOfCooking);
     }
 }

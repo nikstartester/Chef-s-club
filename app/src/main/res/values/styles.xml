@@ -12,7 +12,7 @@
     <!-- Base application theme. -->
     <style name="AppThemeLight" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorForeground">@color/common_google_signin_btn_text_dark_focused
         </item>
@@ -76,9 +76,21 @@
         <item name="srcCompat">@drawable/ic_navigate_before_white_56dp</item>
     </style>
 
+    <style name="WhiteEditText.StartCaps" parent="WhiteEditText">
+        <item name="android:inputType">textCapSentences</item>
+    </style>
+
     <style name="WhiteEditText" parent="Base.Widget.AppCompat.EditText">
         <item name="android:textColorHint">@color/grey_300</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="StartCapEditText.MultiLine" parent="StartCapEditText">
+        <item name="android:inputType">textCapSentences|textMultiLine</item>
+    </style>
+
+    <style name="StartCapEditText" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:inputType">textCapSentences</item>
     </style>
 
     <style name="TextViewWhiteTextColor" parent="android:style/Widget.DeviceDefault.TextView">
@@ -99,7 +111,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppThemeDark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

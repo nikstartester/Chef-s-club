@@ -20,6 +20,15 @@ import static com.xando.chefsclub.Recipes.Repository.RecipeRepository.CHILD_RECI
 
 
 public class CommentUploader extends DataUploader<CommentData> {
+    public static void updtInReplays(CommentData data, String id) {
+        final DatabaseReference myRef = FirebaseReferences.getDataBaseReference();
+
+        String child = "/comments/recipes/" + data.recipeId + "/" + data.commentId;
+
+        myRef.child(child).child("isInReply").setValue(true);
+        myRef.child(child).child("inReplies").child(id).setValue(true);
+    }
+
     @Override
     protected void start() {
         DatabaseReference ref = FirebaseReferences.getDataBaseReference();

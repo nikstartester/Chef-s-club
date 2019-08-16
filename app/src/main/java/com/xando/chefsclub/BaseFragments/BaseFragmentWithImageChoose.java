@@ -36,32 +36,27 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
 
     private final String[] mPermissions = new String[]{READ_EXTERNAL_STORAGE,
             WRITE_EXTERNAL_STORAGE};
-
-    private PermissionHelper mPermissionHelper;
-
-    private DialogFragment mChooseActDialog;
-
-    private File mPhotoFile;
-
-    private int mCount;
-
     protected List<String> capturePathsToDelete = new ArrayList<>();
+    private PermissionHelper mPermissionHelper;
+    private File mPhotoFile;
+    private int mCount;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mPermissionHelper = new PermissionHelper(this, mPermissions);
-
-        mChooseActDialog = new ChooseImagePickerDialog();
-        mChooseActDialog.setTargetFragment(this, REQUEST_CODE_CHOOSE_DIALOG);
     }
 
 
-    protected void showChooseDialog(int count) {
+    protected void showChooseDialog(int count, boolean withDelete) {
         this.mCount = count;
 
-        mChooseActDialog.show(getFragmentManager(), "Choose_action");
+        DialogFragment chooseDialog = ChooseImagePickerDialog.getInstance(withDelete);
+
+        chooseDialog.setTargetFragment(this, REQUEST_CODE_CHOOSE_DIALOG);
+
+        chooseDialog.show(getFragmentManager(), "Choose_action");
     }
 
     protected void createNewPhoto() {
@@ -176,6 +171,9 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
                 case ChooseImagePickerDialog.RESULT_CODE_NEW_PHOTO_SELECTED:
                     createNewPhoto();
                     break;
+                case ChooseImagePickerDialog.RESULT_CODE_DELETE:
+                    onDeleteImage();
+                    break;
             }
         } else if (requestCode == REQUEST_CODE_PHOTO && resultCode == RESULT_OK) {
             Uri uri = FileProvider.getUriForFile(getActivity(),
@@ -192,6 +190,8 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
     }
 
     protected abstract void onGalleryFinish(List<Uri> selected);
+
+    protected abstract void onDeleteImage();
 
     protected void addToDeleteIfCapture(String path) {
         if (path != null && path.startsWith(getParentDirectoryPath())) {

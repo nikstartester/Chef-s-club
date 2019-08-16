@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ProgressBar;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
@@ -47,8 +46,10 @@ public class IngredientsListFragment extends Fragment {
 
     @BindView(R.id.rv_ingredients)
     protected RecyclerView recyclerViewIngredients;
-    @BindView(R.id.progress)
-    protected ProgressBar progressBar;
+
+    /*@BindView(R.id.progress)
+    protected ProgressBar progressBar;*/
+
     @BindView(R.id.edit_mode)
     protected View editModeView;
     @BindView(R.id.checkBox_all_available)
@@ -252,9 +253,9 @@ public class IngredientsListFragment extends Fragment {
         }
 
         if (mRecipeId != null) {
-            if (mIngredientIdsViewModel.getData().getValue() == null)
+            if (mIngredientIdsViewModel.getData().getValue() == null) {
                 mIngredientIdsViewModel.loadData(mRecipeId);
-            else {
+            } else {
                 onDataLoadedFromDb(mIngredientIdsViewModel.getData().getValue());
             }
         }
@@ -296,7 +297,7 @@ public class IngredientsListFragment extends Fragment {
     }
 
     private void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
+        //progressBar.setVisibility(View.INVISIBLE);
     }
 
     @OnClick(R.id.imageBtn_ingredients_actions)

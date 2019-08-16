@@ -17,28 +17,30 @@ public class ProfileData extends BaseData {
     public static final String GENDER_MALE = "Male";
     public static final String GENDER_FEMALE = "Female";
     public static final String GENDER_NONE = "none";
+    public static final Creator<ProfileData> CREATOR = new Creator<ProfileData>() {
+        @Override
+        public ProfileData createFromParcel(Parcel source) {
+            return new ProfileData(source);
+        }
 
+        @Override
+        public ProfileData[] newArray(int size) {
+            return new ProfileData[size];
+        }
+    };
     public String firstName, secondName, login, gender;
-
     public String userUid;
-
     @Nullable
     public String imageURL;
-
     @Ignore
     @Nullable
     public String localImagePath;
-
     @TypeConverters(MapBoolConverter.class)
     public Map<String, Boolean> subscriptions = new HashMap<>();
-
     public int subscriptionsCount;
-
     @TypeConverters(MapBoolConverter.class)
     public Map<String, Boolean> subscribers = new HashMap<>();
-
     public int subscribersCount;
-
     public long lastTimeUpdate = Constants.ImageConstants.DEF_TIME;
 
     public ProfileData() {
@@ -52,6 +54,34 @@ public class ProfileData extends BaseData {
         this.login = login;
         this.gender = gender;
         this.localImagePath = localImagePath;
+    }
+
+
+    protected ProfileData(Parcel in) {
+        this.firstName = in.readString();
+        this.secondName = in.readString();
+        this.login = in.readString();
+        this.gender = in.readString();
+        this.userUid = in.readString();
+        this.imageURL = in.readString();
+        this.localImagePath = in.readString();
+        int subscriptionsSize = in.readInt();
+        this.subscriptions = new HashMap<>(subscriptionsSize);
+        for (int i = 0; i < subscriptionsSize; i++) {
+            String key = in.readString();
+            Boolean value = (Boolean) in.readValue(Boolean.class.getClassLoader());
+            this.subscriptions.put(key, value);
+        }
+        this.subscriptionsCount = in.readInt();
+        int subscribersSize = in.readInt();
+        this.subscribers = new HashMap<>(subscribersSize);
+        for (int i = 0; i < subscribersSize; i++) {
+            String key = in.readString();
+            Boolean value = (Boolean) in.readValue(Boolean.class.getClassLoader());
+            this.subscribers.put(key, value);
+        }
+        this.subscribersCount = in.readInt();
+        this.lastTimeUpdate = in.readLong();
     }
 
     @Override
@@ -71,9 +101,10 @@ public class ProfileData extends BaseData {
         result.put("subscriptionsCount", subscriptionsCount);
         result.put("subscribersCount", subscribersCount);
 
+        result.put("loginLowerCase", login.toLowerCase());
+
         return result;
     }
-
 
     @Override
     public int describeContents() {
@@ -103,43 +134,4 @@ public class ProfileData extends BaseData {
         dest.writeInt(this.subscribersCount);
         dest.writeLong(this.lastTimeUpdate);
     }
-
-    protected ProfileData(Parcel in) {
-        this.firstName = in.readString();
-        this.secondName = in.readString();
-        this.login = in.readString();
-        this.gender = in.readString();
-        this.userUid = in.readString();
-        this.imageURL = in.readString();
-        this.localImagePath = in.readString();
-        int subscriptionsSize = in.readInt();
-        this.subscriptions = new HashMap<>(subscriptionsSize);
-        for (int i = 0; i < subscriptionsSize; i++) {
-            String key = in.readString();
-            Boolean value = (Boolean) in.readValue(Boolean.class.getClassLoader());
-            this.subscriptions.put(key, value);
-        }
-        this.subscriptionsCount = in.readInt();
-        int subscribersSize = in.readInt();
-        this.subscribers = new HashMap<>(subscribersSize);
-        for (int i = 0; i < subscribersSize; i++) {
-            String key = in.readString();
-            Boolean value = (Boolean) in.readValue(Boolean.class.getClassLoader());
-            this.subscribers.put(key, value);
-        }
-        this.subscribersCount = in.readInt();
-        this.lastTimeUpdate = in.readLong();
-    }
-
-    public static final Creator<ProfileData> CREATOR = new Creator<ProfileData>() {
-        @Override
-        public ProfileData createFromParcel(Parcel source) {
-            return new ProfileData(source);
-        }
-
-        @Override
-        public ProfileData[] newArray(int size) {
-            return new ProfileData[size];
-        }
-    };
 }

@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 
+import com.xando.chefsclub.DataWorkers.OnItemCountChanged;
 import com.xando.chefsclub.R;
-import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.OnItemCountChanged;
 import com.xando.chefsclub.SingleFragmentActivity;
 
 import butterknife.BindView;
@@ -16,12 +16,9 @@ import butterknife.ButterKnife;
 
 public class ViewProfileActivityTest extends SingleFragmentActivity implements OnItemCountChanged {
     private final static String EXTRA_USER_ID = "userId";
-
-    private String userid;
-
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-
+    private String userid;
 
     public static Intent getIntent(Context context, String userId) {
         Intent intent = new Intent(context, ViewProfileActivityTest.class);

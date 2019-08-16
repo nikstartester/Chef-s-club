@@ -5,6 +5,7 @@ import android.animation.LayoutTransition;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -56,6 +57,12 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
 
     @BindView(R.id.allTimeCooking_content)
     protected View allTimeCookingContent;
+
+    @BindView(R.id.filter)
+    protected View filterForProgress;
+
+    @BindView(R.id.all_content)
+    protected View allContent;
 
     private StepsData mStepsData;
 
@@ -114,12 +121,14 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
 
                         mTime = resource.data.dateTime;
 
+                        hideProgress();
+
                         setDataToViews();
                     }
 
                 } else if (resource.status == ParcResourceByParc.Status.ERROR) {
-
-                }
+                    hideProgress();
+                } else showProgress();
             }
         });
 
@@ -137,6 +146,18 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
 
 
         setStepsToAdapter();
+    }
+
+    @MainThread
+    private void showProgress() {
+        allContent.setVisibility(View.INVISIBLE);
+        filterForProgress.setVisibility(View.VISIBLE);
+    }
+
+    @MainThread
+    private void hideProgress() {
+        filterForProgress.setVisibility(View.GONE);
+        allContent.setVisibility(View.VISIBLE);
     }
 
     private void unitViews() {
@@ -184,7 +205,7 @@ public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
                         break;
                     case R.id.img_time:
 
-                        showTimerPicker(position);
+                        //showTimerPicker(position);
                         break;
                 }
             }

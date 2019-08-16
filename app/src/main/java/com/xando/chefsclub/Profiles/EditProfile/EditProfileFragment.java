@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.xando.chefsclub.BaseFragments.BaseFragmentWithImageChoose;
 import com.xando.chefsclub.Constants.Constants;
+import com.xando.chefsclub.DataWorkers.BaseRepository;
 import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
 import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.Helpers.FirebaseHelper;
@@ -60,11 +61,10 @@ import static com.xando.chefsclub.Constants.Constants.Login.KEY_IS_ALREADY_REGIS
 
 
 public class EditProfileFragment extends BaseFragmentWithImageChoose implements View.OnClickListener {
+    public static final int MIN_CHAR_FOR_LOGIN = 5;
     private static final String KEY_GENDER = "gender";
     private static final String KEY_IMAGE_PATH = "imagePath";
     private static final String KEY_IS_IN_PROGRESS = "isProgress";
-    public static final int MIN_CHAR_FOR_LOGIN = 5;
-
     @BindView(R.id.edt_firstName)
     protected EditText edtFirstName;
 
@@ -101,6 +101,8 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
 
     private OnSuccessListener mOnSuccessListener;
 
+    private ProfileViewModel mProfileViewModel;
+
     public static boolean isProfileAlreadyCreated(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.Settings.APP_PREFERENCES,
                 Context.MODE_PRIVATE);
@@ -117,6 +119,8 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         } else {
             gender = ProfileData.GENDER_NONE;
         }
+
+        mProfileViewModel = ViewModelProviders.of(getActivity()).get(ProfileViewModel.class);
 
         setHasOptionsMenu(true);
     }
@@ -149,16 +153,15 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         getActivity().registerReceiver(mBroadcastReceiver = new ProfileUploaderBroadcastReceiver(),
                 intentFilter);
 
-        ProfileViewModel profileViewModel = ViewModelProviders.of(getActivity()).get(ProfileViewModel.class);
-        profileViewModel.getResourceLiveData().observe(this, resource -> {
+        mProfileViewModel.getResourceLiveData().observe(this, resource -> {
             if (resource != null) {
                 if (resource.status == ParcResourceByParc.Status.SUCCESS) {
                     onSuccessLoaded(resource);
                 }
             }
         });
-        if (profileViewModel.getResourceLiveData().getValue() == null)
-            profileViewModel.loadDataWithSaver(FirebaseHelper.getUid());
+        if (mProfileViewModel.getResourceLiveData().getValue() == null)
+            mProfileViewModel.loadDataWithSaver(FirebaseHelper.getUid());
 
         edtLogin.addTextChangedListener(new TextWatcher() {
             @Override
@@ -222,34 +225,37 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
 
         DatabaseReference ref = FirebaseReferences.getDataBaseReference();
 
-        ref.child("users").orderByChild("login").equalTo(edtLogin.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<ProfileData> profileDataList = new ArrayList<>(1);
+        String login = edtLogin.getText().toString().toLowerCase();
 
-                for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                    profileDataList.add(snap.getValue(ProfileData.class));
-                }
+        ref.child("users").orderByChild("loginLowerCase").equalTo(login)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<ProfileData> profileDataList = new ArrayList<>(1);
 
-                ProfileData profileWithExistLogin = profileDataList.size() > 0 ? profileDataList.get(0) : null;
+                        for (DataSnapshot snap : dataSnapshot.getChildren()) {
+                            profileDataList.add(snap.getValue(ProfileData.class));
+                        }
 
-                if (profileWithExistLogin == null
-                        || (FirebaseHelper.getUid() != null
-                        && profileWithExistLogin.userUid.equals(FirebaseHelper.getUid()))) {
+                        ProfileData profileWithExistLogin = profileDataList.size() > 0 ? profileDataList.get(0) : null;
 
-                    //nothing
-                } else {
-                    setLoginExistError();
-                }
+                        if (profileWithExistLogin == null
+                                || (FirebaseHelper.getUid() != null
+                                && profileWithExistLogin.userUid.equals(FirebaseHelper.getUid()))) {
 
-                hideLoginProgress();
-            }
+                            //nothing
+                        } else {
+                            setLoginExistError();
+                        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        hideLoginProgress();
+                    }
 
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @Override
@@ -279,9 +285,13 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
                 break;
             case R.id.circularImageView:
                 //super.startMatisseGallery(1);
-                super.showChooseDialog(1);
+                super.showChooseDialog(1, isHavePhoto());
                 break;
         }
+    }
+
+    private boolean isHavePhoto() {
+        return mImagePath != null;
     }
 
     private void showProgress() {
@@ -326,7 +336,22 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         super.deleteOldCaptures();
     }
 
-////////////////////////////////////////////////
+    @Override
+    protected void onDeleteImage() {
+        super.addToDeleteIfCapture(mImagePath);
+
+        mImagePath = null;
+
+        showEmptyImage();
+
+        super.deleteOldCaptures();
+    }
+
+    private void showEmptyImage() {
+        circularImageView.setImageResource(Constants.ImageConstants.DRAWABLE_ADD_PHOTO_PLACEHOLDER);
+    }
+
+    ////////////////////////////////////////////////
 
     private void setImage(String imagePath, long lastTimeUpdate) {
         if (imagePath != null) {
@@ -335,7 +360,7 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
             GlideImageLoader.getInstance().loadNormalCircularImage(getActivity(),
                     circularImageView,
                     imageData);
-        } //else userProfileImage.setImageResource(R.drawable.ic_account_circle_elements_48dp);
+        } else showEmptyImage();
     }
 
     private void startEditProfile() {
@@ -395,24 +420,56 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
 
     private void startEdit() {
         if (NetworkHelper.isConnected(getActivity())) {
-            getActivity().startService(ProfileUploaderService.getIntent(getActivity(), createProfileData()));
+            ProfileData profileData = createProfileData();
+            if (profileData != null) {
+                getActivity().startService(ProfileUploaderService.getIntent(getActivity(), profileData));
+            } else {
+                internetErrorSnackbar();
+            }
         } else {
-            String error = getString(R.string.network_error);
-            Snackbar.make(edtLogin, error, Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.try_again), (v) -> {
-                        startEdit();
-                    })
-                    .show();
+            internetErrorSnackbar();
         }
 
     }
 
-    private ProfileData createProfileData() {
-        String firstName = edtFirstName.getText().toString();
-        String lastName = edtLastName.getText().toString();
-        String login = edtLogin.getText().toString();
+    private void internetErrorSnackbar() {
+        String error = getString(R.string.network_error);
+        Snackbar.make(edtLogin, error, Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.try_again), (v) -> {
+                    startEdit();
+                })
+                .show();
+    }
 
-        return new ProfileData(firstName, lastName, login, gender, mImagePath);
+    private ProfileData createProfileData() {
+        if (mProfileViewModel == null || mProfileViewModel.getResourceLiveData().getValue() == null)
+            return null;
+
+        ParcResourceByParc<ProfileData> res = mProfileViewModel.getResourceLiveData().getValue();
+
+        ProfileData profileData = null;
+
+        if (res.status == ParcResourceByParc.Status.SUCCESS) {
+            profileData = res.data;
+
+            profileData.firstName = edtFirstName.getText().toString();
+            profileData.secondName = edtLastName.getText().toString();
+            profileData.login = edtLogin.getText().toString();
+            profileData.gender = gender;
+            profileData.localImagePath = mImagePath;
+
+            profileData.imageURL = null;
+        } else if (res.status == ParcResourceByParc.Status.ERROR
+                && res.exception instanceof BaseRepository.NothingFoundFromServerException) {
+
+            String firstName = edtFirstName.getText().toString();
+            String lastName = edtLastName.getText().toString();
+            String login = edtLogin.getText().toString();
+
+            profileData = new ProfileData(firstName, lastName, login, gender, mImagePath);
+        }
+
+        return profileData;
     }
 
     @Override

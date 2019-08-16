@@ -51,12 +51,12 @@ abstract class BaseMultiImagesUploader {
     abstract class OnProgressListener implements ImageUploader.OnProgressListener<String> {
 
         @Override
-        public void onStatusChanged(ParcResourceBySerializable<String> resStoragePath) {
+        public void onStatusChanged(ParcResourceBySerializable<String> resStoragePath, int tag) {
             if (resStoragePath.status == ParcResourceByParc.Status.SUCCESS) {
-                if (isNeedStop(resStoragePath)) {
+                if (isNeedStop(resStoragePath, tag)) {
                     RecipeRepository.deleteImage(resStoragePath.data);
                 } else {
-                    addDataOnSuccess(resStoragePath.data);
+                    addDataOnSuccess(resStoragePath.data, tag);
 
                     updateImagesUrlIfAllImagesUploaded();
                 }
@@ -72,8 +72,8 @@ abstract class BaseMultiImagesUploader {
             }
         }
 
-        protected abstract void addDataOnSuccess(String path);
+        protected abstract void addDataOnSuccess(String path, int tag);
 
-        protected abstract boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath);
+        protected abstract boolean isNeedStop(ParcResourceBySerializable<String> resStoragePath, int tag);
     }
 }

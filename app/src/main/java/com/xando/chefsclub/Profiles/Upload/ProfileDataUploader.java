@@ -2,7 +2,6 @@ package com.xando.chefsclub.Profiles.Upload;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,7 +54,9 @@ public class ProfileDataUploader extends DataUploader<ProfileData> {
     private void checkLoginExistAndStart() {
         DatabaseReference ref = FirebaseReferences.getDataBaseReference();
 
-        ref.child("users").orderByChild("login").equalTo(mData.login).addListenerForSingleValueEvent(new ValueEventListener() {
+        String login = mData.login.toLowerCase();
+
+        ref.child("users").orderByChild("loginLowerCase").equalTo(login).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<ProfileData> profileDataList = new ArrayList<>(1);
@@ -94,7 +95,7 @@ public class ProfileDataUploader extends DataUploader<ProfileData> {
                 if (mData.localImagePath != null) {
                     mImageUploader.uploadImage();
                 } else {
-                    Log.d(TAG, "updateChildren: localImagePath == null");
+                    //Log.d(TAG, "updateChildren: localImagePath == null");
                     mDataResource = ParcResourceByParc.success(mData);
 
                     updateProgress(mDataResource);
@@ -137,11 +138,9 @@ public class ProfileDataUploader extends DataUploader<ProfileData> {
 
     private class ProfileImageUploader {
 
-        private String mStorageImagePath;
-
         private final String mDirectoryPathForCompress;
-
         private final ImageUploader.Builder mImageUpBuilder;
+        private String mStorageImagePath;
 
         private ProfileImageUploader(Context context) {
             mImageUpBuilder = ImageUploader.with(context);
@@ -160,7 +159,7 @@ public class ProfileDataUploader extends DataUploader<ProfileData> {
                     .setQuality(ImageUploader.Builder.NORMAL_QUALITY)
                     .setImagePath(mData.localImagePath)
                     .setDirectoryPathForCompress(mDirectoryPathForCompress)
-                    .setOnProgressListener(resStoragePath -> {
+                    .setOnProgressListener((resStoragePath, tag) -> {
                         if (resStoragePath.status == ParcResourceByParc.Status.SUCCESS) {
                             mStorageImagePath = resStoragePath.data;
 

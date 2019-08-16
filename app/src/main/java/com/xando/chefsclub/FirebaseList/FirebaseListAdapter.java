@@ -54,7 +54,7 @@ public abstract class FirebaseListAdapter<T, I extends IItem> extends FastItemAd
 
         if (indexOfValueByValue(id) == -1) {
             mIds.put(pos, id);
-            add(getNewItemInstance(data));
+            add(getNewItemInstance(data, pos));
         }
 
     }
@@ -115,7 +115,7 @@ public abstract class FirebaseListAdapter<T, I extends IItem> extends FastItemAd
         int index = indexOfValueByValue(id);
 
         if (index == -1) {
-            add(pos, getNewItemInstance(getData(pos)));
+            add(pos, getNewItemInstance(getData(pos), pos));
             mIds.put(pos, id);
         } else if (index != pos) {
             onItemMoved(pos, index);
@@ -154,7 +154,7 @@ public abstract class FirebaseListAdapter<T, I extends IItem> extends FastItemAd
     }
 
     @NonNull
-    public abstract I getNewItemInstance(@NonNull T data);
+    public abstract I getNewItemInstance(@NonNull T data, int pos);
 
     private void onItemChanged(int pos) {
         mIds.put(pos, getUniqueId(getData(pos)));

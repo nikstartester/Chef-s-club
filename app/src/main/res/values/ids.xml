@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="recipe_item" type="id"/>
-    <item name="ingredients_item_add" type="id"/>
-    <item name="image_item_add" type="id"/>
-    <item name="step_item_add" type="id"/>
-    <item name="chip_category_item" type="id"/>
-    <item name="chip_category_with_remove_item" type="id"/>
+    <item name="recipe_item" type="id" />
+    <item name="ingredients_item_add" type="id" />
+    <item name="image_item_add" type="id" />
+    <item name="step_item_add" type="id" />
+    <item name="chip_category_item" type="id" />
+    <item name="chip_category_with_remove_item" type="id" />
     <item name="ingredients_item_view" type="id" />
     <item name="image_item_view" type="id" />
     <item name="step_item_view" type="id" />
@@ -18,4 +18,6 @@
     <item name="compilation_item" type="id" />
     <item name="compilation_short_item" type="id" />
     <item name="required_field_item" type="id" />
+    <item name="comment_item" type="id" />
+    <item name="comment_item_small" type="id" />
 </resources>

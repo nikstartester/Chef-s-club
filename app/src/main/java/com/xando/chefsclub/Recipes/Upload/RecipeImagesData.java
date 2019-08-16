@@ -10,12 +10,30 @@ import java.util.List;
 import java.util.Map;
 
 
-class RecipeImagesData extends BaseData {
+public class RecipeImagesData extends BaseData {
+    public static final Creator<RecipeImagesData> CREATOR = new Creator<RecipeImagesData>() {
+        @Override
+        public RecipeImagesData createFromParcel(Parcel source) {
+            return new RecipeImagesData(source);
+        }
+
+        @Override
+        public RecipeImagesData[] newArray(int size) {
+            return new RecipeImagesData[size];
+        }
+    };
     public String recipeKey;
-
     public OverviewRecipesImages overviewImages = new OverviewRecipesImages();
-
     public List<String> stepsImages = new ArrayList<>();
+
+    public RecipeImagesData() {
+    }
+
+    protected RecipeImagesData(Parcel in) {
+        this.recipeKey = in.readString();
+        this.overviewImages = in.readParcelable(OverviewRecipesImages.class.getClassLoader());
+        this.stepsImages = in.createStringArrayList();
+    }
 
     @Override
     public Map<String, Object> toMap() {
@@ -39,25 +57,4 @@ class RecipeImagesData extends BaseData {
         dest.writeParcelable(this.overviewImages, flags);
         dest.writeStringList(this.stepsImages);
     }
-
-    public RecipeImagesData() {
-    }
-
-    protected RecipeImagesData(Parcel in) {
-        this.recipeKey = in.readString();
-        this.overviewImages = in.readParcelable(OverviewRecipesImages.class.getClassLoader());
-        this.stepsImages = in.createStringArrayList();
-    }
-
-    public static final Creator<RecipeImagesData> CREATOR = new Creator<RecipeImagesData>() {
-        @Override
-        public RecipeImagesData createFromParcel(Parcel source) {
-            return new RecipeImagesData(source);
-        }
-
-        @Override
-        public RecipeImagesData[] newArray(int size) {
-            return new RecipeImagesData[size];
-        }
-    };
 }

@@ -13,13 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xando.chefsclub.DataWorkers.OnItemCountChanged;
 import com.xando.chefsclub.Helpers.FirebaseHelper;
 import com.xando.chefsclub.Images.ImageData.ImageData;
 import com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader;
 import com.xando.chefsclub.Profiles.Data.ProfileData;
 import com.xando.chefsclub.Profiles.ViewModel.ProfileViewModel;
 import com.xando.chefsclub.R;
-import com.xando.chefsclub.Recipes.ViewRecipes.FirebaseRecipeList.OnItemCountChanged;
 import com.xando.chefsclub.Recipes.ViewRecipes.UserRecipesList;
 import com.xando.chefsclub.SingleFragmentActivity;
 

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IItem;
@@ -15,9 +14,11 @@ import com.mikepenz.fastadapter.listeners.ClickEventHook;
 import com.mikepenz.fastadapter.select.SelectExtension;
 import com.mikepenz.fastadapter_extensions.drag.IDraggable;
 import com.mikepenz.fastadapter_extensions.swipe.ISwipeable;
+import com.xando.chefsclub.Helpers.UiHelper;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.ShoppingList.db.IngredientEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,18 +26,17 @@ import butterknife.ButterKnife;
 
 public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.ViewHolder>
         implements ISwipeable<IngredientItem, IItem>, IDraggable<IngredientItem, IItem> {
-    private TextView tvIngredient;
-
-    private CheckBox checkBox;
-
     public final IngredientEntity entity;
-
+    private TextView tvIngredient;
+    private CheckBox checkBox;
     private boolean isHighlightOnce;
 
     private int swipedDirection;
     private Runnable swipedAction;
     private boolean swipeable = true;
     private boolean draggable = true;
+
+    private List<YoYo.YoYoString> anims = new ArrayList<>();
 
     public IngredientItem(IngredientEntity entity) {
 
@@ -91,27 +91,28 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
         if (isHighlightOnce) {
             isHighlightOnce = false;
 
-            final View highlight = holder.root;
-
             final int color = holder.root.getContext().getResources().getColor(R.color.colorAccent);
 
-            YoYo.with(Techniques.FadeIn)
-                    .duration(400)
-                    .onStart(animator -> highlight.setBackgroundColor(color))
-                    .onEnd(animator -> YoYo.with(Techniques.FadeOut)
-                            .duration(700)
-                            .playOn(highlight))
-                    .playOn(holder.root);
+            List<YoYo.YoYoString> anims = UiHelper.Other.highlight(holder.root, color, new int[]{500, 700});
 
-
+            this.anims.addAll(anims);
         }
 
     }
 
     @Override
     public void unbindView(@NonNull ViewHolder holder) {
-        super.unbindView(holder);
+        stopAnims();
 
+        super.unbindView(holder);
+    }
+
+    public void stopAnims() {
+        for (YoYo.YoYoString anim : anims) {
+            anim.stop();
+        }
+
+        anims.clear();
     }
 
     @Override
@@ -150,13 +151,26 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
         return this;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_ingredient)
-        protected TextView tv_ingredient;
+    public static class CheckBoxClickEvent extends ClickEventHook<IngredientItem> {
+        @Override
+        public View onBind(@NonNull RecyclerView.ViewHolder viewHolder) {
+            if (viewHolder instanceof IngredientItem.ViewHolder) {
+                return ((IngredientItem.ViewHolder) viewHolder).checkBox;
+            }
+            return null;
+        }
 
+        @Override
+        public void onClick(@NonNull View v, int position, @NonNull FastAdapter<IngredientItem> fastAdapter, @NonNull IngredientItem item) {
+            fastAdapter.getExtension(SelectExtension.class).toggleSelection(position);
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.checkBox)
         public CheckBox checkBox;
-
+        @BindView(R.id.tv_ingredient)
+        protected TextView tv_ingredient;
         @BindView(R.id.swiped_action)
         TextView swipedAction;
 
@@ -178,21 +192,6 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
                     swipedActionRunnable.run();
                 }
             });
-        }
-    }
-
-    public static class CheckBoxClickEvent extends ClickEventHook<IngredientItem> {
-        @Override
-        public View onBind(@NonNull RecyclerView.ViewHolder viewHolder) {
-            if (viewHolder instanceof IngredientItem.ViewHolder) {
-                return ((IngredientItem.ViewHolder) viewHolder).checkBox;
-            }
-            return null;
-        }
-
-        @Override
-        public void onClick(@NonNull View v, int position, @NonNull FastAdapter<IngredientItem> fastAdapter, @NonNull IngredientItem item) {
-            fastAdapter.getExtension(SelectExtension.class).toggleSelection(position);
         }
     }
 }

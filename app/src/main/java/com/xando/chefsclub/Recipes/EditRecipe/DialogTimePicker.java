@@ -7,8 +7,8 @@ import android.os.Parcelable;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,30 +17,22 @@ import android.widget.NumberPicker;
 import com.xando.chefsclub.R;
 
 
-public class DialogTimePicker extends AppCompatDialogFragment implements View.OnClickListener {
-    private static final String TAG = "DialogTimePicker";
+public class DialogTimePicker extends BottomSheetDialogFragment implements View.OnClickListener {
     public static final int NOT_SELECTED = -1;
     public static final String SELECTED_TIME = "selectedTime";
     public static final String SELECTED_ITEM = "selectedItem";
-    private static final String TIME_LIMITS = "timeLimits";
     public static final int RESULT_CODE_TIME_SELECTED = 90;
-    private static final int RESULT_CODE_TIME_CANCELED = 91;
     public static final int RESULT_CODE_TIME_CLEAR = 92;
+    private static final String TAG = "DialogTimePicker";
+    private static final String TIME_LIMITS = "timeLimits";
+    private static final int RESULT_CODE_TIME_CANCELED = 91;
     private static final String DEF_TIME = "defTime";
-
-    @IntDef({ITEM_MIN, ITEM_MAX})
-    @interface Items {
-    }
-
     private static final int ITEM_MIN = 0;
     private static final int ITEM_MAX = 1;
-
     private static final int DEF_MAX_HOURS = 72, DEF_MAX_MINUTES = 60;
     private static final int DEF_MIN_HOURS = 0, DEF_MIN_MINUTES = 0;
-
     private NumberPicker numberPickerHours;
     private NumberPicker numberPickerMinutes;
-
     private TimeLimits mLimits;
 
     public static DialogFragment newInstance(final int selectedItem) {
@@ -245,7 +237,6 @@ public class DialogTimePicker extends AppCompatDialogFragment implements View.On
         dismiss();
     }
 
-
     private String determinateTime() {
         int hours = numberPickerHours.getValue();
         int minutes = numberPickerMinutes.getValue();
@@ -280,21 +271,24 @@ public class DialogTimePicker extends AppCompatDialogFragment implements View.On
         return times;
     }
 
+    @IntDef({ITEM_MIN, ITEM_MAX})
+    @interface Items {
+    }
+
     public static final class TimeLimits implements Parcelable {
+        public static final Parcelable.Creator<TimeLimits> CREATOR = new Parcelable.Creator<TimeLimits>() {
+            @Override
+            public TimeLimits createFromParcel(Parcel source) {
+                return new TimeLimits(source);
+            }
+
+            @Override
+            public TimeLimits[] newArray(int size) {
+                return new TimeLimits[size];
+            }
+        };
         public int minTime = NOT_SELECTED;
         public int maxTime = NOT_SELECTED;
-
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(this.minTime);
-            dest.writeInt(this.maxTime);
-        }
 
         public TimeLimits(int minTime, int maxTime) {
             this.minTime = minTime;
@@ -309,16 +303,15 @@ public class DialogTimePicker extends AppCompatDialogFragment implements View.On
             this.maxTime = in.readInt();
         }
 
-        public static final Parcelable.Creator<TimeLimits> CREATOR = new Parcelable.Creator<TimeLimits>() {
-            @Override
-            public TimeLimits createFromParcel(Parcel source) {
-                return new TimeLimits(source);
-            }
+        @Override
+        public int describeContents() {
+            return 0;
+        }
 
-            @Override
-            public TimeLimits[] newArray(int size) {
-                return new TimeLimits[size];
-            }
-        };
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.minTime);
+            dest.writeInt(this.maxTime);
+        }
     }
 }

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.mikepenz.fastadapter.FastAdapter;
@@ -56,10 +57,9 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         implements View.OnClickListener, BaseEditRecipeWithKeyFragment.OverviewDataSender,
         BaseEditRecipeWithKeyFragment.IsSaveOnLocal {
 
+    public static final int MAX_ADAPTER_PHOTOS = 6;
     private static final String TAG = "OverviewEditRecipeFragm";
-
     private static final int REQUEST_CODE_CHOOSE_CATEGORIES = 89;
-
     @BindView(R.id.imgView_main)
     protected ImageView imageView;
 
@@ -99,6 +99,10 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     private FastItemAdapter<ChipCategoryWithRemoveItem> mCategoriesAdapter;
 
     private boolean isMainPictureClick;
+
+    private boolean isChangeNotMainPhoto;
+
+    private int mPosToChangeImage;
 
     private OverviewData mOverviewData;
 
@@ -282,25 +286,46 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         mImagesAdapter.withEventHook(new ClickEventHook<ImageAddItem>() {
             @Nullable
             @Override
-            public View onBind(@NonNull RecyclerView.ViewHolder viewHolder) {
-                if (viewHolder instanceof ImageAddItem.ViewHolder)
-                    return ((ImageAddItem.ViewHolder) viewHolder).itemView
-                            .findViewById(R.id.img_btn_remove);
-                else return null;
+            public List<View> onBindMany(RecyclerView.ViewHolder viewHolder) {
+                if (viewHolder instanceof ImageAddItem.ViewHolder) {
+                    List<View> views = new ArrayList<>();
+                    views.add(((ImageAddItem.ViewHolder) viewHolder).itemView
+                            .findViewById(R.id.img_btn_remove));
+                    views.add(((ImageAddItem.ViewHolder) viewHolder).itemView
+                            .findViewById(R.id.img_image));
+
+                    return views;
+                }
+                return super.onBindMany(viewHolder);
             }
 
             @Override
             public void onClick(@NonNull View v, int position, @NonNull FastAdapter<ImageAddItem> fastAdapter, @NonNull ImageAddItem item) {
-                mImagesAdapter.remove(position);
+                switch (v.getId()) {
+                    case R.id.img_btn_remove:
+                        removeImage(position);
+                        break;
+                    case R.id.img_image:
+                        isChangeNotMainPhoto = true;
 
-                OverviewEditRecipeFragment.super.
-                        addToDeleteIfCapture(mOverviewData.imagePathsWithoutMainList.get(position));
+                        mPosToChangeImage = position;
 
-                mOverviewData.imagePathsWithoutMainList.remove(position);
-
-                OverviewEditRecipeFragment.super.deleteOldCaptures();
+                        imageViewClick(false, true);
+                        break;
+                }
             }
         });
+    }
+
+    private void removeImage(int position) {
+        mImagesAdapter.remove(position);
+
+        OverviewEditRecipeFragment.super.
+                addToDeleteIfCapture(mOverviewData.imagePathsWithoutMainList.get(position));
+
+        mOverviewData.imagePathsWithoutMainList.remove(position);
+
+        super.deleteOldCaptures();
     }
 
     private void setImages() {
@@ -316,10 +341,10 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
                 mIngredientsAdapter.add(new IngredientsAddItem(true));
                 break;
             case R.id.imgView_main:
-                imageViewClick(true);
+                imageViewClick(true, false);
                 break;
             case R.id.btn_addPictures:
-                imageViewClick(false);
+                imageViewClick(false, false);
                 break;
             case R.id.btn_addCategories:
                 startActivityForResult(
@@ -350,11 +375,30 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         }
     }
 
-    private void imageViewClick(boolean isMain) {
+    private void imageViewClick(boolean isMain, boolean changeAdapterPhoto) {
         isMainPictureClick = isMain;
+        isChangeNotMainPhoto = changeAdapterPhoto;
 
-        //super.startMatisseGallery(12);
-        super.showChooseDialog(12);
+        boolean withDelete = isMain ? isHaveMainPhoto() : changeAdapterPhoto;
+
+        int picAdapterCount = mImagesAdapter.getAdapterItemCount();
+
+        int maxPic = changeAdapterPhoto ? 1 : MAX_ADAPTER_PHOTOS - picAdapterCount;
+
+        if (isMain) {
+            maxPic++;
+        }
+
+        if (maxPic > 0) {
+            super.showChooseDialog(maxPic, withDelete);
+        } else {
+            String m = "You can only select up to " + MAX_ADAPTER_PHOTOS + " media files";
+            Toast.makeText(getActivity(), m, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean isHaveMainPhoto() {
+        return mOverviewData.mainImagePath != null;
     }
 
     @Override
@@ -371,15 +415,30 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     protected void onGalleryFinish(List<Uri> selected) {
         String[] paths = super.convert(selected);
 
-        setData(paths);
+        if (!isChangeNotMainPhoto) {
+            setData(paths);
 
-        if (isMainPictureClick) {
-            setMainImage();
+            if (isMainPictureClick) {
+                setMainImage();
+            }
+
+            setRecyclerViewImages();
+        } else {
+            mOverviewData.imagePathsWithoutMainList.set(mPosToChangeImage, paths[0]);
+
+            mImagesAdapter.getAdapterItem(mPosToChangeImage).updateImage(new ImageData(paths[0], mTime));
         }
 
-        setRecyclerViewImages();
-
         super.deleteOldCaptures();
+    }
+
+    @Override
+    protected void onDeleteImage() {
+        if (isChangeNotMainPhoto) {
+            removeImage(mPosToChangeImage);
+        } else if (isMainPictureClick) {
+            removeMainImage();
+        }
     }
 
     private void setMainImage() {
@@ -387,10 +446,14 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
 
         ImageData imageData = new ImageData(imagePath, mTime);
 
-        if (imagePath == null)
-            imageView.setImageResource(Constants.ImageConstants.DRAWABLE_ERROR);
-        else GlideImageLoader.getInstance()
+        if (imagePath == null) {
+            showEmptyMainImage();
+        } else GlideImageLoader.getInstance()
                 .loadImage(getActivity(), imageView, imageData);
+    }
+
+    private void showEmptyMainImage() {
+        imageView.setImageResource(Constants.ImageConstants.DRAWABLE_ADD_PHOTO_PLACEHOLDER);
     }
 
     private void setRecyclerViewImages() {
@@ -399,6 +462,16 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         for (String imagePath : mOverviewData.imagePathsWithoutMainList) {
             mImagesAdapter.add(new ImageAddItem(new ImageData(imagePath, mTime)));
         }
+    }
+
+    private void removeMainImage() {
+        super.addToDeleteIfCapture(mOverviewData.mainImagePath);
+
+        mOverviewData.mainImagePath = null;
+
+        showEmptyMainImage();
+
+        super.deleteOldCaptures();
     }
 
     private ArrayList<String> getAllIngredients() {

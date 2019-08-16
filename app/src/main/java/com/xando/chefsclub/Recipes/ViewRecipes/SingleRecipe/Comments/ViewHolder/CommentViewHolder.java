@@ -7,17 +7,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.YoYo;
 import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
 import com.xando.chefsclub.Helpers.DateTimeHelper;
-import com.xando.chefsclub.Helpers.FirebaseHelper;
+import com.xando.chefsclub.Helpers.UiHelper;
 import com.xando.chefsclub.Images.ImageData.ImageData;
 import com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader;
 import com.xando.chefsclub.Profiles.Data.ProfileData;
 import com.xando.chefsclub.Profiles.Repository.ProfileRepository;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.Data.CommentData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,38 +31,45 @@ import static com.xando.chefsclub.Profiles.Repository.ProfileRepository.CHILD_US
 
 
 public class CommentViewHolder extends RecyclerView.ViewHolder {
+
     private final MutableLiveData<ParcResourceByParc<ProfileData>> mProfileData = new MutableLiveData<>();
-    public CommentData commentData;
+    private final MutableLiveData<ParcResourceByParc<ProfileData>> mReplyProfileData = new MutableLiveData<>();
+
+    public List<YoYo.YoYoString> anims = new ArrayList<>();
+
+    @BindView(R.id.highlight)
+    protected View highlight;
+
     @BindView(R.id.comment_text)
     protected TextView text;
+
     @BindView(R.id.comment_time)
     protected TextView time;
+
     @BindView(R.id.comment_pofile_name)
     protected TextView profileName;
+
     @BindView(R.id.comment_profile_image)
     protected ImageView profileImage;
+
     @BindView(R.id.comment_reply)
     protected ImageButton reply;
-    private OnReplyComment mOnReplyComment;
+
+    @BindView(R.id.reply_content)
+    protected View replyContent;
+
+    @BindView(R.id.reply_comment_text)
+    protected TextView replyText;
+
+    @BindView(R.id.reply_comment_pofile_name)
+    protected TextView replyProfileName;
+    private CommentData commentData;
 
 
     public CommentViewHolder(View itemView) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
-    }
-
-    public CommentViewHolder addClickerToAuthorData(View.OnClickListener userLoginClick) {
-        profileImage.setOnClickListener(userLoginClick);
-        profileName.setOnClickListener(userLoginClick);
-
-        return this;
-    }
-
-    public CommentViewHolder addOnReplyComment(OnReplyComment onReplyComment) {
-        mOnReplyComment = onReplyComment;
-
-        return this;
     }
 
     public void bindToComment(LifecycleOwner lifecycleOwner, CommentData data) {
@@ -67,15 +79,19 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         time.setText(DateTimeHelper.transform(commentData.date));
 
-        loadAuthorData();
+        loadAuthorData(commentData.authorId, mProfileData);
 
-        if (commentData.authorId.equals(FirebaseHelper.getUid()))
-            reply.setVisibility(View.GONE);
-        else reply.setVisibility(View.VISIBLE);
+        reply.setVisibility(View.VISIBLE);
 
-        reply.setOnClickListener(v -> {
-            if (mOnReplyComment != null) mOnReplyComment.onReplyComment(data);
-        });
+        if (commentData.replyId != null) {
+            replyText.setText(commentData.replyText.replace("\n", " "));
+
+            replyContent.setVisibility(View.VISIBLE);
+
+            loadAuthorData(commentData.replyAuthorId, mReplyProfileData);
+        } else {
+            replyContent.setVisibility(View.GONE);
+        }
 
         mProfileData.observe(lifecycleOwner, res -> {
             if (res != null && res.status == ParcResourceByParc.Status.SUCCESS) {
@@ -94,17 +110,44 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        mReplyProfileData.observe(lifecycleOwner, res -> {
+            if (res != null && res.status == ParcResourceByParc.Status.SUCCESS) {
+                replyProfileName.setText(res.data.login);
+            }
+        });
     }
 
+    public void changeVisible(boolean isVisible) {
+        RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+        if (isVisible) {
+            param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            itemView.setVisibility(View.VISIBLE);
+        } else {
+            itemView.setVisibility(View.GONE);
+            param.height = 0;
+            param.width = 0;
+        }
+        itemView.setLayoutParams(param);
+    }
 
-    private void loadAuthorData() {
+    private void loadAuthorData(String id, MutableLiveData<ParcResourceByParc<ProfileData>> to) {
         ProfileRepository.with((Application) profileImage.getContext().getApplicationContext())
-                .setFirebaseId(commentData.authorId)
+                .setFirebaseId(id)
                 .setFirebaseChild(CHILD_USERS)
-                .to(mProfileData)
+                .to(to)
                 .build()
                 .loadData();
 
+    }
+
+    public void startHighlight() {
+        final int color = this.highlight.getContext().getResources().getColor(R.color.colorAccent);
+
+        List<YoYo.YoYoString> anims = UiHelper.Other.highlight(this.highlight, color, new int[]{700, 900});
+
+        this.anims.addAll(anims);
     }
 
     public interface OnReplyComment {

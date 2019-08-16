@@ -31,7 +31,7 @@
         <activity
             android:name="com.xando.chefsclub.Login.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeLight.NoActionBar"
+            android:theme="@style/AppThemeDark"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name="com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.ViewRecipeActivity"
-            android:label="View recipe"
+            android:label="Loading..."
             android:theme="@style/AppThemeLight.NoActionBar" />
 
         <!--WTF? Views missing when keyboard visible

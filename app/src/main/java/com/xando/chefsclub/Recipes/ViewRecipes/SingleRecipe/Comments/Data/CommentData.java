@@ -10,14 +10,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CommentData extends BaseData {
+    public static final Creator<CommentData> CREATOR = new Creator<CommentData>() {
+        @Override
+        public CommentData createFromParcel(Parcel source) {
+            return new CommentData(source);
+        }
+
+        @Override
+        public CommentData[] newArray(int size) {
+            return new CommentData[size];
+        }
+    };
     public String commentId;
     public String text;
     public String authorId;
     public String recipeId;
     public long date;
-
+    public String replyText;
+    public String replyId;
+    public String replyAuthorId;
     //Def == null
     public String authorLogin;
+    private boolean isInReply;
+    private Map<String, Boolean> inReplies = new HashMap<>();
 
     public CommentData() {
     }
@@ -33,6 +48,19 @@ public class CommentData extends BaseData {
         this.date = date;
     }
 
+
+    protected CommentData(Parcel in) {
+        this.commentId = in.readString();
+        this.text = in.readString();
+        this.authorId = in.readString();
+        this.recipeId = in.readString();
+        this.date = in.readLong();
+        this.replyId = in.readString();
+        this.replyText = in.readString();
+        this.replyAuthorId = in.readString();
+
+    }
+
     @Override
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
@@ -42,10 +70,12 @@ public class CommentData extends BaseData {
         map.put("authorId", authorId);
         map.put("recipeId", recipeId);
         map.put("date", ServerValue.TIMESTAMP);
+        map.put("replyText", replyText);
+        map.put("replyId", replyId);
+        map.put("replyAuthorId", replyAuthorId);
 
         return map;
     }
-
 
     @Override
     public int describeContents() {
@@ -59,25 +89,8 @@ public class CommentData extends BaseData {
         dest.writeString(this.authorId);
         dest.writeString(this.recipeId);
         dest.writeLong(this.date);
+        dest.writeString(this.replyId);
+        dest.writeString(this.replyText);
+        dest.writeString(this.replyAuthorId);
     }
-
-    protected CommentData(Parcel in) {
-        this.commentId = in.readString();
-        this.text = in.readString();
-        this.authorId = in.readString();
-        this.recipeId = in.readString();
-        this.date = in.readLong();
-    }
-
-    public static final Creator<CommentData> CREATOR = new Creator<CommentData>() {
-        @Override
-        public CommentData createFromParcel(Parcel source) {
-            return new CommentData(source);
-        }
-
-        @Override
-        public CommentData[] newArray(int size) {
-            return new CommentData[size];
-        }
-    };
 }

@@ -9,6 +9,7 @@
 
     <EditText
         android:id="@+id/edt_stepText"
+        style="@style/StartCapEditText.MultiLine"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -18,7 +19,6 @@
         android:focusable="auto"
         android:focusableInTouchMode="true"
         android:hint="Enter the step"
-        android:inputType="textMultiLine"
         android:maxLines="28"
         android:minLines="6"
         android:textSize="16sp"

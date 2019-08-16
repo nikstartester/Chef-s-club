@@ -5,11 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.xando.chefsclub.Constants.Constants;
 import com.xando.chefsclub.FirebaseReferences;
+import com.xando.chefsclub.Helpers.Keyboard;
 import com.xando.chefsclub.Helpers.NetworkHelper;
 import com.xando.chefsclub.Main.MainActivity;
 import com.xando.chefsclub.Profiles.EditProfile.EditProfileActivityTest;
@@ -86,10 +87,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ImageButton btnStartVerification = findViewById(R.id.btn_startVerification);
+        Button btnStartVerification = findViewById(R.id.btn_startVerification);
         ImageButton btnStartVerificationWithCode = findViewById(R.id.btn_startVerificationWithCode);
         Button btnResend = findViewById(R.id.btn_resend);
         ImageButton btnBackToStartVerification = findViewById(R.id.btn_back);
+        ImageButton btnInfo = findViewById(R.id.login_info);
 
         ButterKnife.bind(this);
 
@@ -103,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnStartVerification.setOnClickListener(this);
         btnResend.setOnClickListener(this);
         btnBackToStartVerification.setOnClickListener(this);
+        btnInfo.setOnClickListener(this);
     }
 
     private void initCallbacks() {
@@ -245,6 +248,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.btn_startVerification:
                 if (isValidateForm(STATE_START_VERIFICATION)) {
+
+                    Keyboard.hideKeyboardFrom(this, edtPhone);
+
                     String currPhoneNumber = edtPhone.getText().toString();
 
                     if (mPhoneNumber == null || !mPhoneNumber.equals(currPhoneNumber))
@@ -256,18 +262,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (NetworkHelper.isConnected(this))
                             updateUi(STATE_IN_PROGRESS);
                         startPhoneNumberVerification(mPhoneNumber);
-
                     } else {
                         updateUi(STATE_START_VERIFICATION_WITH_CODE);
                     }
-
                 }
                 break;
             case R.id.btn_startVerificationWithCode:
                 if (isValidateForm(STATE_START_VERIFICATION_WITH_CODE)) {
-                    verifyPhoneNumberWithCode(mVerificationId, edtCode.getText().toString());
 
-                    updateUi(STATE_IN_PROGRESS);
+                    Keyboard.hideKeyboardFrom(this, edtCode);
+
+                    if (NetworkHelper.isConnected(this))
+                        updateUi(STATE_IN_PROGRESS);
+
+                    verifyPhoneNumberWithCode(mVerificationId, edtCode.getText().toString());
                 }
                 break;
             case R.id.btn_resend:
@@ -276,6 +284,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.btn_back:
                 updateUi(STATE_START_VERIFICATION);
+                break;
+            case R.id.login_info:
+                Keyboard.hideKeyboardFrom(this, edtPhone);
+
+                String text = "Enter your phone number and we'll send an SMS verification code.";
+
+                Snackbar.make(edtPhone, text, Snackbar.LENGTH_LONG).show();
+
                 break;
         }
     }
@@ -476,7 +492,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            Log.w(TAG, "onVerificationFailed", e);
+            //Log.w(TAG, "onVerificationFailed", e);
 
             isToShowProgress = false;
 

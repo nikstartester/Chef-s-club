@@ -17,6 +17,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
+import com.xando.chefsclub.DataWorkers.OnItemCountChanged;
 import com.xando.chefsclub.FirebaseList.FirebaseListAdapter;
 import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.R;
@@ -112,7 +113,7 @@ public abstract class RecipesListFragment extends RecipeEventHookFragment {
 
             @NonNull
             @Override
-            public RecipeItem getNewItemInstance(@NonNull RecipeData data) {
+            public RecipeItem getNewItemInstance(@NonNull RecipeData data, int pos) {
                 return new RecipeItem(data, RecipesListFragment.this);
             }
 

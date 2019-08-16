@@ -15,7 +15,7 @@ import com.xando.chefsclub.R;
 import java.util.List;
 
 public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHolder> {
-    private final ImageData mImageData;
+    private ImageData mImageData;
 
     private boolean isInUploadTask;
 
@@ -49,6 +49,7 @@ public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHo
         super.bindView(holder, payloads);
         imageView = holder.imageView;
         progressBar = holder.progressBar;
+
         if (isInUploadTask) {
             imageView.setColorFilter(R.color.colorPrimary);
             progressBar.setVisibility(View.VISIBLE);
@@ -57,6 +58,14 @@ public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHo
 
         if (mImageData.imagePath != null)
             setImage();
+    }
+
+    public void updateImage(ImageData imageData) {
+        mImageData = imageData;
+
+        if (imageView != null) {
+            setImage();
+        }
     }
 
     private void setImage() {
