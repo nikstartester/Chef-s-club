@@ -94,11 +94,11 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
 
             final int color = holder.root.getContext().getResources().getColor(R.color.colorAccent);
 
-            List<YoYo.YoYoString> anims = UiHelper.Other.highlight(holder.root, color, new int[]{500, 700});
+            List<YoYo.YoYoString> anims = UiHelper.Other.highlight(holder.root, color, new int[]{300, 500});
 
             this.anims.addAll(anims);
-        }
-
+        } else
+            holder.root.setBackgroundColor(holder.itemView.getResources().getColor(R.color.transparent));
     }
 
     @Override
@@ -110,7 +110,8 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
 
     public void stopAnims() {
         for (YoYo.YoYoString anim : anims) {
-            anim.stop();
+            if (anim != null)
+                anim.stop();
         }
 
         anims.clear();

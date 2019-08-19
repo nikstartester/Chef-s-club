@@ -20,6 +20,7 @@
     <color name="grey_300">#e0e0e0</color>
     <color name="grey_600">#646964</color>
     <color name="white_transparent">#ebffffff</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <color name="image_placeholder">#cad4e3</color>
 </resources>
