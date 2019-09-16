@@ -74,6 +74,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static com.xando.chefsclub.Helpers.UiHelper.DURATION_NORMAL;
+import static com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.BaseFragmentWithRecipeKeyKt.KEY_RECIPE_ID;
 
 
 public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
@@ -312,19 +313,19 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         Fragment ingredientsFragment = fm.findFragmentById(R.id.container_ingredients);
 
         if (ingredientsFragment == null) {
-            ingredientsFragment = IngredientsListFragment.getInstance(recipeId);
+            ingredientsFragment = IngredientsListFragment.getInstance(getRecipeId());
         }
         fm.beginTransaction().add(R.id.container_ingredients, ingredientsFragment).commit();
 
     }
 
     private void addCommentFragment() {
-        if (recipeId != null) {
+        if (getRecipeId() != null) {
             FragmentManager fm = getChildFragmentManager();
             Fragment commentsFragment = fm.findFragmentById(R.id.container_comments);
 
             if (commentsFragment == null) {
-                commentsFragment = RecipesCommentsFragment.getInstance(recipeId);
+                commentsFragment = RecipesCommentsFragment.getInstance(getRecipeId());
             }
             fm.beginTransaction().add(R.id.container_comments, commentsFragment).commit();
 
@@ -351,12 +352,12 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
 
         recyclerVewCategories.setNestedScrollingEnabled(false);
 
-        if (recipeId != null) {
+        if (getRecipeId() != null) {
 
             Flowable<List<RecipeEntity>> single = ((App) getActivity().getApplication())
                     .getDatabase()
                     .recipeDao()
-                    .getFlowableByRecipeKey(recipeId);
+                    .getFlowableByRecipeKey(getRecipeId());
 
             Disposable disposable = single.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -488,7 +489,7 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
     private List<IngredientEntity> getIngredientsEntity(List<String> ingrStrList) {
         List<IngredientEntity> entities = new ArrayList<>();
         for (String ingrStr : ingrStrList) {
-            entities.add(new IngredientEntity(recipeId, mOverviewData.name, ingrStr, mTime));
+            entities.add(new IngredientEntity(getRecipeId(), mOverviewData.name, ingrStr, mTime));
         }
         return entities;
     }
@@ -640,7 +641,7 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
         showCommentProgress();
 
         String commentText = newCommentText.getText().toString();
-        CommentData data = new CommentData(commentText, FirebaseHelper.getUid(), recipeId);
+        CommentData data = new CommentData(commentText, FirebaseHelper.getUid(), getRecipeId());
 
         if (isReplyProccess && mReplyComment != null) {
             data.replyId = mReplyComment.commentId;
@@ -697,10 +698,10 @@ public class OverviewViewRecipeFragment extends BaseFragmentWithRecipeKey
                 break;
             case R.id.imgFavorite:
                 //TODO change this when will use new method to get author data
-                if (recipeId != null && mAuthorId != null) {
+                if (getRecipeId() != null && mAuthorId != null) {
 
                     App app = (App) getActivity().getApplication();
-                    FirebaseHelper.Favorite.updateFavorite(app, new RecipeToFavoriteEntity(recipeId, mAuthorId));
+                    FirebaseHelper.Favorite.updateFavorite(app, new RecipeToFavoriteEntity(getRecipeId(), mAuthorId));
 
                     RecipeData recipeData = mRecipeViewModel.getResourceLiveData().getValue().data;
 

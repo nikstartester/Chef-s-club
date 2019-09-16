@@ -63,6 +63,11 @@ public class UiHelper {
                     return null;
                 view.setVisibility(toVisibility);
             }
+
+            if (toVisibility == View.INVISIBLE && view.getVisibility() == View.INVISIBLE
+                || toVisibility == View.GONE && view.getVisibility() == View.GONE)
+                    return null;
+
             return YoYo.with(toVisibility == View.VISIBLE ? Techniques.FadeIn : Techniques.FadeOut)
                     .duration(duration)
                     .onEnd(animator -> view.setVisibility(toVisibility))
@@ -90,7 +95,6 @@ public class UiHelper {
 
             list.add(fadeIn);
             list.add(fadeOut[0]);
-
 
             return list;
         }

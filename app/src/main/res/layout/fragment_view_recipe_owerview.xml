@@ -52,7 +52,7 @@
                     app:srcCompat="@drawable/gradient_black_up" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/name_gradient"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:scaleType="center"

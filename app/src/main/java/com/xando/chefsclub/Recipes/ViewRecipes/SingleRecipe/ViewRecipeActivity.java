@@ -41,7 +41,7 @@ import com.xando.chefsclub.Recipes.ViewModel.RecipeViewModel;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.CommentsListFragment;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.Data.CommentData;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.ViewHolder.CommentViewHolder;
-import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.OverviewViewRecipeFragment;
+import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.NewOverviewRecipeFragment;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.StepsViewRecipeFragment;
 import com.xando.chefsclub.Recipes.db.RecipeEntity;
 import com.xando.chefsclub.Settings.SettingsLoacalFragment;
@@ -200,7 +200,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return OverviewViewRecipeFragment.getInstance(mRecipeId);
+                        return NewOverviewRecipeFragment.Companion.getInstance(mRecipeId);
                     case 1:
                         return StepsViewRecipeFragment.getInstance(mRecipeId);
                     default:

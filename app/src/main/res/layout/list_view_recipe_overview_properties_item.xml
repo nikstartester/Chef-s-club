@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <CheckBox
+        android:id="@+id/checkBox_isSaveOnLocal"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text=""
+        android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_sdStorage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgFavorite"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="?actionBarItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView_sdStorage"
+        app:srcCompat="@drawable/ic_star_border_blue_24dp" />
+
+    <ImageView
+        android:id="@+id/imageView_sdStorage"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_starCount"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_sd_storage_blue_48dp" />
+
+    <TextView
+        android:id="@+id/tv_starCount"
+        style="@style/TextViewElementsTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignTop="@+id/imgFavorite"
+        android:layout_alignBottom="@+id/imgFavorite"
+        android:layout_toStartOf="@+id/imgFavorite"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgFavorite"
+        app:layout_constraintEnd_toStartOf="@+id/imgFavorite"
+        app:layout_constraintTop_toTopOf="@+id/imgFavorite"
+        tools:text="0" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/imgFavorite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgFavorite"
+        tools:text="May 23, 2007" />
+
+    <android.support.constraint.Group
+        android:id="@+id/star_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="tv_starCount,imgFavorite" />
+</android.support.constraint.ConstraintLayout>

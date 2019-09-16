@@ -20,4 +20,9 @@
     <item name="required_field_item" type="id" />
     <item name="comment_item" type="id" />
     <item name="comment_item_small" type="id" />
+    <item name="overview_recipe_photos_item" type="id" />
+    <item name="overview_recipe_properties_item" type="id" />
+    <item name="overview_recipe_categories_item" type="id" />
+    <item name="overview_recipe_description_item" type="id" />
+    <item name="overview_recipe_ingredients_header_item" type="id" />
 </resources>

@@ -40,6 +40,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.BaseFragmentWithRecipeKeyKt.KEY_RECIPE_ID;
+
 public class StepsViewRecipeFragment extends BaseFragmentWithRecipeKey {
 
     private static final int REQUEST_CODE_TIME_PECKER = 7;
