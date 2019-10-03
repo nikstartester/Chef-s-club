@@ -41,22 +41,22 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     protected View highlight;
 
     @BindView(R.id.comment_text)
-    protected TextView text;
+    public TextView text;
 
     @BindView(R.id.comment_time)
     protected TextView time;
 
     @BindView(R.id.comment_pofile_name)
-    protected TextView profileName;
+    public TextView profileName;
 
     @BindView(R.id.comment_profile_image)
-    protected ImageView profileImage;
+    public ImageView profileImage;
 
     @BindView(R.id.comment_reply)
-    protected ImageButton reply;
+    public ImageButton reply;
 
     @BindView(R.id.reply_content)
-    protected View replyContent;
+    public View replyContent;
 
     @BindView(R.id.reply_comment_text)
     protected TextView replyText;
@@ -72,6 +72,10 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToComment(LifecycleOwner lifecycleOwner, CommentData data) {
+        highlight.setBackgroundColor(highlight.getContext().getResources().getColor(R.color.transparent));
+
+        profileImage.setImageResource(R.color.white);
+
         commentData = data;
 
         text.setText(data.text);
@@ -142,9 +146,9 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void startHighlight() {
-        final int color = this.highlight.getContext().getResources().getColor(R.color.colorAccent);
+        final int color = highlight.getContext().getResources().getColor(R.color.colorAccent);
 
-        List<YoYo.YoYoString> anims = UiHelper.Other.highlight(this.highlight, color, new int[]{700, 900});
+        List<YoYo.YoYoString> anims = UiHelper.Other.highlight(highlight, color, new int[]{700, 900});
 
         this.anims.addAll(anims);
     }

@@ -25,64 +25,17 @@ open class MultiGroupsRecyclerViewAdapterImpl : FastItemAdapter<IItem<Any, Recyc
         }
     }
 
-    override fun setItemByGroup(position: Int, item: IItem<out Any, out RecyclerView.ViewHolder>, groupId: Int) {
-        val startPosition = groupsStartPositions.get(groupId)
-        if (groupItemCounts.get(groupId) == 0)
-            addItemByGroup(item, groupId)
-        else set(startPosition + position, item as IItem<Any, RecyclerView.ViewHolder>)
-    }
+    override fun getFastAdapter(): FastAdapter<IItem<Any, RecyclerView.ViewHolder>> = this
 
-    override fun addItemByGroup(item: IItem<out Any, out RecyclerView.ViewHolder>, groupId: Int) {
-        addItemsByGroup(listOf(item), groupId)
-    }
-
-    override fun addItemsByGroup(items: List<IItem<out Any, out RecyclerView.ViewHolder>>, groupId: Int) {
-        if (groupsStartPositions.get(groupId) != NONE_POSITION && groupsStartPositions.size() > 0)
-            addItemsToGroupWithStartPosition(items, groupId)
-        else
-            addItemsToGroupWithoutStartPosition(items, groupId)
-
-        val groupIndex = groupsStartPositions.indexOfKey(groupId)
-
-        for (i in groupIndex + 1 until groupsStartPositions.size()) {
-            val startPosition = groupsStartPositions.valueAt(i)
-            if (startPosition != NONE_POSITION)
-                groupsStartPositions.put(groupsStartPositions.keyAt(i), startPosition + items.size)
-        }
-
-        groupItemCounts.put(groupId, groupItemCounts.get(groupId) + items.size)
-    }
-
-    protected fun addItemsToGroupWithStartPosition(items: List<IItem<out Any, out RecyclerView.ViewHolder>>, groupId: Int) {
-        val startPositionToAdd = groupsStartPositions.get(groupId) + groupItemCounts.get(groupId)
-        add(startPositionToAdd, items as List<IItem<Any, RecyclerView.ViewHolder>>)
-    }
-
-    protected fun addItemsToGroupWithoutStartPosition(items: List<IItem<out Any, out RecyclerView.ViewHolder>>, groupId: Int) {
-        val groupIndex = groupsStartPositions.indexOfKey(groupId)
-
-        var prevGroupStartItemsPosition = NONE_POSITION
-        var prevGroupIndex = -1
-
-        for (i in groupIndex - 1 downTo 0) {
-            prevGroupStartItemsPosition = groupsStartPositions.valueAt(i)
-
-            if (prevGroupStartItemsPosition != NONE_POSITION) {
-                prevGroupIndex = i
-                break
+    override fun getStartGroupPosition(groupId: Int) = groupsStartPositions.get(groupId).let {
+        if (it == NONE_POSITION)
+            getPrevGroupIndexWithStartPosition(groupId).let { prevGroupIndexWithStartPos ->
+                if (prevGroupIndexWithStartPos != -1)
+                    (groupsStartPositions.valueAt(prevGroupIndexWithStartPos)
+                            + groupItemCounts.valueAt(prevGroupIndexWithStartPos))
+                else 0
             }
-        }
-
-        var startPositionToAdd = 0
-        var currGroupStartItemPosition = 0
-        if (prevGroupStartItemsPosition != NONE_POSITION) {
-            val preItemGroupCount = groupItemCounts.valueAt(prevGroupIndex)
-            currGroupStartItemPosition = prevGroupStartItemsPosition + preItemGroupCount
-            startPositionToAdd = currGroupStartItemPosition //+ groupItemCounts.get(groupId)
-        }
-
-        add(startPositionToAdd, items as List<IItem<Any, RecyclerView.ViewHolder>>)
-        groupsStartPositions.put(groupId, currGroupStartItemPosition)
+        else it
     }
 
     override fun getItemOfGroup(positionInGroup: Int, groupId: Int): IItem<Any, RecyclerView.ViewHolder> =
@@ -95,5 +48,116 @@ open class MultiGroupsRecyclerViewAdapterImpl : FastItemAdapter<IItem<Any, Recyc
         return adapterItems.subList(startPosition, startPosition + count)
     }
 
-    override fun getFastAdapter(): FastAdapter<IItem<Any, RecyclerView.ViewHolder>> = this
+    override fun setItemByGroup(positionInGroup: Int, item: IItem<out Any, out RecyclerView.ViewHolder>, groupId: Int) {
+        val startPosition = groupsStartPositions.get(groupId)
+        if (groupItemCounts.get(groupId) == 0)
+            addItemByGroup(item, groupId)
+        else set(startPosition + positionInGroup, item as IItem<Any, RecyclerView.ViewHolder>)
+    }
+
+    override fun addItemByGroup(item: IItem<out Any, out RecyclerView.ViewHolder>, groupId: Int) {
+        addItemsByGroup(listOf(item), groupId)
+    }
+
+    override fun addItemByGroup(positionInGroup: Int, item: IItem<out Any, out RecyclerView.ViewHolder>, groupId: Int) {
+        addItemsByGroup(0, listOf(item), groupId)
+    }
+
+    override fun addItemsByGroup(items: List<IItem<out Any, out RecyclerView.ViewHolder>>, groupId: Int) {
+        addItemsByGroup(0, items, groupId)
+    }
+
+    override fun addItemsByGroup(positionInGroup: Int, items: List<IItem<out Any, out RecyclerView.ViewHolder>>, groupId: Int) {
+        if (groupsStartPositions.get(groupId) != NONE_POSITION && groupsStartPositions.size() > 0)
+            addItemsToGroupWithStartPosition(positionInGroup, items, groupId)
+        else
+            addItemsToGroupWithoutStartPosition(positionInGroup, items, groupId)
+
+        val groupIndex = groupsStartPositions.indexOfKey(groupId)
+
+        for (i in groupIndex + 1 until groupsStartPositions.size()) {
+            val startPosition = groupsStartPositions.valueAt(i)
+            if (startPosition != NONE_POSITION)
+                groupsStartPositions.put(groupsStartPositions.keyAt(i), startPosition + items.size)
+        }
+
+        groupItemCounts.put(groupId, groupItemCounts.get(groupId) + items.size)
+    }
+
+    protected fun addItemsToGroupWithStartPosition(position: Int, items: List<IItem<out Any, out RecyclerView.ViewHolder>>, groupId: Int) {
+        val startGroupPosition = groupsStartPositions.get(groupId) + groupItemCounts.get(groupId)
+        add(startGroupPosition + position, items as List<IItem<Any, RecyclerView.ViewHolder>>)
+    }
+
+    protected fun addItemsToGroupWithoutStartPosition(position: Int, items: List<IItem<out Any, out RecyclerView.ViewHolder>>, groupId: Int) {
+        val prevGroupIndex = getPrevGroupIndexWithStartPosition(groupId)
+        val prevGroupStartItemsPosition = if (prevGroupIndex == -1)
+            NONE_POSITION
+        else groupsStartPositions.valueAt(prevGroupIndex)
+
+        var startGroupPosition = 0
+        if (prevGroupStartItemsPosition != NONE_POSITION) {
+            val preItemGroupCount = groupItemCounts.valueAt(prevGroupIndex)
+            startGroupPosition = prevGroupStartItemsPosition + preItemGroupCount
+        }
+
+        add(startGroupPosition + position, items as List<IItem<Any, RecyclerView.ViewHolder>>)
+        groupsStartPositions.put(groupId, startGroupPosition)
+    }
+
+    override fun moveItemOfGroup(oldPosition: Int, newPosition: Int, groupId: Int) {
+        val startPosition = groupsStartPositions.get(groupId)
+        if (startPosition != NONE_POSITION) {
+            move(oldPosition + startPosition, newPosition + startPosition)
+        }
+    }
+
+    override fun removeItemOfGroup(positionInGroup: Int, groupId: Int) {
+        val startPosition = groupsStartPositions.get(groupId)
+        if (startPosition != NONE_POSITION) {
+            remove(startPosition + positionInGroup)
+            groupItemCounts.put(groupId, groupItemCounts.get(groupId) - 1)
+            changeStartPositionOnNextGroups(groupId, -1)
+        }
+    }
+
+    protected fun getPrevGroupIndexWithStartPosition(groupId: Int): Int {
+        val groupIndex = groupsStartPositions.indexOfKey(groupId)
+
+        var prevGroupIndex = -1
+
+        for (i in groupIndex - 1 downTo 0) {
+            val prevGroupStartItemsPosition = groupsStartPositions.valueAt(i)
+
+            if (prevGroupStartItemsPosition != NONE_POSITION) {
+                prevGroupIndex = i
+                break
+            }
+        }
+
+        return prevGroupIndex
+    }
+
+    protected fun changeStartPositionOnNextGroups(groupId: Int, count: Int) {
+        val groupIndex = groupsStartPositions.indexOfKey(groupId)
+
+        for (i in groupIndex + 1 until groupsStartPositions.size()) {
+            val startPosition = groupsStartPositions.valueAt(i)
+            if (startPosition != NONE_POSITION)
+                groupsStartPositions.put(groupsStartPositions.keyAt(i), startPosition + count)
+        }
+
+    }
+
+    override fun removeAllItemsOfGroup(groupId: Int) {
+        val startPosition = groupsStartPositions.get(groupId)
+        if (startPosition != NONE_POSITION) {
+            val itemCount = groupItemCounts.get(groupId)
+            removeItemRange(startPosition, itemCount)
+            groupItemCounts.put(groupId, 0)
+            changeStartPositionOnNextGroups(groupId, -itemCount)
+        }
+    }
+
+
 }

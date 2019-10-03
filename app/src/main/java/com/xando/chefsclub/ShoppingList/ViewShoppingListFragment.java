@@ -61,22 +61,20 @@ public class ViewShoppingListFragment extends Fragment
     private static final String KEY_INGREDIENT = "keyIngredient";
     private static final String KEY_RECIPE_ID = "keyRecipeId";
     private static final String KEY_DONT_SHOW_AGAIN_SWIPE_INFO = "DONT_SHOW_AGAIN_SWIPE_INFO";
+    private static final String KEY_IS_SCROLLED_ONCE = "KEY_IS_SCROLLED_ONCE";
+
+    private final ItemAdapter<IngredientItem> mItemAdapter = new ItemAdapter<>();
+    private final List<Runnable> mSwipeRunnables = new ArrayList<>();
 
     @BindView(R.id.recycler_view)
     protected RecyclerView recyclerView;
-
     @BindView(R.id.empty_placeholder)
     protected View emptyPlaceholder;
 
     private FastAdapter<IngredientItem> mFastAdapter;
-    private final ItemAdapter<IngredientItem> mItemAdapter = new ItemAdapter<>();
-
     private IngredientsViewModel mIngredientsViewModel;
-
     private IngredientEntity toFocusIngredient;
     private String toFocusRecipeId;
-
-    private final List<Runnable> mSwipeRunnables = new ArrayList<>();
 
     public static Fragment getInstance(@Nullable IngredientEntity toFocus) {
         Fragment fragment = new ViewShoppingListFragment();
@@ -194,7 +192,7 @@ public class ViewShoppingListFragment extends Fragment
             if (item.entity.isAvailable != selected) {
                 item.entity.isAvailable = selected;
 
-                Helper.changeAvailableFromDB(app, item.entity);
+                Helper.INSTANCE.changeAvailableFromDB(app, item.entity);
             }
         });
     }
@@ -275,6 +273,8 @@ public class ViewShoppingListFragment extends Fragment
     }
 
     private void onDataLoaded(@NonNull List<IngredientEntity> res) {
+        mItemAdapter.clear();
+
         int toFocusPos = -1;
 
         List<IngredientItem> items = new ArrayList<>();
@@ -302,7 +302,6 @@ public class ViewShoppingListFragment extends Fragment
                     toFocusPos = i;
                 }
             }
-
 
             items.add(item);
         }
@@ -380,7 +379,7 @@ public class ViewShoppingListFragment extends Fragment
         dialog.setIcon(R.drawable.ic_delete_blue_24dp);
 
         dialog.setPositiveButton(positiveButtonStr, (dialog1, which) -> {
-            Helper.deleteAllFromDB((App) getActivity().getApplication());
+            Helper.INSTANCE.deleteAllFromDB((App) getActivity().getApplication());
 
             mItemAdapter.clear();
 
@@ -411,6 +410,7 @@ public class ViewShoppingListFragment extends Fragment
                 case 1:
                     for (int i = 0; i < mFastAdapter.getItemCount(); i++) {
                         IngredientItem item = mItemAdapter.getAdapterItem(i);
+
                         if (!item.entity.isAvailable && item.entity.recipeId.equals(recipeId)) {
                             mFastAdapter.getExtension(SelectExtension.class).select(i);
                         }
@@ -459,7 +459,7 @@ public class ViewShoppingListFragment extends Fragment
     }
 
     private void deleteAllIngredients(String recipeId) {
-        Helper.deleteByRecipeIdFromDB((App) getActivity().getApplication(), recipeId);
+        Helper.INSTANCE.deleteByRecipeIdFromDB((App) getActivity().getApplication(), recipeId);
 
         int start = -1;
         int count = 0;
@@ -515,7 +515,7 @@ public class ViewShoppingListFragment extends Fragment
                 App app = null;
                 if (getActivity() != null) app = (App) getActivity().getApplication();
                 if (app != null) {
-                    Helper.deleteFromDB(app, item.entity);
+                    Helper.INSTANCE.deleteFromDB(app, item.entity);
                 }
             }
             checkItemsCountForEmptyPlaceholder();
@@ -525,7 +525,7 @@ public class ViewShoppingListFragment extends Fragment
         /*
         Week memory is VERY BAD! remove callbacks in onStop
          */
-        recyclerView.postDelayed(removeRunnable, 3000);
+        recyclerView.postDelayed(removeRunnable, 2500);
 
         item.setSwipedAction(() -> {
             recyclerView.removeCallbacks(removeRunnable);
@@ -544,10 +544,10 @@ public class ViewShoppingListFragment extends Fragment
 
     @Override
     public void onStop() {
-        super.onStop();
-
         for (Runnable runnable : mSwipeRunnables) {
+            runnable.run();
             recyclerView.removeCallbacks(runnable);
         }
+        super.onStop();
     }
 }

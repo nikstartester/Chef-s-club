@@ -42,7 +42,8 @@
         <activity
             android:name="com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.ViewRecipeActivity"
             android:label="Loading..."
-            android:theme="@style/AppThemeLight.NoActionBar" />
+            android:theme="@style/AppThemeLight.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
 
         <!--WTF? Views missing when keyboard visible
         android:windowSoftInputMode="stateHidden|adjustPan" /-->

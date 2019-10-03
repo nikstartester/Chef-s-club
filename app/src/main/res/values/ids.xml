@@ -25,4 +25,9 @@
     <item name="overview_recipe_categories_item" type="id" />
     <item name="overview_recipe_description_item" type="id" />
     <item name="overview_recipe_ingredients_header_item" type="id" />
+    <item name="overview_recipe_ingredients_edit_mode_item" type="id" />
+    <item name="ingredients_item_view_new" type="id" />
+    <item name="overview_recipe_comments_header_item" type="id" />
+    <item name="list_more_item" type="id" />
+    <item name="steps_recipe_all_time_cooking_item" type="id" />
 </resources>

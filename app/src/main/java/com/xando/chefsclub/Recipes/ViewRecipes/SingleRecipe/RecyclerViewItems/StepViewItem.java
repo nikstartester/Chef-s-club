@@ -16,15 +16,9 @@ import com.xando.chefsclub.Recipes.Data.StepOfCooking;
 import java.util.List;
 
 public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHolder> {
-    public static final String DEFAULT_TEXT = "";
-    public static final String DEFAULT_TIME = "";
 
     private ImageView imageView;
-
     private TextView tvTime;
-
-    private TextView tvStepText;
-
     private ImageView imgTime;
 
     private final StepOfCooking mStepOfCooking;
@@ -35,7 +29,6 @@ public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHo
         mStepOfCooking = stepOfCooking;
         mImageData = imageData;
     }
-
 
     @NonNull
     @Override
@@ -58,19 +51,14 @@ public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHo
         super.bindView(holder, payloads);
         imageView = holder.image;
         tvTime = holder.time;
-        tvStepText = holder.text;
         imgTime = holder.imageTime;
 
         holder.text.setText(mStepOfCooking.text);
 
         setTime();
 
-        if (mImageData.imagePath == null) {
-            setEmptyImage();
-        } else {
-            setImage();
-        }
-
+        if (mImageData.imagePath == null) setEmptyImage();
+        else setImage();
     }
 
     private void setEmptyImage() {
@@ -80,19 +68,16 @@ public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHo
     private void setImage() {
         GlideImageLoader.getInstance()
                 .loadImage(imageView.getContext(), imageView, mImageData);
-
+        imageView.setVisibility(View.VISIBLE);
     }
 
     private void setTime() {
-        if (mStepOfCooking.timeNum > 0) {
-            tvTime.setText(DateTimeHelper.convertTime(mStepOfCooking.timeNum));
-            tvTime.setVisibility(View.VISIBLE);
-            imgTime.setVisibility(View.VISIBLE);
-        } else {
-            tvTime.setText(null);
-            tvTime.setVisibility(View.GONE);
-            imgTime.setVisibility(View.GONE);
-        }
+        tvTime.setText(mStepOfCooking.timeNum > 0 ?
+                DateTimeHelper.convertTime(mStepOfCooking.timeNum)
+                : "");
+
+        tvTime.setVisibility(mStepOfCooking.timeNum > 0 ? View.VISIBLE : View.GONE);
+        imgTime.setVisibility(mStepOfCooking.timeNum > 0 ? View.VISIBLE : View.GONE);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,7 +96,6 @@ public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHo
             imageTime = itemView.findViewById(R.id.img_time);
 
             time = itemView.findViewById(R.id.tv_time);
-
         }
     }
 }

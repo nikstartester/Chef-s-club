@@ -10,9 +10,6 @@ import android.view.animation.LinearInterpolator;
 
 public class FloatOnScrollFab extends FloatingActionButton.Behavior {
 
-    /*
-    From https://habr.com/ru/company/nixsolutions/blog/369097/
-     */
     public FloatOnScrollFab(Context context, AttributeSet attrs) {
         super();
     }

@@ -42,7 +42,7 @@ import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.CommentsLis
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.Data.CommentData;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.ViewHolder.CommentViewHolder;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.NewOverviewRecipeFragment;
-import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.StepsViewRecipeFragment;
+import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.NewStepsViewRecipeFragment;
 import com.xando.chefsclub.Recipes.db.RecipeEntity;
 import com.xando.chefsclub.Settings.SettingsLoacalFragment;
 import com.xando.chefsclub.ShoppingList.ViewShoppingListActivity;
@@ -114,6 +114,10 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
         return intent;
     }
 
+    /**
+     * @deprecated Will removed when change method of updating to actual data
+     */
+    @Deprecated()
     public static Intent getIntent(Context context, @Nullable RecipeData recipeData,
                                    boolean isRecipeCreateCurrUser) {
         Intent intent = new Intent(context, ViewRecipeActivity.class);
@@ -202,7 +206,7 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
                     case 0:
                         return NewOverviewRecipeFragment.Companion.getInstance(mRecipeId);
                     case 1:
-                        return StepsViewRecipeFragment.getInstance(mRecipeId);
+                        return NewStepsViewRecipeFragment.Companion.getInstance(mRecipeId);
                     default:
                         return null;
                 }

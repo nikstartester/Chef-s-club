@@ -10,7 +10,8 @@ import kotlinx.android.synthetic.main.list_view_recipe_overview_ingredients_head
 
 
 class IngredientsHeaderItem(var isEditMode: Boolean = false,
-                            val onActionClick: (menuItem: MenuItem) -> Unit) : AbstractItem<IngredientsHeaderItem, IngredientsHeaderItem.IngredientsHeaderViewHolder>() {
+                            val onActionClick: (menuItem: MenuItem) -> Unit)
+    : AbstractItem<IngredientsHeaderItem, IngredientsHeaderItem.IngredientsHeaderViewHolder>() {
 
     private lateinit var viewHolder: IngredientsHeaderViewHolder
 

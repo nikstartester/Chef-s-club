@@ -13,6 +13,9 @@ import io.reactivex.Single;
 @Dao
 public interface IngredientsDao {
 
+    @Query("SELECT * FROM ingrediententity WHERE recipeId = :recipeId AND ingredient = :ingredient")
+    List<IngredientEntity> get(String recipeId, String ingredient);
+
     @Query("SELECT * FROM ingrediententity ORDER BY recipeId, ingredient")
     Single<List<IngredientEntity>> getSingleAll();
 
@@ -36,6 +39,12 @@ public interface IngredientsDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(List<IngredientEntity> list);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void replace(List<IngredientEntity> list);
+
+    @Query("UPDATE ingrediententity SET isAvailable = :isAvailable WHERE recipeId = :recipeId")
+    void changeAllAvailable(String recipeId, boolean isAvailable);
 
     @Query("DELETE FROM ingrediententity WHERE recipeId = :recipeId " +
             "AND ingredient = :ingredient")

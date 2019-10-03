@@ -56,7 +56,8 @@ public class CommentItem extends AbstractItem<CommentItem, CommentViewHolder> {
     public void stopAnims() {
         if (getViewHolder() != null) {
             for (YoYo.YoYoString anim : getViewHolder().anims) {
-                anim.stop();
+                if (anim != null)
+                    anim.stop();
             }
 
             getViewHolder().anims.clear();
@@ -92,6 +93,5 @@ public class CommentItem extends AbstractItem<CommentItem, CommentViewHolder> {
     @Override
     public int getLayoutRes() {
         return R.layout.list_comment_item;
-
     }
 }

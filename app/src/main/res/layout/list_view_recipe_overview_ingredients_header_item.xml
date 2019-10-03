@@ -49,5 +49,5 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/ingredients"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 </android.support.constraint.ConstraintLayout>

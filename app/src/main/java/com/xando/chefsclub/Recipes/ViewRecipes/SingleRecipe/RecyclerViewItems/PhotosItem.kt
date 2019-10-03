@@ -61,7 +61,7 @@ class PhotosItem(var recipeData: RecipeData,
             /*
             position + 1 because have main image(pos = 0)
              */
-            onImageClick(false, position + 1)
+            onImageClick(false, position)
 
             true
         }
