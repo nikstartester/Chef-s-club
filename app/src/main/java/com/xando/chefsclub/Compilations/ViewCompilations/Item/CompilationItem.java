@@ -39,7 +39,13 @@ public class CompilationItem extends AbstractItem<CompilationItem, CompilationIt
         super.bindView(holder, payloads);
 
         holder.name.setText(mCompilationData.name);
-        holder.count.setText(mCompilationData.count + " recipes");
+
+        String countText = String.valueOf(mCompilationData.count);
+        if (mCompilationData.count == 1)
+            countText += " recipe";
+        else countText += " recipes";
+
+        holder.count.setText(countText);
 
         mMoreBtn = holder.more;
     }
