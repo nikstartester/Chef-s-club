@@ -341,10 +341,7 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
                         R.id.imgFavorite -> onFavoriteClick(item as PropertiesItem)
                         R.id.imgBtn_close_edit_mode -> changeIngredientsEditMode()
                         R.id.checkBox_available -> changeAvailable(item as IngredientsViewItem)
-                        R.id.comments_more -> {
-                            commentsAdapter.updateItemVisibility(true)
-                            updateMoreVisibility(-1)
-                        }
+                        R.id.comments_more -> { showAllComments() }
                         R.id.comment_profile_image, R.id.comment_pofile_name -> startActivity(ViewProfileActivityTest.getIntent(activity,
                                 (item as CommentItem).commentData.authorId))
                         R.id.comment_reply -> onReplyComment((item as CommentItem).commentData)
@@ -596,6 +593,11 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
     //endregion
 
     //region Comments
+    private fun showAllComments() {
+        commentsAdapter.updateItemVisibility(true)
+        updateMoreVisibility(-1)
+    }
+
     private fun onReplyMessageClick(item: CommentItem) {
         val replyId = item.commentData.replyId
 
@@ -617,14 +619,13 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
 
     private fun onUserAddedComment() {
         if (isCommentInProgress) {
-
             isCommentInProgress = false
 
             addCommentTextView.text = ""
 
             Keyboard.hideKeyboardFrom(context!!, addCommentTextView)
 
-            commentsAdapter.updateItemVisibility(true)
+            showAllComments()
 
             scrollDown()
 
