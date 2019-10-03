@@ -30,7 +30,7 @@ import java.util.*
 private const val ALL_TIME_ADAPTER_ID = 10
 private const val STEPS_ADAPTER_ID = 11
 
-class NewStepsViewRecipeFragment : BaseFragmentWithRecipeKey() {
+class StepsViewRecipeFragment : BaseFragmentWithRecipeKey() {
 
     private lateinit var recyclerView: RecyclerView
 
@@ -52,11 +52,7 @@ class NewStepsViewRecipeFragment : BaseFragmentWithRecipeKey() {
     private var isLoaded = false
 
     companion object {
-        fun getInstance(recipeId: String) = NewStepsViewRecipeFragment().withRecipeKey(recipeId)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        fun getInstance(recipeId: String) = StepsViewRecipeFragment().withRecipeKey(recipeId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -73,20 +69,23 @@ class NewStepsViewRecipeFragment : BaseFragmentWithRecipeKey() {
             if (resource != null) {
                 when {
                     resource.status == ParcResourceByParc.Status.SUCCESS -> {
-                        if (isLoaded) return@Observer
-                        isLoaded = true
-
-                        recipeData = resource.data
-
+                        onSuccessLoaded(resource)
                         hideProgress()
-
-                        setDataToViews()
                     }
                     resource.status == ParcResourceByParc.Status.ERROR -> hideProgress()
                     else -> showProgress()
                 }
             }
         })
+    }
+
+    private fun onSuccessLoaded(resource: ParcResourceByParc<RecipeData>) {
+        if (isLoaded) return
+        isLoaded = true
+
+        recipeData = resource.data
+
+        setDataToViews()
     }
 
     private fun initViews(mainView: View) {
@@ -131,27 +130,26 @@ class NewStepsViewRecipeFragment : BaseFragmentWithRecipeKey() {
         fastAdapter.withEventHook(initClickEventHook())
     }
 
-    private fun initClickEventHook(): ClickEventHook<IItem<Any, RecyclerView.ViewHolder>> {
-        return object : ClickEventHook<IItem<Any, RecyclerView.ViewHolder>>() {
+    private fun initClickEventHook() =
+            object : ClickEventHook<IItem<Any, RecyclerView.ViewHolder>>() {
 
-            override fun onBindMany(viewHolder: RecyclerView.ViewHolder): List<View>? {
-                val views = ArrayList<View>()
-                if (viewHolder is StepViewItem.ViewHolder) {
-                    views.add(viewHolder.itemView.findViewById(R.id.img_image))
-                }
-                return views
-            }
+                override fun onBindMany(viewHolder: RecyclerView.ViewHolder): List<View>? {
+                    val views = ArrayList<View>()
+                    if (viewHolder is StepViewItem.ViewHolder)
+                        views.add(viewHolder.itemView.findViewById(R.id.img_image))
 
-            override fun onClick(v: View,
-                                 position: Int,
-                                 fastAdapter: FastAdapter<IItem<Any, RecyclerView.ViewHolder>>,
-                                 item: IItem<Any, RecyclerView.ViewHolder>) {
-                when (v.id) {
-                    R.id.img_image -> imageViewClick(stepsAdapter.getGroupPosition(position))
+                    return views
+                }
+
+                override fun onClick(v: View,
+                                     position: Int,
+                                     fastAdapter: FastAdapter<IItem<Any, RecyclerView.ViewHolder>>,
+                                     item: IItem<Any, RecyclerView.ViewHolder>) {
+                    when (v.id) {
+                        R.id.img_image -> imageViewClick(stepsAdapter.getGroupPosition(position))
+                    }
                 }
             }
-        }
-    }
 
     private fun setStepsToAdapter() {
         stepsAdapter.addItems(recipeData!!.stepsData.stepsOfCooking
@@ -160,7 +158,6 @@ class NewStepsViewRecipeFragment : BaseFragmentWithRecipeKey() {
 
     private fun imageViewClick(groupPosition: Int) {
         var changesPos = 0
-
         val dataList = ArrayList<ImageData>()
         var count = 0
 

@@ -3,7 +3,6 @@ package com.xando.chefsclub.List
 import android.support.v7.widget.RecyclerView
 import com.mikepenz.fastadapter.IItem
 
-
 open class GroupAdapter<ITEM : IItem<out Any, out RecyclerView.ViewHolder>>(val groupId: Int, protected val multiGroupsRecyclerViewAdapter: MultiGroupsRecyclerViewAdapter) {
 
     var count = 0
@@ -14,7 +13,6 @@ open class GroupAdapter<ITEM : IItem<out Any, out RecyclerView.ViewHolder>>(val 
 
     open fun addItem(position: Int, item: ITEM) {
         multiGroupsRecyclerViewAdapter.addItemByGroup(position, item, groupId)
-
         count++
     }
 
@@ -24,7 +22,6 @@ open class GroupAdapter<ITEM : IItem<out Any, out RecyclerView.ViewHolder>>(val 
 
     open fun addItems(position: Int, items: List<ITEM>) {
         multiGroupsRecyclerViewAdapter.addItemsByGroup(position, items, groupId)
-
         count += items.size
     }
 

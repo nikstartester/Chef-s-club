@@ -41,8 +41,8 @@ import com.xando.chefsclub.Recipes.ViewModel.RecipeViewModel;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.CommentsListFragment;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.Data.CommentData;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.ViewHolder.CommentViewHolder;
-import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.NewOverviewRecipeFragment;
-import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.NewStepsViewRecipeFragment;
+import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.OverviewRecipeFragment;
+import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Fragments.StepsViewRecipeFragment;
 import com.xando.chefsclub.Recipes.db.RecipeEntity;
 import com.xando.chefsclub.Settings.SettingsLoacalFragment;
 import com.xando.chefsclub.ShoppingList.ViewShoppingListActivity;
@@ -204,9 +204,9 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return NewOverviewRecipeFragment.Companion.getInstance(mRecipeId);
+                        return OverviewRecipeFragment.Companion.getInstance(mRecipeId);
                     case 1:
-                        return NewStepsViewRecipeFragment.Companion.getInstance(mRecipeId);
+                        return StepsViewRecipeFragment.Companion.getInstance(mRecipeId);
                     default:
                         return null;
                 }

@@ -123,7 +123,6 @@ open class MultiGroupsRecyclerViewAdapterImpl : FastItemAdapter<IItem<Any, Recyc
 
     protected fun getPrevGroupIndexWithStartPosition(groupId: Int): Int {
         val groupIndex = groupsStartPositions.indexOfKey(groupId)
-
         var prevGroupIndex = -1
 
         for (i in groupIndex - 1 downTo 0) {
@@ -158,6 +157,4 @@ open class MultiGroupsRecyclerViewAdapterImpl : FastItemAdapter<IItem<Any, Recyc
             changeStartPositionOnNextGroups(groupId, -itemCount)
         }
     }
-
-
 }

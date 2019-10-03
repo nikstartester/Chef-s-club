@@ -44,13 +44,11 @@ class HideableItemsGroupAdapter<ITEM : IItem<out Any, out RecyclerView.ViewHolde
         originalList.addAll(position, items)
     }
 
-    override fun getItem(groupPosition: Int): ITEM {
-        return originalList[groupPosition]
-    }
+    override fun getItem(groupPosition: Int) = originalList[groupPosition]
 
-    override fun getItems(): List<ITEM> {
-        return originalList
-    }
+
+    override fun getItems() = originalList
+
 
     override fun getAdapterPosition(groupPosition: Int) =
             if (groupPosition < visibleCount || isVisibleAll)

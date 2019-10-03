@@ -95,8 +95,7 @@ class IngredientsViewItem(var data: IngredientEntity)
 
         if (isAnimated)
             animations.add(UiHelper.Other.showFadeAnim(viewHolder.availableCheckBox, visibility))
-        else
-            viewHolder.availableCheckBox.visibility = visibility
+        else viewHolder.availableCheckBox.visibility = visibility
     }
 
     class IngredientViewItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

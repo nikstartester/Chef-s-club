@@ -18,17 +18,12 @@ abstract class FirebaseGroupListAdapter<T, ITEM : IItem<out Any, out RecyclerVie
  private val groupAdapter: GroupAdapter<ITEM>) : FirebaseAdapter<T> {
 
     private val snapshots = options.snapshots
-
     private val ids = SparseArray<String>()
 
     init {
-        if (dataList != null) {
-            addSavedData(dataList)
-        }
+        if (dataList != null) addSavedData(dataList)
 
-        if (options.owner != null) {
-            options.owner!!.lifecycle.addObserver(this)
-        }
+        if (options.owner != null) options.owner!!.lifecycle.addObserver(this)
     }
 
     //You can get actual data
@@ -51,9 +46,7 @@ abstract class FirebaseGroupListAdapter<T, ITEM : IItem<out Any, out RecyclerVie
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     override fun startListening() {
-        if (!snapshots.isListening(this)) {
-            snapshots.addChangeEventListener(this)
-        }
+        if (!snapshots.isListening(this)) snapshots.addChangeEventListener(this)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -102,14 +95,8 @@ abstract class FirebaseGroupListAdapter<T, ITEM : IItem<out Any, out RecyclerVie
     protected fun indexOfValueByValue(value: String?): Int {
         for (i in 0 until ids.size()) {
             if (value == null) {
-                if (ids.valueAt(i) == null) {
-                    return i
-                }
-            } else {
-                if (value == ids.valueAt(i)) {
-                    return i
-                }
-            }
+                if (ids.valueAt(i) == null) return i
+            } else if (value == ids.valueAt(i)) return i
         }
         return -1
     }
@@ -117,9 +104,7 @@ abstract class FirebaseGroupListAdapter<T, ITEM : IItem<out Any, out RecyclerVie
     fun removeById(id: String) {
         val index = indexOfValueByValue(id)
 
-        if (index != -1) {
-            onItemRemoved(index)
-        }
+        if (index != -1) onItemRemoved(index)
     }
 
     abstract fun getNewItemInstance(data: T, pos: Int): ITEM

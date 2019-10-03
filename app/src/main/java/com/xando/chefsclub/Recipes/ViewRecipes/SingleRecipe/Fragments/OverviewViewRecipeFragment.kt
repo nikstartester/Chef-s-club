@@ -76,7 +76,7 @@ private const val MAX_COMMENTS_AT_START = 6
 private const val KEY_REPLAY_DATA = "KEY_REPLAY_DATA"
 private const val KEY_REPLAY_PROCESS = "KEY_REPLAY_PROCESS"
 
-class NewOverviewRecipeFragment : BaseFragmentWithRecipeKey() {
+class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
 
     private val recipeViewModel: RecipeViewModel by lazy { getHostViewModel<RecipeViewModel>() }
     private val profileViewModel: ProfileViewModel by lazy { getViewModel<ProfileViewModel>() }
@@ -135,7 +135,7 @@ class NewOverviewRecipeFragment : BaseFragmentWithRecipeKey() {
     private var isLoaded = false
 
     companion object {
-        fun getInstance(recipeId: String) = NewOverviewRecipeFragment().withRecipeKey(recipeId)
+        fun getInstance(recipeId: String) = OverviewRecipeFragment().withRecipeKey(recipeId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -218,8 +218,8 @@ class NewOverviewRecipeFragment : BaseFragmentWithRecipeKey() {
         override fun getUniqueId(data: CommentData) = data.commentId
 
         override fun getNewItemInstance(data: CommentData, pos: Int) =
-                if (data.replyId == null) CommentItem(this@NewOverviewRecipeFragment, data, true)
-                else CommentItemSmall(this@NewOverviewRecipeFragment, data, true)
+                if (data.replyId == null) CommentItem(this@OverviewRecipeFragment, data, true)
+                else CommentItemSmall(this@OverviewRecipeFragment, data, true)
 
         override fun onItemChanged(item: CommentItem, data: CommentData, pos: Int) = true
 
@@ -401,7 +401,7 @@ class NewOverviewRecipeFragment : BaseFragmentWithRecipeKey() {
 
     private fun setPhotos() {
         photosAdapter.getItem().apply {
-            recipeData = this@NewOverviewRecipeFragment.recipeData!!
+            recipeData = this@OverviewRecipeFragment.recipeData!!
             resetView()
             isInit = true
         }
@@ -409,7 +409,7 @@ class NewOverviewRecipeFragment : BaseFragmentWithRecipeKey() {
 
     private fun setProperties() {
         propertiesAdapter.getItem().apply {
-            recipeData = this@NewOverviewRecipeFragment.recipeData!!
+            recipeData = this@OverviewRecipeFragment.recipeData!!
             resetView()
             isInit = true
         }

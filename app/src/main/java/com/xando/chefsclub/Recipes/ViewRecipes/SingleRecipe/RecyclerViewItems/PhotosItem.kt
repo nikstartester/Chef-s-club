@@ -26,7 +26,7 @@ import java.lang.ref.WeakReference
 
 
 class PhotosItem(var recipeData: RecipeData,
-                 val profileViewModel: ProfileViewModel,
+                 private val profileViewModel: ProfileViewModel,
                  lifecycleOwner: LifecycleOwner,
                  var isInit: Boolean = false,
                  val onImageClick: (isMain: Boolean, pos: Int) -> Unit,
@@ -72,9 +72,8 @@ class PhotosItem(var recipeData: RecipeData,
         val owner = ownerWeakReference.get()
         if (owner != null)
             profileViewModel.resourceLiveData.observe(ownerWeakReference.get()!!, Observer { res ->
-                if (res != null && res.status == ParcResourceByParc.Status.SUCCESS) {
+                if (res != null && res.status == ParcResourceByParc.Status.SUCCESS)
                     setAuthorData(res.data!!)
-                }
             })
     }
 
@@ -84,22 +83,19 @@ class PhotosItem(var recipeData: RecipeData,
         viewHolder.recipeName.text = recipeData.overviewData.name
 
         setMainImage()
-
         setPhotos()
     }
 
     private fun setMainImage() {
         val imagePath = recipeData.overviewData.mainImagePath
 
-        if (imagePath == null) {
-            setEmptyImage()
-        } else {
+        if (imagePath == null) setEmptyImage()
+        else {
             val imageData = ImageData(imagePath, recipeData.dateTime)
 
             GlideImageLoader.getInstance()
                     .loadImage(viewHolder.imageView.context, viewHolder.imageView, imageData)
         }
-
     }
 
     private fun setEmptyImage() {
@@ -135,8 +131,7 @@ class PhotosItem(var recipeData: RecipeData,
             GlideImageLoader.getInstance().loadSmallCircularImage(viewHolder.authorImage.context,
                     viewHolder.authorImage,
                     imageData)
-        } else
-            viewHolder.authorImage.setImageResource(R.drawable.ic_account_circle_elements_48dp)
+        } else viewHolder.authorImage.setImageResource(R.drawable.ic_account_circle_elements_48dp)
     }
 
     private fun addAnim(anim: YoYo.YoYoString?) {
@@ -149,9 +144,7 @@ class PhotosItem(var recipeData: RecipeData,
     }
 
     fun stopAnimations() {
-        animations.forEach {
-            it.stop()
-        }
+        animations.forEach { it.stop() }
         animations.clear()
     }
 
