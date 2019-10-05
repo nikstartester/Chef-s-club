@@ -83,8 +83,6 @@ public abstract class SubscriptionsListFragment extends FragmentWithSearchButton
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        recyclerView.setNestedScrollingEnabled(false);
-
         Query query = getQuery(mDatabaseReference);
 
         FirebaseRecyclerOptions<ProfileData> options = new FirebaseRecyclerOptions.Builder<ProfileData>()

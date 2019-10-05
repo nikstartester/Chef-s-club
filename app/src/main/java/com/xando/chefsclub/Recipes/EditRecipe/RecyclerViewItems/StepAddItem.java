@@ -18,6 +18,7 @@ import com.xando.chefsclub.Recipes.Data.StepOfCooking;
 
 import java.util.List;
 
+import static com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader.getDim;
 import static com.xando.chefsclub.Recipes.EditRecipe.DialogTimePicker.NOT_SELECTED;
 
 public class StepAddItem extends AbstractItem<StepAddItem, StepAddItem.ViewHolder> {
@@ -110,7 +111,12 @@ public class StepAddItem extends AbstractItem<StepAddItem, StepAddItem.ViewHolde
         btnRemove.setVisibility(View.VISIBLE);
 
         GlideImageLoader.getInstance()
-                .loadImage(imageView.getContext(), 270, 360, imageView, mImageData);
+                .loadRoundedImage(imageView.getContext(),
+                        270,
+                        360,
+                        imageView,
+                        mImageData,
+                        getDim(imageView.getContext(), R.dimen.image_corner_radius));
 
     }
 

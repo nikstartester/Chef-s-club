@@ -15,6 +15,8 @@ import com.xando.chefsclub.Recipes.Data.StepOfCooking;
 
 import java.util.List;
 
+import static com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader.getDim;
+
 public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHolder> {
 
     private ImageView imageView;
@@ -67,7 +69,10 @@ public class StepViewItem extends AbstractItem<StepViewItem, StepViewItem.ViewHo
 
     private void setImage() {
         GlideImageLoader.getInstance()
-                .loadImage(imageView.getContext(), imageView, mImageData);
+                .loadRoundedImage(imageView.getContext(),
+                        imageView,
+                        mImageData,
+                        getDim(imageView.getContext(), R.dimen.image_corner_radius));
         imageView.setVisibility(View.VISIBLE);
     }
 

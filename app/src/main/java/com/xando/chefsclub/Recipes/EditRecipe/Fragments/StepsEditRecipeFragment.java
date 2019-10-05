@@ -293,7 +293,8 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     }
 
     private void setStepsToAdapter() {
-        mStepsAdapter.clear();
+        if(mStepsAdapter.getAdapterItemCount() == mStepsData.stepsOfCooking.size())
+            return;
 
         for (int i = 0; i < mStepsData.stepsOfCooking.size(); i++) {
 

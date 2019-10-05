@@ -14,6 +14,8 @@ import com.xando.chefsclub.R;
 
 import java.util.List;
 
+import static com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader.getDim;
+
 public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHolder> {
 
     private ImageData mImageData;
@@ -71,7 +73,10 @@ public class ImageAddItem extends AbstractItem<ImageAddItem, ImageAddItem.ViewHo
 
     private void setImage() {
         GlideImageLoader.getInstance()
-                .loadImage(imageView.getContext(), imageView, mImageData);
+                .loadRoundedImage(imageView.getContext(),
+                        imageView,
+                        mImageData,
+                        getDim(imageView.getContext(), R.dimen.image_corner_radius));
     }
 
     public void setInUploadTask(boolean isInUploadTask) {

@@ -13,6 +13,9 @@
     <!-- For android pie(9) /-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:name="com.xando.chefsclub.App"
         android:allowBackup="true"
