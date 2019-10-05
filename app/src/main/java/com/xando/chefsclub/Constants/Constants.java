@@ -76,6 +76,10 @@ public final class Constants {
         public static final int DRAWABLE_ADD_PHOTO_PLACEHOLDER = R.drawable.ic_add_a_photo_blue_1080dp;
         public static final int PLACEHOLDER = R.color.image_placeholder;
 
+        public static final int ROUNDED_PLACEHOLDER = R.drawable.rounded_placeholder;
+
+        public static int CORNER_RADIUS = 12;
+
         public static final long DEF_TIME = -1354;
     }
 

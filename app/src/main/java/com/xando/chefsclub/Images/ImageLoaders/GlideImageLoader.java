@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.signature.ObjectKey;
@@ -14,6 +16,7 @@ import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.GlideApp;
 import com.xando.chefsclub.GlideRequest;
 import com.xando.chefsclub.Images.ImageData.ImageData;
+import com.xando.chefsclub.R;
 
 public class GlideImageLoader implements ImageLoader {
 
@@ -24,6 +27,10 @@ public class GlideImageLoader implements ImageLoader {
 
     public static GlideImageLoader getInstance() {
         return INSTANCE;
+    }
+
+    public static int getDim(Context context, int id){
+        return context.getResources().getDimensionPixelSize(id);
     }
 
     public void loadImage(Context context, ImageView imageView, ImageData imageData) {
@@ -70,6 +77,34 @@ public class GlideImageLoader implements ImageLoader {
         getCacheBuilder(
                 getResizeBuilder(getBaseBuilder(context, imagePath), resizeX, resizeY),
                 time)
+                .into(imageView);
+    }
+
+    public void loadRoundedImage(Context context, ImageView imageView, ImageData imageData, int cornerSize) {
+        loadRoundedImage(context,
+                NORMAL_SIZE,
+                NORMAL_SIZE,
+                imageView,
+                imageData,
+                cornerSize);
+    }
+
+    public void loadRoundedImage(Context context, int resizeX, int resizeY, ImageView imageView, ImageData imageData, int cornerSize) {
+        loadRoundedImage(context,
+                resizeX,
+                resizeY,
+                imageView,
+                imageData.imagePath,
+                imageData.lastUpdateTime,
+                cornerSize);
+    }
+
+    public void loadRoundedImage(Context context, int resizeX, int resizeY, ImageView imageView, String imagePath, long time, int cornerSize) {
+        getCacheBuilder(
+                getResizeBuilder(getBaseBuilder(context, imagePath), resizeX, resizeY),
+                time)
+                .transforms(new CenterCrop(), new RoundedCorners(cornerSize))
+                .placeholder(getRoundedPlaceholder(context))
                 .into(imageView);
     }
 
@@ -152,6 +187,10 @@ public class GlideImageLoader implements ImageLoader {
 
     private int getPlaceholder() {
         return Constants.ImageConstants.PLACEHOLDER;
+    }
+
+    public static Drawable getRoundedPlaceholder(Context context){
+        return context.getDrawable(Constants.ImageConstants.ROUNDED_PLACEHOLDER);
     }
 
     private String getFirebasePrefix() {

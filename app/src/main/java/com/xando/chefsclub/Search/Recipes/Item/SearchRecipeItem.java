@@ -28,6 +28,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader.getDim;
+
 public class SearchRecipeItem extends AbstractItem<SearchRecipeItem, SearchRecipeItem.ViewHolder>
         implements IData<RecipeData> {
 
@@ -95,7 +97,7 @@ public class SearchRecipeItem extends AbstractItem<SearchRecipeItem, SearchRecip
         holder.creatingTime.setText(DateTimeHelper.transform(mRecipeData.dateTime));
 
         int time = mRecipeData.stepsData.timeMainNum;
-        if (time == DialogTimePicker.NOT_SELECTED) {
+        if (time <= 0) {
             holder.imageTime.setVisibility(View.INVISIBLE);
             holder.time.setVisibility(View.INVISIBLE);
         } else {
@@ -141,8 +143,12 @@ public class SearchRecipeItem extends AbstractItem<SearchRecipeItem, SearchRecip
         if (mRecipeData.overviewData.mainImagePath != null) {
             ImageData imageData = new ImageData(mRecipeData.overviewData.mainImagePath, mRecipeData.dateTime);
 
-            GlideImageLoader.getInstance().loadImage(context, holder.image, imageData);
-        }
+            GlideImageLoader.getInstance()
+                    .loadRoundedImage(context,
+                    holder.image,
+                    imageData,
+                    getDim(holder.image.getContext(), R.dimen.image_corner_radius));
+        }else holder.image.setImageDrawable(null);
     }
 
     @NonNull

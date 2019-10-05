@@ -36,6 +36,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        //Init corner radius for gallery view
+        Constants.ImageConstants.CORNER_RADIUS = getResources().getDimensionPixelSize(R.dimen.image_corner_radius);
+
         sInstance = this;
         database = Room.databaseBuilder(this, AppDatabase.class, "profilesDatabase")
                 .build();

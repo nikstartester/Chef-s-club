@@ -7,7 +7,11 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.xando.chefsclub.Constants.Constants;
+import com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader;
 import com.zhihu.matisse.engine.ImageEngine;
 
 public class GlideEngineV4 implements ImageEngine {
@@ -17,9 +21,9 @@ public class GlideEngineV4 implements ImageEngine {
         GlideApp.with(context)
                 .load(uri)
                 //.asBitmap()  // some .jpeg files are actually gif
-                .placeholder(placeholder)
                 .override(resize, resize)
-                .centerCrop()
+                .transforms(new CenterCrop(), new RoundedCorners(Constants.ImageConstants.CORNER_RADIUS))
+                .placeholder(GlideImageLoader.getRoundedPlaceholder(context))
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageView);
     }
