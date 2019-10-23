@@ -94,12 +94,6 @@ public abstract class RecipesListFragment extends RecipeEventHookFragment {
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
     private void initList(List<RecipeData> recipeDataList) {
         Query query = getQuery(databaseReference);
 
@@ -267,6 +261,7 @@ public abstract class RecipesListFragment extends RecipeEventHookFragment {
         //mAdapter.stopListening();
 
         super.onSaveInstanceState(outState);
+        outState.clear();
     }
 
     protected abstract Query getQuery(DatabaseReference databaseReference);
