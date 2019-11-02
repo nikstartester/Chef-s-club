@@ -51,12 +51,17 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ToSearcher {
 
     private static final int REQUEST_CODE_UPDATE_IMAGE = 532;
+
+    private static final String MAIN_IS_FAB_VISIBLE = "MAIN_IS_FAB_VISIBLE";
+
     protected FloatingActionButton fab;
     private SparseArray<Fragment> fragments;
     private ImageView userProfileImage;
     private TextView tvLogin;
     private TextView tvName;
     private NavigationView mNavigationView;
+
+    private boolean isFabVisible = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +120,11 @@ public class MainActivity extends AppCompatActivity
 
         if (savedInstanceState == null)
             showStartFragment();
-
+        else {
+            if(isFabVisible = savedInstanceState.getBoolean(MAIN_IS_FAB_VISIBLE))
+                fab.show();
+            else fab.hide();
+        }
     }
 
     private void startSyncCompilationsTittle() {
@@ -263,7 +272,11 @@ public class MainActivity extends AppCompatActivity
                 || fragmentId == R.id.nav_user_cookbook
                 || fragmentId == R.id.nav_local_cookbook) {
             fab.show();
-        } else fab.hide();
+            isFabVisible = true;
+        } else {
+            fab.hide();
+            isFabVisible = false;
+        }
     }
 
     private void activityClick(int id) {
@@ -310,5 +323,11 @@ public class MainActivity extends AppCompatActivity
         else filterData = new RecipeFilterData().setSearchFrom(searchFrom);
 
         return SearchFragment.getInstance(filterData);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(MAIN_IS_FAB_VISIBLE, isFabVisible);
+        super.onSaveInstanceState(outState);
     }
 }
