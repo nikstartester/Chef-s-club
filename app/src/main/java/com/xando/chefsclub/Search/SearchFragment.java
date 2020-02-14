@@ -18,7 +18,7 @@ import com.xando.chefsclub.Search.Core.Filter;
 import com.xando.chefsclub.Search.Profiles.Filter.ProfileFilterData;
 import com.xando.chefsclub.Search.Profiles.SearchProfilesFragment;
 import com.xando.chefsclub.Search.Recipes.Filter.RecipeFilterData;
-import com.xando.chefsclub.Search.Recipes.SearchRecipesFragmentTest;
+import com.xando.chefsclub.Search.Recipes.SearchRecipesFragment;
 
 
 public class SearchFragment extends Fragment {
@@ -80,18 +80,16 @@ public class SearchFragment extends Fragment {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        if (mRecipeFilterData == null) return new SearchRecipesFragmentTest();
-                        else return SearchRecipesFragmentTest.getInstance(mRecipeFilterData);
+                        if (mRecipeFilterData == null) return new SearchRecipesFragment();
+                        else return SearchRecipesFragment.getInstance(mRecipeFilterData);
 
                     case 1:
                         if (mProfileFilterData == null) return new SearchProfilesFragment();
                         else return SearchProfilesFragment.getInstance(mProfileFilterData);
 
                     default:
-                        return new SearchRecipesFragmentTest();
+                        return new SearchRecipesFragment();
                 }
-                /*if(mRecipeFilterData == null) return new SearchRecipesFragment();
-                else return SearchRecipesFragment.getInstance(mRecipeFilterData);*/
             }
         };
         mViewPager.setAdapter(mAdapter);
@@ -116,14 +114,5 @@ public class SearchFragment extends Fragment {
         mViewPager.setCurrentItem(mPosToView);
 
         return v;
-    }
-
-    public void searchRecipes(RecipeFilterData recipeFilterData) {
-        mViewPager.setCurrentItem(0);
-        Fragment fragment = mAdapter.getItem(0);
-
-        if (fragment instanceof Filter) {
-            ((Filter) fragment).setFilter(recipeFilterData);
-        }
     }
 }

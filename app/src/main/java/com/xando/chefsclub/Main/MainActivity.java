@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         tvName.setOnClickListener(this::getClickListenerForUserData);
         userProfileImage.setOnClickListener(this::getClickListenerForUserData);
 
-        fragments = new SparseArray<>(2);
+        fragments = new SparseArray<>(6);
 
         ProfileViewModel profileViewModel = ViewModelProviders.of(this).get(ProfileViewModel.class);
         profileViewModel.getResourceLiveData().observe(this, resource -> {

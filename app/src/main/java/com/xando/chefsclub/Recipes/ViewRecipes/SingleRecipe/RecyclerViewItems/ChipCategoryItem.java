@@ -15,6 +15,7 @@ public class ChipCategoryItem extends AbstractItem<ChipCategoryItem, ChipCategor
 
     private static final int NORMAL_SIZE = 0;
     public static final int SMALL_SIZE = 1;
+    public static final int SMALL_SIZE_WITHOUT_BORDER = 2;
 
     private final String categoryText;
 
@@ -46,6 +47,8 @@ public class ChipCategoryItem extends AbstractItem<ChipCategoryItem, ChipCategor
         switch (mSize) {
             case SMALL_SIZE:
                 return R.layout.shape_chip_small;
+            case SMALL_SIZE_WITHOUT_BORDER:
+                return R.layout.chip_small;
             default:
                 return R.layout.shape_chip;
         }
