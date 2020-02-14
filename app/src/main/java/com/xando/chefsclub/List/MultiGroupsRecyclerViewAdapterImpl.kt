@@ -157,4 +157,16 @@ open class MultiGroupsRecyclerViewAdapterImpl : FastItemAdapter<IItem<Any, Recyc
             changeStartPositionOnNextGroups(groupId, -itemCount)
         }
     }
+
+    override fun clear(): FastItemAdapter<IItem<Any, RecyclerView.ViewHolder>> {
+        for (i in 0 until groupItemCounts.size()) {
+            groupItemCounts.put(groupItemCounts.keyAt(i), 0)
+        }
+
+        for (i in 0 until groupsStartPositions.size()) {
+            groupsStartPositions.put(groupsStartPositions.keyAt(i), NONE_POSITION)
+        }
+
+        return super.clear()
+    }
 }

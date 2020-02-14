@@ -30,7 +30,7 @@ public abstract class FragmentWithSearchButton extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
+            case R.id.searchBox:
                 toSearch();
                 return true;
         }

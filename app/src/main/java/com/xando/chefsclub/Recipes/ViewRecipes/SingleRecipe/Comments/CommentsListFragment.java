@@ -30,6 +30,8 @@ import com.xando.chefsclub.R;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.Data.CommentData;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.Comments.ViewHolder.CommentViewHolder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public abstract class CommentsListFragment extends Fragment {
     @BindView(R.id.recycler_view_more)
     protected RecyclerView recyclerViewMore;
 
-    @BindView(R.id.comments_more)
+    @BindView(R.id.btn_more)
     protected Button moreBtn;
 
     private DatabaseReference mDatabaseReference;
@@ -189,7 +191,7 @@ public abstract class CommentsListFragment extends Fragment {
             }
 
             @Override
-            public void onClick(View v, int position, FastAdapter<CommentItem> fastAdapter, CommentItem item) {
+            public void onClick(View v, int position, @NotNull FastAdapter<CommentItem> fastAdapter, @NotNull CommentItem item) {
                 switch (v.getId()) {
                     case R.id.comment_profile_image:
                     case R.id.comment_pofile_name:
@@ -268,7 +270,7 @@ public abstract class CommentsListFragment extends Fragment {
         }
     }
 
-    @OnClick(R.id.comments_more)
+    @OnClick(R.id.btn_more)
     public void more() {
         if (!isShowingAll) {
             for (int i = 0; i < mAdapterMore.getAdapterItemCount(); i++) {

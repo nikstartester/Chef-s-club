@@ -423,6 +423,10 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
             }
 
             setRecyclerViewImages();
+
+            if (!isMainPictureClick) {
+                recyclerViewImages.scrollToPosition(mImagesAdapter.getAdapterItemCount() - 1);
+            }
         } else {
             mOverviewData.imagePathsWithoutMainList.set(mPosToChangeImage, paths[0]);
 
@@ -477,7 +481,10 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     private ArrayList<String> getAllIngredients() {
         ArrayList<String> ingredientsArray = new ArrayList<>();
         for (int i = 0; i < mIngredientsAdapter.getItemCount(); i++) {
-            ingredientsArray.add(mIngredientsAdapter.getAdapterItem(i).getIngredient());
+            ingredientsArray.add(mIngredientsAdapter
+                    .getAdapterItem(i)
+                    .getIngredient()
+                    .replaceAll("\\n+"," "));
         }
         return ingredientsArray;
     }
@@ -489,7 +496,6 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
 
     @Override
     public OverviewData getData() {
-
         mOverviewData.name = edtName.getText().toString();
         mOverviewData.description = edtDescription.getText().toString();
         mOverviewData.ingredientsList = getAllIngredients();

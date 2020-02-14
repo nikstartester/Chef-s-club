@@ -128,7 +128,7 @@
     <string name="shopping_list">Shopping list</string>
     <string name="action_add">Add</string>
     <string name="impossible_actions_recipe_deleted">Action is impossible: recipe has been deleted</string>
-    <string name="restriction_of_login_input_message">You can use a-z, A-Z, 0-9 and underscores for the login. Minimum length is 5 characters.</string>
+    <string name="restriction_of_login_input_message">You can use a–z, A–Z, 0–9 and underscores for the login. Minimum length is 5 characters.</string>
 
 
     <string-array name="viewChoose">
@@ -189,5 +189,16 @@
         <item>Southern</item>
         <item>Thai</item>
     </string-array>
+
+    <plurals name="search_result_plurals">
+        <item quantity="zero">Nothing found</item>
+        <item quantity="one">%d result found</item>
+        <item quantity="two">%d results found</item>
+        <item quantity="few">%d results found</item>
+        <item quantity="many">%d results found</item>
+        <item quantity="other">%d results found</item>
+    </plurals>
+
+    <string name="nothing_found">Nothing found</string>
 
 </resources>
