@@ -16,6 +16,11 @@ import java.util.concurrent.TimeUnit
 
 class DelayedSearchBoxViewModel(searchView: SearchView) : SearchBoxViewModel(searchView) {
 
+    companion object {
+        private const val DEBOUNCE_TIMEOUT = 350L
+        private const val MIN_SYMBOL_TO_SEARCH = 3
+    }
+
     private val searchViewFacade: SearchViewFacade = SearchViewFacade(searchView)
     private val listeners = mutableListOf<InstantSearch>()
 
@@ -44,9 +49,9 @@ class DelayedSearchBoxViewModel(searchView: SearchView) : SearchBoxViewModel(sea
             })
         })
                 .map { text -> text.trim().replace(" +".toRegex(), " ") }
-                .debounce(350, TimeUnit.MILLISECONDS)
+                .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
-                .filter { text -> text.length > 2 || text.isEmpty() }
+                .filter { text -> text.length >= MIN_SYMBOL_TO_SEARCH || text.isEmpty() }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { text ->

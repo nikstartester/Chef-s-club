@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.fragment_search_list.view.*
 private const val ITEMS_ADAPTER_ID = 10
 private const val MORE_ADAPTER_ID = 11
 
-abstract class SearchListFragmentNew<Data : BaseData,
+abstract class SearchListFragment<Data : BaseData,
         Item,
         FilterData : BaseFilterData> :
         Fragment(),
@@ -146,12 +146,9 @@ abstract class SearchListFragmentNew<Data : BaseData,
 
                 resultInfoView.text = resultInfo
 
-
                 val dataList = searchResultJsonParser.parseResults(results.content)
 
-                if (!isLoadingMore) {
-                    multiGroupsRecyclerViewAdapter.clear()
-                }
+                if (isLoadingMore.not()) multiGroupsRecyclerViewAdapter.clear()
 
                 itemsAdapter.addItems(getItems(dataList))
 

@@ -26,10 +26,10 @@ import com.xando.chefsclub.Search.Recipes.Filter.RecipeFilterAdapter
 import com.xando.chefsclub.Search.Recipes.Filter.RecipeFilterData
 import com.xando.chefsclub.Search.Recipes.Item.SearchRecipeItem
 import com.xando.chefsclub.Search.Recipes.Parse.RecipesResultParser
-import com.xando.chefsclub.Search.SearchListFragmentNew
+import com.xando.chefsclub.Search.SearchListFragment
 import java.util.*
 
-class SearchRecipesFragment : SearchListFragmentNew<RecipeData, SearchRecipeItem, RecipeFilterData>() {
+class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, RecipeFilterData>() {
 
     private val profileViewModel: ProfileViewModel by lazy { getHostViewModel<ProfileViewModel>() }
 

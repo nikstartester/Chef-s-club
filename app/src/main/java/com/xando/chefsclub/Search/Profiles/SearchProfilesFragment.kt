@@ -17,9 +17,9 @@ import com.xando.chefsclub.Search.Profiles.Filter.ProfileFilterAdapter
 import com.xando.chefsclub.Search.Profiles.Filter.ProfileFilterData
 import com.xando.chefsclub.Search.Profiles.Item.SearchProfilesItem
 import com.xando.chefsclub.Search.Profiles.Parse.ProfilesResultParser
-import com.xando.chefsclub.Search.SearchListFragmentNew
+import com.xando.chefsclub.Search.SearchListFragment
 
-class SearchProfilesFragment : SearchListFragmentNew<ProfileData, SearchProfilesItem, ProfileFilterData>() {
+class SearchProfilesFragment : SearchListFragment<ProfileData, SearchProfilesItem, ProfileFilterData>() {
 
     private lateinit var popupMenu: PopupMenu
 
