@@ -18,6 +18,9 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import java.io.File;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
 import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
 
 
@@ -31,6 +34,8 @@ public class App extends Application {
     private AppDatabase database;
 
     private BroadcastReceiver mNetworkReceiver;
+
+    private CompositeDisposable disposer = new CompositeDisposable();
 
     @Override
     public void onCreate() {
@@ -61,7 +66,7 @@ public class App extends Application {
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         //FirebaseStorage.getInstance().setMaxUploadRetryTimeMillis(60000*2);
 
-        startFavoriteUpdate();
+        startFavoriteUpdateIfNeed();
         //startSyncCompilationsTittle();
 
         //mNetworkReceiver = new ConnectivityChangeReceiver();
@@ -73,13 +78,20 @@ public class App extends Application {
         return application.refWatcher;
     }*/
 
-    private void startFavoriteUpdate() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+    // TODO: need rebase to MainActivity
+    private void startFavoriteUpdateIfNeed() {
+        disposer.add(getDatabase().recipesToFavoriteDao().getSingleAll()
+                .subscribeOn(Schedulers.io())
+                .subscribe(entities -> {
+                    if (!entities.isEmpty()) startFavoriteUpdateService();
+                }));
+    }
+
+    private void startFavoriteUpdateService() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startForegroundService(new Intent(this, SyncFavoriteService.class));
-        } else {
-            startService(new Intent(this, SyncFavoriteService.class));
-        }
-        //startService(new Intent(this, SyncFavoriteService.class));
+        else startService(new Intent(this, SyncFavoriteService.class));
     }
 
     private void startSyncCompilationsTittle() {
