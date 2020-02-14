@@ -261,6 +261,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         if (NetworkHelper.isConnected(this))
                             updateUi(STATE_IN_PROGRESS);
+                        else showNetworkError();
+
                         startPhoneNumberVerification(mPhoneNumber);
                     } else {
                         updateUi(STATE_START_VERIFICATION_WITH_CODE);
@@ -274,13 +276,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     if (NetworkHelper.isConnected(this))
                         updateUi(STATE_IN_PROGRESS);
+                    else showNetworkError();
 
                     verifyPhoneNumberWithCode(mVerificationId, edtCode.getText().toString());
                 }
                 break;
             case R.id.btn_resend:
-                resendVerificationCode(mPhoneNumber, mResendToken);
-                updateUi(STATE_IN_PROGRESS);
+                if (NetworkHelper.isConnected(this)) {
+                    resendVerificationCode(mPhoneNumber, mResendToken);
+                    updateUi(STATE_IN_PROGRESS);
+                } else showNetworkError();
                 break;
             case R.id.btn_back:
                 updateUi(STATE_START_VERIFICATION);
@@ -332,6 +337,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             isValidate = true;
         }
         return isValidate;
+    }
+
+    private void showNetworkError() {
+        Snackbar.make(edtPhone, getString(R.string.network_error), Snackbar.LENGTH_SHORT).show();
     }
 
     private void startPhoneNumberVerification(String phoneNumber) {
