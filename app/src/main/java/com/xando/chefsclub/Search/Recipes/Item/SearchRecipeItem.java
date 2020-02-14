@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,7 +19,6 @@ import com.xando.chefsclub.Images.ImageData.ImageData;
 import com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.Recipes.Data.RecipeData;
-import com.xando.chefsclub.Recipes.EditRecipe.DialogTimePicker;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.RecyclerViewItems.ChipCategoryItem;
 import com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.ViewRecipeActivity;
 import com.xando.chefsclub.Search.Core.IData;
@@ -88,7 +88,6 @@ public class SearchRecipeItem extends AbstractItem<SearchRecipeItem, SearchRecip
     public void bindView(@NonNull ViewHolder holder, @NonNull List<Object> payloads) {
         super.bindView(holder, payloads);
 
-        TextView name = holder.name;
         imageFavorite = holder.starButton;
         starCount = holder.starCount;
 
@@ -116,27 +115,20 @@ public class SearchRecipeItem extends AbstractItem<SearchRecipeItem, SearchRecip
 
         categories.setLayoutManager(ChipsLayoutManager
                 .newBuilder(context)
-                .setScrollingEnabled(false)
                 .build());
 
-        mCategoriesAdapter.setHasStableIds(false);
-
         categories.setHasFixedSize(false);
-        categories.setItemAnimator(new DefaultItemAnimator());
         categories.setAdapter(mCategoriesAdapter);
 
         for (String category : mRecipeData.overviewData.strCategories) {
-
-            mCategoriesAdapter.add(new ChipCategoryItem(category, ChipCategoryItem.SMALL_SIZE));
+            if (category != null && !category.isEmpty())
+                mCategoriesAdapter.add(new ChipCategoryItem(category,
+                        ChipCategoryItem.SMALL_SIZE_WITHOUT_BORDER));
         }
 
+        //Fix clicks bug
         mCategoriesAdapter.withOnClickListener((v, adapter, item, position) -> {
-            context.startActivity(ViewRecipeActivity.getIntent(
-                    context,
-                    mRecipeData.recipeKey,
-                    FirebaseHelper.getUid().equals(mRecipeData.authorUId))
-            );
-
+            holder.itemView.callOnClick();
             return true;
         });
 
@@ -145,10 +137,10 @@ public class SearchRecipeItem extends AbstractItem<SearchRecipeItem, SearchRecip
 
             GlideImageLoader.getInstance()
                     .loadRoundedImage(context,
-                    holder.image,
-                    imageData,
-                    getDim(holder.image.getContext(), R.dimen.image_corner_radius));
-        }else holder.image.setImageDrawable(null);
+                            holder.image,
+                            imageData,
+                            getDim(holder.image.getContext(), R.dimen.image_corner_radius));
+        } else holder.image.setImageDrawable(null);
     }
 
     @NonNull

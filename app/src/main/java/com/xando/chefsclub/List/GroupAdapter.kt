@@ -63,3 +63,7 @@ open class GroupAdapter<ITEM : IItem<out Any, out RecyclerView.ViewHolder>>(val 
         count = 0
     }
 }
+
+fun <ITEM : IItem<out Any, out RecyclerView.ViewHolder>> GroupAdapter<ITEM>.isEmpty() = count == 0
+
+fun <ITEM : IItem<out Any, out RecyclerView.ViewHolder>> GroupAdapter<ITEM>.isNotEmpty() = count > 0

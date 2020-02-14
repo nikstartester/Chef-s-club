@@ -1,89 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_1"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4dp">
+        android:background="@color/white">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:cardElevation="4dp"
+            app:layout_collapseMode="pin">
 
-            <TextView
-                android:id="@+id/result_info"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginStart="16dp"
-                android:gravity="center_vertical|start"
-                android:text="Enter the text for search"
-                app:layout_constraintBottom_toBottomOf="@+id/imageBtn_search_filter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageBtn_search_filter"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <ImageButton
-                android:id="@+id/imageBtn_search_filter"
-                style="@style/BaseNavigateImageButton"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_filters" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/root_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-2dp">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:algolia="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/root_const"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/result_info"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:gravity="center_vertical|start"
+                    android:text="Enter the text for search"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageBtn_search_filter"
+                    app:layout_constraintEnd_toStartOf="@+id/imageBtn_search_filter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imageBtn_search_filter"
+                    app:layout_constraintVertical_bias="1.0" />
 
-            <Button
-                android:id="@+id/btn_load_more"
-                style="@style/BaseAppButton"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="Load more"
-                android:visibility="gone" />
+                <ImageButton
+                    android:id="@+id/imageBtn_search_filter"
+                    style="@style/BaseNavigateImageButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_filters" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
 
-            <com.algolia.instantsearch.ui.views.Hits
-                android:id="@+id/hits"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="8dp"
-                android:visibility="gone"
-                algolia:itemLayout="@layout/hits_recipes_item" />
+    </android.support.design.widget.AppBarLayout>
 
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.algolia.instantsearch.ui.views.Hits
+        android:id="@+id/hits"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:itemLayout="@layout/hits_recipes_item" />
+
+</android.support.design.widget.CoordinatorLayout>

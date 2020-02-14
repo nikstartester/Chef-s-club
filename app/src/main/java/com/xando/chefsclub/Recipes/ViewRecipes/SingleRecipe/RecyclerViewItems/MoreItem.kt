@@ -36,6 +36,6 @@ class MoreItem(private var text: String) : AbstractItem<MoreItem, MoreItem.MoreV
 
     class MoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val moreView: TextView = itemView.comments_more
+        val moreView: TextView = itemView.btn_more
     }
 }

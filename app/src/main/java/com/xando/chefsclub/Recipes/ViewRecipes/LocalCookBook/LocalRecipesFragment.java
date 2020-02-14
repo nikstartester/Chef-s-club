@@ -207,7 +207,7 @@ public class LocalRecipesFragment extends RecipeEventHookFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.shopping_menu, menu);
 
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
+        MenuItem myActionMenuItem = menu.findItem(R.id.searchBox);
         final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

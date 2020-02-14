@@ -252,18 +252,6 @@ public abstract class RecipesListFragment extends RecipeEventHookFragment {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        ArrayList<RecipeData> recipeDataArrayList = new ArrayList<>(mAdapter.getSnapshots());
-
-        outState.putParcelableArrayList(KEY_DATA_LIST, recipeDataArrayList);
-
-        //mAdapter.stopListening();
-
-        super.onSaveInstanceState(outState);
-        outState.clear();
-    }
-
     protected abstract Query getQuery(DatabaseReference databaseReference);
 
     protected abstract boolean isNestedScrolling();

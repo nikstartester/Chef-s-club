@@ -341,7 +341,7 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
                         R.id.imgFavorite -> onFavoriteClick(item as PropertiesItem)
                         R.id.imgBtn_close_edit_mode -> changeIngredientsEditMode()
                         R.id.checkBox_available -> changeAvailable(item as IngredientsViewItem)
-                        R.id.comments_more -> { showAllComments() }
+                        R.id.btn_more -> { showAllComments() }
                         R.id.comment_profile_image, R.id.comment_pofile_name -> startActivity(ViewProfileActivityTest.getIntent(activity,
                                 (item as CommentItem).commentData.authorId))
                         R.id.comment_reply -> onReplyComment((item as CommentItem).commentData)

@@ -13,7 +13,7 @@
     </group>-->
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/searchBox"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="Search"
         app:showAsAction="ifRoom" />
