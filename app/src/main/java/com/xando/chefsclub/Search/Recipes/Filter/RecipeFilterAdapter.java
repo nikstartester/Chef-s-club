@@ -66,7 +66,10 @@ public class RecipeFilterAdapter extends FilterAdapter<RecipeFilterData> {
                 filterSearchFrom.append("stars.").append(getUid()).append(":true");
                 break;
             case FROM_SUBSCRIPTIONS:
-                for (int i = 0; i < data.subscriptions.size(); i++) {
+                //TODO: Fast fix to empty search result
+                if (data.subscriptions.size() == 0)
+                    filterSearchFrom.append("authorUId:" + "\"").append("<-!exclude!->").append("\"");
+                else for (int i = 0; i < data.subscriptions.size(); i++) {
                     String subscription = data.subscriptions.get(i);
                     filterSearchFrom.append("authorUId:" + "\"").append(subscription).append("\"");
 

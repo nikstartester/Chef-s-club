@@ -2,6 +2,8 @@ package com.xando.chefsclub.Search.Core;
 
 import com.algolia.search.saas.Query;
 
+import org.jetbrains.annotations.NotNull;
+
 public abstract class FilterAdapter<T extends BaseFilterData> {
 
     protected T data;
@@ -14,6 +16,7 @@ public abstract class FilterAdapter<T extends BaseFilterData> {
         this.data = data;
     }
 
+    @NotNull
     public T getData() {
         return data;
     }

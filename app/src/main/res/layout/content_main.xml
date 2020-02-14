@@ -5,10 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="0dp"
-    android:paddingLeft="0dp"
-    android:paddingRight="0dp"
-    android:paddingTop="0dp"
+    android:elevation="4dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:fragment="com.example.bludogramfirebase.MainActivity"
     tools:showIn="@layout/app_bar_main">
