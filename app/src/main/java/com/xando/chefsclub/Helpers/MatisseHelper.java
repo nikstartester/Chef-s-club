@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 
 import com.xando.chefsclub.GlideEngineV4;
+import com.xando.chefsclub.R;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.SelectionCreator;
@@ -27,6 +28,8 @@ public class MatisseHelper {
         return matisse.choose(MimeType.of(MimeType.JPEG, MimeType.PNG))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .thumbnailScale(0.9f)
+                .theme(R.style.AppGalleyMatisseStyle)
+                .spanCount(4)
                 .imageEngine(new GlideEngineV4());
     }
 

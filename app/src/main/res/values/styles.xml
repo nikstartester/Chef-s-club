@@ -14,7 +14,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorForeground">@color/common_google_signin_btn_text_dark_focused</item>
+        <item name="android:colorForeground">@color/common_google_signin_btn_text_dark_focused
+        </item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
@@ -118,6 +119,24 @@
 
     <style name="MyDialogFragmentStyle" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:windowNoTitle">false</item>
+    </style>
+
+    <style name="FullScreenDialogFragment" parent="AppThemeLight">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:statusBarColor">@color/md_black_1000</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="AppGalleyMatisseStyle" parent="Matisse.Zhihu">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="item.checkCircle.backgroundColor">@color/colorAccent</item>
+        <item name="bottomToolbar.apply.textColor">@drawable/app_matisse_gallery_toolbar_apply
+        </item>
+        <item name="preview.bottomToolbar.apply.textColor">
+            @drawable/app_matisse_gallery_toolbar_apply
+        </item>
     </style>
 
 </resources>
