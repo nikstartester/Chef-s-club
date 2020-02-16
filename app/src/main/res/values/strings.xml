@@ -199,6 +199,17 @@
         <item quantity="other">%d results found</item>
     </plurals>
 
+    <plurals name="user_recipes_count_plurals">
+        <item quantity="zero">@string/user_recipes_count_zero</item>
+        <item quantity="one">recipe</item>
+        <item quantity="two">recipes</item>
+        <item quantity="few">recipes</item>
+        <item quantity="many">recipes</item>
+        <item quantity="other">recipes</item>
+    </plurals>
+
+    <string name="user_recipes_count_zero">User has no recipes yet</string>
+
     <string name="nothing_found">Nothing found</string>
 
 </resources>

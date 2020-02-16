@@ -92,7 +92,7 @@ public class IngredientItem extends AbstractItem<IngredientItem, IngredientItem.
         if (isHighlightOnce) {
             isHighlightOnce = false;
 
-            final int color = holder.root.getContext().getResources().getColor(R.color.colorAccent);
+            final int color = holder.root.getContext().getResources().getColor(R.color.colorAccent_medium_transparent);
 
             List<YoYo.YoYoString> anims = UiHelper.Other.highlight(holder.root, color, new int[]{300, 500});
 

@@ -146,9 +146,9 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void startHighlight() {
-        final int color = highlight.getContext().getResources().getColor(R.color.colorAccent);
+        final int color = highlight.getContext().getResources().getColor(R.color.colorAccent_medium_transparent);
 
-        List<YoYo.YoYoString> anims = UiHelper.Other.highlight(highlight, color, new int[]{700, 900});
+        List<YoYo.YoYoString> anims = UiHelper.Other.highlight(highlight, color, new int[]{500, 1000});
 
         this.anims.addAll(anims);
     }

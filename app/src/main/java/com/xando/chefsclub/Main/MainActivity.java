@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null)
             showStartFragment();
         else {
-            if(isFabVisible = savedInstanceState.getBoolean(MAIN_IS_FAB_VISIBLE))
+            if (isFabVisible = savedInstanceState.getBoolean(MAIN_IS_FAB_VISIBLE))
                 fab.show();
             else fab.hide();
         }
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity
                 addNewFragment(fragment, id);
         }
 
-        setTittle(item.getTitle().toString());
+        setTittle(item.getItemId() != R.id.nav_search ? item.getTitle().toString() : "");
         changeFabVisibility(id);
     }
 
