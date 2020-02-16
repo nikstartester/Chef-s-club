@@ -42,6 +42,7 @@ import com.xando.chefsclub.Helpers.MatisseHelper;
 import com.xando.chefsclub.Helpers.NetworkHelper;
 import com.xando.chefsclub.Images.ImageData.ImageData;
 import com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader;
+import com.xando.chefsclub.Images.ViewImages.ViewImagesActivity;
 import com.xando.chefsclub.Main.MainActivity;
 import com.xando.chefsclub.Profiles.Data.ProfileData;
 import com.xando.chefsclub.Profiles.Upload.Exceptions.ExistLoginException;
@@ -335,6 +336,11 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         setImage(mImagePath, Constants.ImageConstants.DEF_TIME);
 
         super.deleteOldCaptures();
+    }
+
+    @Override
+    protected void onPreviewImage() {
+        startActivity(ViewImagesActivity.getIntent(getContext(), new ImageData(mImagePath, Constants.ImageConstants.DEF_TIME)));
     }
 
     @Override

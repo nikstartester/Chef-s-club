@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 
 import com.xando.chefsclub.Images.ImageData.ImageData;
@@ -37,6 +36,18 @@ public class ViewImagesActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static Intent getIntent(Context context, ImageData imageData) {
+        Intent intent = new Intent(context, ViewImagesActivity.class);
+
+        final ArrayList<ImageData> list = new ArrayList<>(1);
+        list.add(imageData);
+
+        intent.putParcelableArrayListExtra(EXTRA_DATA, list);
+        intent.putExtra(EXTRA_POSITION, 0);
+
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +60,7 @@ public class ViewImagesActivity extends AppCompatActivity {
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        PagerAdapter pagerAdapter;
-        viewPager.setAdapter(pagerAdapter = new FragmentStatePagerAdapter(fragmentManager) {
+        viewPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
             @Override
             public Fragment getItem(int position) {
                 return ImageFragment.getInstance(mImageDataList.get(position));
@@ -65,5 +75,7 @@ public class ViewImagesActivity extends AppCompatActivity {
         if (position != -1) {
             viewPager.setCurrentItem(position);
         }
+
+        findViewById(R.id.view_images_back).setOnClickListener(v -> finish());
     }
 }

@@ -23,10 +23,12 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
+import com.xando.chefsclub.Constants.Constants;
 import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
 import com.xando.chefsclub.Helpers.DateTimeHelper;
 import com.xando.chefsclub.Helpers.MatisseHelper;
 import com.xando.chefsclub.Images.ImageData.ImageData;
+import com.xando.chefsclub.Images.ViewImages.ViewImagesActivity;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.Recipes.Data.StepOfCooking;
 import com.xando.chefsclub.Recipes.Data.StepsData;
@@ -288,12 +290,19 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     }
 
     @Override
+    protected void onPreviewImage() {
+        startActivity(ViewImagesActivity.getIntent(getContext(),
+                new ImageData(mStepsData.stepsOfCooking.get(mCurrentPosition).imagePath,
+                        Constants.ImageConstants.DEF_TIME)));
+    }
+
+    @Override
     protected void onDeleteImage() {
         removeImage(mCurrentPosition);
     }
 
     private void setStepsToAdapter() {
-        if(mStepsAdapter.getAdapterItemCount() == mStepsData.stepsOfCooking.size())
+        if (mStepsAdapter.getAdapterItemCount() == mStepsData.stepsOfCooking.size())
             return;
 
         for (int i = 0; i < mStepsData.stepsOfCooking.size(); i++) {

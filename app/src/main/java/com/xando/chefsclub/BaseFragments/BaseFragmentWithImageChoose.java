@@ -84,6 +84,7 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
     }
 
     // TODO: add settings flag to open system camera
+
     /**
      * @deprecated use showCameraDialog with cameraView instead
      */
@@ -197,6 +198,9 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
             onGalleryFinish(selected);
         } else if (requestCode == REQUEST_CODE_CHOOSE_DIALOG) {
             switch (resultCode) {
+                case ChooseImagePickerDialog.RESULT_CODE_PREVIEW_SELECTED:
+                    onPreviewImage();
+                    break;
                 case ChooseImagePickerDialog.RESULT_CODE_GALLERY_SELECTED:
                     startMatisseGallery();
                     break;
@@ -245,6 +249,8 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
     }
 
     protected abstract void onGalleryFinish(List<Uri> selected);
+
+    protected abstract void onPreviewImage();
 
     protected abstract void onDeleteImage();
 
