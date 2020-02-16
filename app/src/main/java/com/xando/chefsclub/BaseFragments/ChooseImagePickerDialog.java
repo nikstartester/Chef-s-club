@@ -19,6 +19,7 @@ import butterknife.OnClick;
 
 public class ChooseImagePickerDialog extends BottomSheetDialogFragment {
 
+    public static final int RESULT_CODE_PREVIEW_SELECTED = 126;
     public static final int RESULT_CODE_NEW_PHOTO_SELECTED = 127;
     public static final int RESULT_CODE_GALLERY_SELECTED = 128;
     public static final int RESULT_CODE_DELETE = 129;
@@ -27,6 +28,9 @@ public class ChooseImagePickerDialog extends BottomSheetDialogFragment {
 
     @BindView(R.id.choose_delete)
     protected View contentDelete;
+
+    @BindView(R.id.choose_preview)
+    protected View contentPreview;
 
     private boolean withDelete = false;
 
@@ -59,11 +63,19 @@ public class ChooseImagePickerDialog extends BottomSheetDialogFragment {
 
         if (withDelete) {
             contentDelete.setVisibility(View.VISIBLE);
+            contentPreview.setVisibility(View.VISIBLE);
         } else {
             contentDelete.setVisibility(View.GONE);
+            contentPreview.setVisibility(View.GONE);
         }
 
         return view;
+    }
+
+    @OnClick(R.id.choose_preview)
+    protected void preview() {
+        sendResult(RESULT_CODE_PREVIEW_SELECTED);
+        dismiss();
     }
 
     @OnClick(R.id.choose_camera)

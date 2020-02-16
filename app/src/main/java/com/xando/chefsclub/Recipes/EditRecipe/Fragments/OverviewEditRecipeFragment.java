@@ -29,6 +29,7 @@ import com.xando.chefsclub.Constants.Constants;
 import com.xando.chefsclub.DataWorkers.ParcResourceByParc;
 import com.xando.chefsclub.Images.ImageData.ImageData;
 import com.xando.chefsclub.Images.ImageLoaders.GlideImageLoader;
+import com.xando.chefsclub.Images.ViewImages.ViewImagesActivity;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.Recipes.Data.OverviewData;
 import com.xando.chefsclub.Recipes.EditRecipe.ChooseCategoriesActivity;
@@ -437,6 +438,12 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
     }
 
     @Override
+    protected void onPreviewImage() {
+        final String imagePath = isMainPictureClick ? mOverviewData.mainImagePath : mOverviewData.imagePathsWithoutMainList.get(mPosToChangeImage);
+        startActivity(ViewImagesActivity.getIntent(getContext(), new ImageData(imagePath, Constants.ImageConstants.DEF_TIME)));
+    }
+
+    @Override
     protected void onDeleteImage() {
         if (isChangeNotMainPhoto) {
             removeImage(mPosToChangeImage);
@@ -484,7 +491,7 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
             ingredientsArray.add(mIngredientsAdapter
                     .getAdapterItem(i)
                     .getIngredient()
-                    .replaceAll("\\n+"," "));
+                    .replaceAll("\\n+", " "));
         }
         return ingredientsArray;
     }
