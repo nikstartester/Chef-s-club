@@ -11,11 +11,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
+import android.widget.Toast;
 
+import com.xando.chefsclub.Camera.CameraDialogFragment;
 import com.xando.chefsclub.Constants.Constants;
 import com.xando.chefsclub.Helpers.MatisseHelper;
 import com.xando.chefsclub.Helpers.PermissionHelper;
 import com.zhihu.matisse.Matisse;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +30,7 @@ import java.util.UUID;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static com.xando.chefsclub.Camera.CameraDialogFragmentKt.CAMERA_DIALOG_PHOTO_URI;
 
 
 public abstract class BaseFragmentWithImageChoose extends Fragment {
@@ -34,19 +39,34 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
     private static final int REQUEST_CODE_CHOOSE_MATISSE = 6;
     private static final int REQUEST_CODE_CHOOSE_DIALOG = 12;
     private static final int REQUEST_CODE_PHOTO = 13;
+    private static final int REQUEST_CODE_CAMERA_DIALOG = 14;
+
+    private static final String IMAGE_CHOOSE_PHOTO_PATH = "IMAGE_CHOOSE_PHOTO_PATH";
 
     private final String[] mPermissions = new String[]{READ_EXTERNAL_STORAGE,
             WRITE_EXTERNAL_STORAGE};
     protected List<String> capturePathsToDelete = new ArrayList<>();
     private PermissionHelper mPermissionHelper;
+
+    @Nullable
     private File mPhotoFile;
+
+    private String mPhotoPath = "";
     private int mCount;
+
+    private CameraDialogFragment cameraDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mPermissionHelper = new PermissionHelper(this, mPermissions);
+        if (savedInstanceState != null) {
+            mPhotoPath = savedInstanceState.getString(IMAGE_CHOOSE_PHOTO_PATH, "");
+        }
+
+        cameraDialog = new CameraDialogFragment();
+        cameraDialog.setTargetFragment(this, REQUEST_CODE_CAMERA_DIALOG);
     }
 
     protected void showChooseDialog(int count, boolean withDelete) {
@@ -59,6 +79,15 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
         chooseDialog.show(getFragmentManager(), "Choose_action");
     }
 
+    protected void showCameraDialog() {
+        cameraDialog.show(getFragmentManager(), "CameraDialogFragment");
+    }
+
+    // TODO: add settings flag to open system camera
+    /**
+     * @deprecated use showCameraDialog with cameraView instead
+     */
+    @Deprecated
     protected void createNewPhoto() {
         mPhotoFile = createPhotoFile();
 
@@ -81,15 +110,18 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
                 captureImage.resolveActivity(packageManager) != null;
 
         if (canTakePhoto) {
+            mPhotoPath = mPhotoFile.getAbsolutePath();
             startActivityForResult(makeCaptureIntent(captureImage), REQUEST_CODE_PHOTO);
         }
     }
 
+    @NotNull
     protected File createPhotoFile() {
         String unique = UUID.randomUUID().toString();
         return createPhotoFile(unique);
     }
 
+    @NotNull
     protected File createPhotoFile(String unique) {
         return new File(getParentDirectoryPath(), getPhotoName(unique));
     }
@@ -169,13 +201,23 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
                     startMatisseGallery();
                     break;
                 case ChooseImagePickerDialog.RESULT_CODE_NEW_PHOTO_SELECTED:
-                    createNewPhoto();
+                    showCameraDialog();
                     break;
                 case ChooseImagePickerDialog.RESULT_CODE_DELETE:
                     onDeleteImage();
                     break;
             }
         } else if (requestCode == REQUEST_CODE_PHOTO && resultCode == RESULT_OK) {
+            if (mPhotoFile == null) {
+                if (!mPhotoPath.isEmpty())
+                    mPhotoFile = new File(mPhotoPath);
+
+                if (mPhotoFile == null || !mPhotoFile.exists()) {
+                    //Shit happens. Really happens
+                    Toast.makeText(getContext(), "Failed to add photo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
             Uri uri = FileProvider.getUriForFile(getActivity(),
                     "com.xando.chefsclub.fileprovider",
                     mPhotoFile);
@@ -185,8 +227,21 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
             List<Uri> list = new ArrayList<>(1);
             list.add(Uri.fromFile(mPhotoFile));
 
+            mPhotoFile = null;
+            mPhotoPath = "";
+
+            onGalleryFinish(list);
+        } else if (requestCode == REQUEST_CODE_CAMERA_DIALOG && resultCode == RESULT_OK) {
+            List<Uri> list = new ArrayList<>(1);
+            list.add(data.getParcelableExtra(CAMERA_DIALOG_PHOTO_URI));
             onGalleryFinish(list);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(IMAGE_CHOOSE_PHOTO_PATH, mPhotoPath);
+        super.onSaveInstanceState(outState);
     }
 
     protected abstract void onGalleryFinish(List<Uri> selected);

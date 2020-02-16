@@ -12,7 +12,6 @@ import com.xando.chefsclub.Compilations.Sync.SyncCompilationService;
 import com.xando.chefsclub.Constants.Constants;
 import com.xando.chefsclub.DataWorkers.AppDatabase;
 import com.xando.chefsclub.Recipes.Upload.SyncFavoriteService;
-import com.xando.chefsclub.Settings.SettingsCacheFragment;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -20,6 +19,7 @@ import java.io.File;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import kotlin.io.FilesKt;
 
 import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
 
@@ -50,7 +50,9 @@ public class App extends Application {
 
         JodaTimeAndroid.init(this);
 
-        SettingsCacheFragment.deleteDir(new File(Constants.Files.getDirectoryForTemporaryFiles(this)));
+        // Remove old files
+        FilesKt.deleteRecursively(new File(Constants.Files.getDirectoryForTemporaryFiles(this)));
+        FilesKt.deleteRecursively(new File(Constants.Files.getDirectoryForCaptures(this)));
 
         /*if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

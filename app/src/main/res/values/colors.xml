@@ -11,8 +11,10 @@
     <color name="colorPrimary">#EE4035</color>
     <color name="colorPrimaryDark">#DB2114</color>
     <color name="colorAccent">#F37736</color>
-    <color name="colorAccentTransparent">#30F37736</color>
     <color name="colorElements">#0392cf</color>
+
+    <color name="colorAccent_medium_transparent">#80F37736</color>
+    <color name="colorAccent_max_transparent">#30F37736</color>
 
     <color name="color_line_list_item">#e0d2d2d2</color>
     <color name="white">#FFF</color>
@@ -26,4 +28,6 @@
     <color name="image_placeholder_old">#cad4e3</color>
 
     <color name="text_shadow">#7F000000</color>
+
+    <color name="camera_dialog_gray">#2D2F31</color>
 </resources>
