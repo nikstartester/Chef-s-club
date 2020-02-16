@@ -16,6 +16,8 @@
     <color name="colorAccent_medium_transparent">#80F37736</color>
     <color name="colorAccent_max_transparent">#30F37736</color>
 
+    <color name="color_black_medium_transparent">#80000000</color>
+
     <color name="color_line_list_item">#e0d2d2d2</color>
     <color name="white">#FFF</color>
     <color name="grey_100">#F5F5F5</color>

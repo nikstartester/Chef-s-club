@@ -59,10 +59,7 @@ public class ImageFragment extends Fragment {
                     .placeholder(R.color.md_black_1000)
                     .fitCenter()
                     .into(imageView);
-
         }
-
-
         return view;
     }
 }
