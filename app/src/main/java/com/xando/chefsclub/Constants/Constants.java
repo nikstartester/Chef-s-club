@@ -56,7 +56,7 @@ public final class Constants {
 
         public static final String MAX_IMAGE_CACHE_SIZE = "maxImageCacheSize";
         public static final int INFINITY = -1;
-        public static final int[] DEFAULT_MAX_IMAGE_CACHE_SIZE_VALUES = {10, 25, 50, 100, 200, INFINITY};
+        public static final int[] DEFAULT_MAX_IMAGE_CACHE_SIZE_VALUES = {25, 50, 100, 200, 500, INFINITY};
         public static final int DEFAULT_MAX_IMAGE_CACHE_SIZE = DEFAULT_MAX_IMAGE_CACHE_SIZE_VALUES[2];
 
         public static final String SAVING_LOCAL_VIEWED_RECIPES = "saving_on_local_all_viewed_recipes";
