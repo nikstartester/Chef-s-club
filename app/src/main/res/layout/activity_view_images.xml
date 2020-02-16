@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".Images.ViewImages.ViewImagesActivity"
-    tools:layout_editor_absoluteY="25dp">
+    tools:context=".Images.ViewImages.ViewImagesActivity">
 
     <com.xando.chefsclub.Images.ViewImages.PreviewViewPager
         android:id="@+id/viewPager"
@@ -16,4 +15,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/color_black_medium_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/view_images_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:background="?attr/actionBarItemBackground"
+            android:scaleType="center"
+            android:theme="@android:style/ThemeOverlay.Material.Dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
