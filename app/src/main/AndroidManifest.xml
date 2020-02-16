@@ -28,12 +28,12 @@
         android:largeHeap="true">
 
         <activity
-            android:name="com.xando.chefsclub.Main.MainActivity"
+            android:name="com.xando.chefsclub.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppThemeLight.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustNothing" />
         <activity
-            android:name="com.xando.chefsclub.Login.LoginActivity"
+            android:name="com.xando.chefsclub.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeDark"
             android:windowSoftInputMode="stateHidden|adjustPan">
@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.xando.chefsclub.Recipes.ViewRecipes.SingleRecipe.ViewRecipeActivity"
+            android:name="com.xando.chefsclub.recipes.viewrecipes.singlerecipe.ViewRecipeActivity"
             android:label="Loading..."
             android:theme="@style/AppThemeLight.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
@@ -53,28 +53,28 @@
         android:windowSoftInputMode="stateHidden|adjustPan" /-->
 
         <activity
-            android:name="com.xando.chefsclub.Profiles.ViewProfiles.SingleProfile.ViewProfileActivityTest"
+            android:name="com.xando.chefsclub.profiles.viewprofiles.single.ViewProfileActivityTest"
             android:label="View Profile"
             android:theme="@style/AppThemeLight" />
         <activity
-            android:name="com.xando.chefsclub.Recipes.EditRecipe.EditRecipeActivity"
+            android:name="com.xando.chefsclub.recipes.editrecipe.EditRecipeActivity"
             android:label="@string/title_activity_new_recipe_test"
             android:theme="@style/AppThemeLight.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
-        <activity android:name="com.xando.chefsclub.Recipes.EditRecipe.ChooseCategoriesActivity" />
+        <activity android:name="com.xando.chefsclub.recipes.editrecipe.ChooseCategoriesActivity" />
 
-        <activity android:name="com.xando.chefsclub.Search.Recipes.Filter.FilterDialog.MultiChooseCategoriesActivity" />
+        <activity android:name="com.xando.chefsclub.search.recipes.filter.dialog.MultiChooseCategoriesActivity" />
 
         <activity
-            android:name="com.xando.chefsclub.Settings.SettingsActivity"
+            android:name="com.xando.chefsclub.settings.SettingsActivity"
             android:theme="@style/AppThemeLight.NoActionBar" />
 
         <service
-            android:name="com.xando.chefsclub.Profiles.Upload.ProfileUploaderService"
+            android:name="com.xando.chefsclub.profiles.upload.ProfileUploaderService"
             android:exported="false" />
         <service
-            android:name="com.xando.chefsclub.Recipes.Upload.EditRecipeService"
+            android:name="com.xando.chefsclub.recipes.upload.EditRecipeService"
             android:enabled="true"
             android:exported="false" />
 
@@ -85,29 +85,29 @@
         </receiver>-->
 
         <service
-            android:name="com.xando.chefsclub.Recipes.Upload.SyncFavoriteService"
+            android:name="com.xando.chefsclub.recipes.upload.SyncFavoriteService"
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name="com.xando.chefsclub.Compilations.Sync.SyncCompilationService"
+            android:name="com.xando.chefsclub.compilations.sync.SyncCompilationService"
             android:enabled="true"
             android:exported="false" />
 
         <activity
-            android:name="com.xando.chefsclub.Images.ViewImages.ViewImagesActivity"
+            android:name="com.xando.chefsclub.image.viewimages.ViewImagesActivity"
             android:theme="@style/AppThemeLight.NoActionBar" />
 
         <activity
-            android:name="com.xando.chefsclub.ShoppingList.ViewShoppingListActivity"
+            android:name="com.xando.chefsclub.shoppinglist.ViewShoppingListActivity"
             android:label="Shopping List"
             android:theme="@style/AppThemeLight" />
 
         <activity
-            android:name="com.xando.chefsclub.Profiles.EditProfile.EditProfileActivityTest"
+            android:name="com.xando.chefsclub.profiles.editprofile.EditProfileActivityTest"
             android:theme="@style/AppThemeLight.NoActionBar" />
 
         <activity
-            android:name="com.xando.chefsclub.Recipes.ViewRecipes.Compilations.RecipesActivity"
+            android:name="com.xando.chefsclub.recipes.viewrecipes.compilations.RecipesActivity"
             android:theme="@style/AppThemeLight.NoActionBar" />
 
         <provider

@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.xando.chefsclub.Helpers.NetworkHelper;
-import com.xando.chefsclub.Recipes.Upload.SyncFavoriteService;
+import com.xando.chefsclub.helper.NetworkHelper;
+import com.xando.chefsclub.recipes.upload.SyncFavoriteService;
 
 
 public class ConnectivityChangeReceiver extends BroadcastReceiver {

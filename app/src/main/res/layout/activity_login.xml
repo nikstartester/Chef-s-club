@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_primary_accent_tansparent_up"
     android:orientation="vertical"
-    tools:context="com.xando.chefsclub.Login.LoginActivity">
+    tools:context="com.xando.chefsclub.login.LoginActivity">
 
 
     <TextView
