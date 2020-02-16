@@ -12,7 +12,9 @@ import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.module.AppGlideModule;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
-import com.xando.chefsclub.Constants.Constants;
+import com.xando.chefsclub.constants.Constants;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 
@@ -24,7 +26,7 @@ public class MyAppGlideModule extends AppGlideModule {
     private static final int DISK_CACHE_SIZE_FOR_SMALL_INTERNAL_STORAGE_MIB = 20 * 1024 * 1024;
 
     @Override
-    public void applyOptions(Context context, GlideBuilder builder) {
+    public void applyOptions(@NotNull Context context, @NotNull GlideBuilder builder) {
         // if (MyApplication.from(context).isTest()) return; // NOTE: StatFs will crash on robolectric.
 
         int maxCacheMB = getMaxCacheSize(context);

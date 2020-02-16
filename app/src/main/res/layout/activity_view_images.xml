@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".Images.ViewImages.ViewImagesActivity">
+    tools:context=".image.viewimages.ViewImagesActivity">
 
-    <com.xando.chefsclub.Images.ViewImages.PreviewViewPager
+    <com.xando.chefsclub.image.viewimages.PreviewViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
