@@ -46,6 +46,9 @@ public class ViewProfileFragment extends Fragment implements OnItemCountChanged 
     @BindView(R.id.recipes_count)
     protected TextView itemCount;
 
+    @BindView(R.id.recipes_count_description)
+    protected TextView itemCountDescription;
+
     @BindView(R.id.btn_subscibe)
     protected Button subscibe;
 
@@ -126,7 +129,6 @@ public class ViewProfileFragment extends Fragment implements OnItemCountChanged 
     }
 
     private void updateUi() {
-
         profileName.setText(mProfileData.firstName + " " + mProfileData.secondName);
 
         profileLogin.setText(mProfileData.login);
@@ -170,7 +172,11 @@ public class ViewProfileFragment extends Fragment implements OnItemCountChanged 
 
     @Override
     public void onItemCountChanged(int itemCount) {
-        this.itemCount.setText(String.valueOf(itemCount));
+        this.itemCount.setText(itemCount > 0 ? String.valueOf(itemCount) : "");
+        itemCountDescription.setText(itemCount > 0 ? getResources().getQuantityString(
+                R.plurals.user_recipes_count_plurals,
+                itemCount
+        ) : getResources().getString(R.string.user_recipes_count_zero));
     }
 
     @Override

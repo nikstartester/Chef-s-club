@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:id="@+id/root0"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-
         android:id="@+id/root1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,8 +16,12 @@
             android:id="@+id/user_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="4dp">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="3dp">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/root_user_card"
@@ -109,9 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:visibility="gone"
-
-            >
+            android:visibility="gone">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_top_list"
@@ -119,75 +116,46 @@
                 android:layout_height="wrap_content" />
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/user_recipe_list_card"
+        <LinearLayout
+            android:id="@+id/root_recipes_list_card"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp">
+            android:layout_height="match_parent"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/root_recipes_list_card"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/recipes_count"
+                style="@style/TextViewElementsTextColor"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:background="@color/grey_300">
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:textSize="15dp"
 
-                <View
-                    android:id="@+id/view11"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/grey_300"
-                    app:layout_constraintTop_toBottomOf="@+id/image_search" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/recipes_count"
-                    style="@style/TextViewElementsTextColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="16dp"
-                    android:gravity="center_vertical"
-                    app:layout_constraintBottom_toBottomOf="@+id/image_search"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/image_search" />
+            <TextView
+                android:id="@+id/recipes_count_description"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:gravity="center_vertical"
+                android:text="User recipes"
+                android:textColor="@color/grey_600"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/recipes_count"
+                app:layout_constraintStart_toEndOf="@+id/recipes_count"
+                app:layout_constraintTop_toTopOf="@+id/recipes_count" />
 
-                <TextView
-                    android:id="@+id/textView_recipes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="4dp"
-                    android:gravity="center_vertical"
-                    android:text="recipes"
-                    android:textColor="@color/grey_600"
-                    app:layout_constraintBottom_toBottomOf="@+id/recipes_count"
-                    app:layout_constraintStart_toEndOf="@+id/recipes_count"
-                    app:layout_constraintTop_toTopOf="@+id/recipes_count" />
-
-                <ImageView
-                    android:id="@+id/image_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_search_blue_32dp" />
-
-            </android.support.constraint.ConstraintLayout>
-
-        </android.support.v7.widget.CardView>
+        </LinearLayout>
 
 
         <FrameLayout
             android:id="@+id/container_user_recipes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="4dp">
-
-        </FrameLayout>
-
+            android:layout_marginTop="4dp" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
