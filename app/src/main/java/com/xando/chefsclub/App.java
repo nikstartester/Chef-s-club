@@ -8,10 +8,10 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.squareup.leakcanary.RefWatcher;
-import com.xando.chefsclub.Compilations.Sync.SyncCompilationService;
-import com.xando.chefsclub.Constants.Constants;
-import com.xando.chefsclub.DataWorkers.AppDatabase;
-import com.xando.chefsclub.Recipes.Upload.SyncFavoriteService;
+import com.xando.chefsclub.compilations.sync.SyncCompilationService;
+import com.xando.chefsclub.constants.Constants;
+import com.xando.chefsclub.dataworkers.AppDatabase;
+import com.xando.chefsclub.recipes.upload.SyncFavoriteService;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -21,7 +21,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import kotlin.io.FilesKt;
 
-import static com.xando.chefsclub.Helpers.FirebaseHelper.getUid;
+import static com.xando.chefsclub.helper.FirebaseHelper.getUid;
 
 
 public class App extends Application {
