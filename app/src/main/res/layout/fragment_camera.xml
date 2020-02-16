@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:keepScreenOn="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/camera_dialog_toolbar_container"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/md_black_1000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/camera_dialog_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:background="?attr/actionBarItemBackground"
+            android:scaleType="center"
+            android:theme="@android:style/ThemeOverlay.Material.Dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
+
+        <ImageView
+            android:id="@+id/camera_dialog_flash"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:background="?attr/actionBarItemBackground"
+            android:scaleType="center"
+            android:theme="@android:style/ThemeOverlay.Material.Dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_flash_off_white_24dp" />
+    </android.support.constraint.ConstraintLayout>
+
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:keepScreenOn="true"
+        app:cameraAudio="off"
+        app:cameraGesturePinch="none"
+        app:cameraGestureTap="focusWithMarker"
+        app:cameraPictureSizeAspectRatio="3:4"
+        app:cameraPictureSizeBiggest="true"
+        app:cameraPictureSizeMaxHeight="2048"
+        app:cameraPictureSizeMaxWidth="1536"
+        app:cameraPlaySounds="false"
+        app:cameraSessionType="picture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/camera_dialog_toolbar_container"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_height="400dp" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/md_black_1000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/camera">
+
+        <View
+            android:id="@+id/take_capture"
+            android:layout_width="@dimen/camera_dialog_capture_button_size"
+            android:layout_height="@dimen/camera_dialog_capture_button_size"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_camera_button"
+            android:stateListAnimator="@animator/camera_dialog_capture_btn_anim"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>
