@@ -306,8 +306,6 @@ public class EditRecipeActivity extends AppCompatActivity {
             onRequiredFieldsError();
         } else {
             if (NetworkHelper.isConnected(this)) {
-                //setRecipeData(mRecipeData);
-
                 startUpload();
             } else {
                 showConnectionError();
@@ -373,7 +371,7 @@ public class EditRecipeActivity extends AppCompatActivity {
     }
 
     private void startUpload() {
-        EditRecipeService.startEditRecipeService(this, mRecipeData);
+        EditRecipeService.startEditRecipeService(this, NormalizeRecipeData.normalizeRecipeData(setRecipeData()));
     }
 
     private void showConnectionError() {

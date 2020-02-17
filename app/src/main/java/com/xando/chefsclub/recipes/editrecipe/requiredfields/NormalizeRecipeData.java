@@ -6,10 +6,13 @@ import android.text.TextUtils;
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.data.StepOfCooking;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import kotlin.text.StringsKt;
 
 public class NormalizeRecipeData {
 
@@ -24,6 +27,8 @@ public class NormalizeRecipeData {
 
     public static boolean checkRequired(RecipeData recipeData, boolean useNormalizeMethods) {
         if (useNormalizeMethods) {
+            normalizePhoto(recipeData);
+
             return checkText(recipeData.overviewData.name)
                     && checkIngredients(getNormalizeIngredients(recipeData.overviewData.ingredientsList))
                     && checkSteps(getNormalizeSteps(recipeData.stepsData.stepsOfCooking));
@@ -32,8 +37,62 @@ public class NormalizeRecipeData {
                 && checkSteps(recipeData.stepsData.stepsOfCooking);
     }
 
+    public RequiredFieldsData getRequiredFields(RecipeData recipeData, boolean useNormalizeMethods) {
+        mRecipeData = recipeData;
+
+        LinkedHashMap<String, Boolean> map = new LinkedHashMap<>();
+
+        map.put(NAME_TEXT, checkName());
+
+        if (useNormalizeMethods) {
+            map.put(INGREDIENTS_TEXT, checkIngredients(getNormalizeIngredients(recipeData.overviewData.ingredientsList)));
+            map.put(STEPS_TEXT, checkSteps(getNormalizeSteps(recipeData.stepsData.stepsOfCooking)));
+        } else {
+            map.put(INGREDIENTS_TEXT, checkIngredients());
+            map.put(STEPS_TEXT, checkSteps());
+        }
+
+        return new RequiredFieldsData(map);
+    }
+
+    public static RecipeData normalizeRecipeData(RecipeData recipeData) {
+        normalizePhoto(recipeData);
+
+        recipeData.overviewData.ingredientsList = getNormalizeIngredients(recipeData.overviewData.ingredientsList);
+
+        recipeData.stepsData.stepsOfCooking = getNormalizeSteps(recipeData.stepsData.stepsOfCooking);
+
+        return recipeData;
+    }
+
+    private static void normalizePhoto(RecipeData recipeData) {
+        recipeData.overviewData.mainImagePath = checkOrNullPhoto(recipeData.overviewData.mainImagePath);
+
+        recipeData.overviewData.allImagePathList = checkPhotosList(recipeData.overviewData.allImagePathList);
+        recipeData.overviewData.imagePathsWithoutMainList = checkPhotosList(recipeData.overviewData.imagePathsWithoutMainList);
+
+        for (int i = 0; i < recipeData.stepsData.stepsOfCooking.size(); i++) {
+            final StepOfCooking step = recipeData.stepsData.stepsOfCooking.get(i);
+            step.imagePath = checkOrNullPhoto(step.imagePath);
+        }
+    }
+
+    private static List<String> checkPhotosList(List<String> list) {
+        final List<String> result = new ArrayList<>();
+        for (String imagePath : list) {
+            final String check = checkOrNullPhoto(imagePath);
+            if (check != null) result.add(check);
+        }
+
+        return result;
+    }
+
+    private static String checkOrNullPhoto(String imagePath) {
+        return !TextUtils.isEmpty(imagePath) && new File(imagePath).exists() ? imagePath : null;
+    }
+
     private static boolean checkText(String text) {
-        return text != null && !TextUtils.isEmpty(text);
+        return text != null && !StringsKt.isBlank(text);
     }
 
     private static boolean checkIngredients(List<String> list) {
@@ -60,19 +119,11 @@ public class NormalizeRecipeData {
         return count >= MIN_STEPS_COUNT;
     }
 
-    public static RecipeData normalizeRecipeData(RecipeData recipeData) {
-        recipeData.overviewData.ingredientsList = getNormalizeIngredients(recipeData.overviewData.ingredientsList);
-
-        recipeData.stepsData.stepsOfCooking = getNormalizeSteps(recipeData.stepsData.stepsOfCooking);
-
-        return recipeData;
-    }
-
     private static List<StepOfCooking> getNormalizeSteps(@NonNull List<StepOfCooking> toNormalize) {
         List<StepOfCooking> tmpList = new ArrayList<>();
 
         for (StepOfCooking step : toNormalize) {
-            if (step != null && checkText(step.text)) {
+            if (step != null && (checkText(step.text) || (!TextUtils.isEmpty(step.imagePath)))) {
                 tmpList.add(step);
             }
         }
@@ -134,24 +185,6 @@ public class NormalizeRecipeData {
         }
 
         return tmpList;
-    }
-
-    public RequiredFieldsData getRequiredFields(RecipeData recipeData, boolean useNormalizeMethods) {
-        mRecipeData = recipeData;
-
-        LinkedHashMap<String, Boolean> map = new LinkedHashMap<>();
-
-        map.put(NAME_TEXT, checkName());
-
-        if (useNormalizeMethods) {
-            map.put(INGREDIENTS_TEXT, checkIngredients(getNormalizeIngredients(recipeData.overviewData.ingredientsList)));
-            map.put(STEPS_TEXT, checkSteps(getNormalizeSteps(recipeData.stepsData.stepsOfCooking)));
-        } else {
-            map.put(INGREDIENTS_TEXT, checkIngredients());
-            map.put(STEPS_TEXT, checkSteps());
-        }
-
-        return new RequiredFieldsData(map);
     }
 
     private boolean checkName() {
