@@ -305,6 +305,8 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         if (mStepsAdapter.getAdapterItemCount() == mStepsData.stepsOfCooking.size())
             return;
 
+        mStepsAdapter.clear();
+
         for (int i = 0; i < mStepsData.stepsOfCooking.size(); i++) {
 
             StepOfCooking step = mStepsData.stepsOfCooking.get(i);
