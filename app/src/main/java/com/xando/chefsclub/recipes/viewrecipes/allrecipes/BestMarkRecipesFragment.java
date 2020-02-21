@@ -14,7 +14,7 @@ public class BestMarkRecipesFragment extends RecipesListFragment {
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("recipes")
                 .orderByChild("tags/sortByStarTag")
-                .limitToLast(300);
+                .limitToLast(150);
     }
 
     @Override
