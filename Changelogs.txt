@@ -1,3 +1,14 @@
+v0.2.0: Major release includes:
+	New recipe comments
+	Better performance in recipe view screen (new screen)
+	New search screen
+	New camera screen
+
+	Fix issues includes app crashes
+	App work optimizations
+	Appearance enhancements
+
+	And much more
 v0.1.2-beta-3:
 	Check for the existence of a login in real time 
 	Added input restrictions(now only a-z, A-Z, 0-9 and _) for a login
