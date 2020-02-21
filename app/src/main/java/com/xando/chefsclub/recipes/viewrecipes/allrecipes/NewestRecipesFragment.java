@@ -14,7 +14,8 @@ public class NewestRecipesFragment extends RecipesListFragment {
     @Override
     public Query getQuery(DatabaseReference databaseReference) {
         return databaseReference.child("recipes")
-                .limitToLast(300);
+                .orderByChild("tags/sortByAllTag")
+                .limitToLast(150);
     }
 
     @Override
