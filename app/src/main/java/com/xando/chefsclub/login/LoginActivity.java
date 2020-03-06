@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,6 +39,8 @@ import com.xando.chefsclub.R;
 import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.helper.Keyboard;
 import com.xando.chefsclub.helper.NetworkHelper;
+import com.xando.chefsclub.helper.TextUtilsKt;
+import com.xando.chefsclub.helper.UiHelper;
 import com.xando.chefsclub.main.MainActivity;
 import com.xando.chefsclub.profiles.editprofile.EditProfileActivityTest;
 
@@ -57,6 +60,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = "LoginActivity";
     private static final String KEY_VERIFY_IN_PROGRESS = "9671";
+
+    public static final int APP_TITLE_ANIMATION_DURATION = 550;
 
     @BindView(R.id.edt_phone)
     protected EditText edtPhone;
@@ -87,6 +92,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        final View appTittle = findViewById(R.id.login_app_title);
+
+        if (savedInstanceState == null)
+            UiHelper.Other.showFadeAnim(appTittle, View.VISIBLE, APP_TITLE_ANIMATION_DURATION);
+        else appTittle.setVisibility(View.VISIBLE);
 
         Button btnStartVerification = findViewById(R.id.btn_startVerification);
         ImageButton btnStartVerificationWithCode = findViewById(R.id.btn_startVerificationWithCode);
@@ -167,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         updateUi(STATE_START_VERIFICATION_WITH_CODE);
 
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException)
-                            edtCode.setError(getString(R.string.invalid_code));
+                            setEditTextError(edtCode, getString(R.string.invalid_code));
                         else if (task.getException() instanceof FirebaseNetworkException) {
                             Toast.makeText(LoginActivity.this
                                     , getString(R.string.network_error),
@@ -316,12 +327,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         boolean isValidate = false;
         String phone = edtPhone.getText().toString();
         if (TextUtils.isEmpty(phone)) {
-            edtPhone.setError(getResources().getString(R.string.error_field_required));
+            setEditTextError(edtPhone, getResources().getString(R.string.error_field_required));
         } else {
             if (phone.length() < 6) {
-                edtPhone.setError(getString(R.string.invalid_phone));
+                setEditTextError(edtPhone, getString(R.string.invalid_phone));
             } else {
-                edtPhone.setError(null);
+                setEditTextError(edtPhone, null);
                 isValidate = true;
             }
         }
@@ -332,9 +343,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         boolean isValidate = false;
         String code = edtCode.getText().toString();
         if (TextUtils.isEmpty(code)) {
-            edtCode.setError(getResources().getString(R.string.error_field_required));
+            setEditTextError(edtCode, getResources().getString(R.string.error_field_required));
         } else {
-            edtCode.setError(null);
+            setEditTextError(edtCode, null);
             isValidate = true;
         }
         return isValidate;
@@ -441,8 +452,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 updateUiToShowProgress();
                 break;
         }
-        edtPhone.setError(null);
-        edtCode.setError(null);
+        setEditTextError(edtPhone, null);
+        setEditTextError(edtCode, null);
     }
 
     private void updateUiToStartVerification() {
@@ -509,7 +520,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             if (e instanceof FirebaseAuthInvalidCredentialsException) {
                 // Invalid request
-                edtPhone.setError(getString(R.string.invalid_phone));
+                setEditTextError(edtPhone, getString(R.string.invalid_phone));
             } else if (e instanceof FirebaseTooManyRequestsException) {
                 // The SMS quota for the project has been exceeded
                 showError(getString(R.string.sms_quota));
@@ -541,5 +552,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             isCanSendRequest = false;
         }
+    }
+
+    private void setEditTextError(EditText editText, @Nullable String error) {
+        TextUtilsKt.setErrorColoredIcon(editText, error, R.color.grey_300);
     }
 }
