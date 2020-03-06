@@ -1,8 +1,9 @@
 package com.xando.chefsclub.helper;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -11,16 +12,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.xando.chefsclub.App;
+import com.xando.chefsclub.FirebaseReferences;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.data.CompilationData;
 import com.xando.chefsclub.dataworkers.BaseData;
-import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.profiles.data.ProfileData;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.RecipeData;
-import com.xando.chefsclub.recipes.db.converter.MapBoolConverter;
 import com.xando.chefsclub.recipes.db.RecipeDao;
 import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity;
 import com.xando.chefsclub.recipes.db.RecipesToFavoriteDao;
+import com.xando.chefsclub.recipes.db.converter.MapBoolConverter;
 
 import java.util.ArrayList;
 import java.util.List;

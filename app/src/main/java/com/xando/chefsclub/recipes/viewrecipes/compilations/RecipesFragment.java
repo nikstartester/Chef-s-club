@@ -1,21 +1,22 @@
 package com.xando.chefsclub.recipes.viewrecipes.compilations;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.PopupMenu;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.data.CompilationData;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.RecipeData;
-import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.RecipesListFragment;
+import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
 
 
 public class RecipesFragment extends RecipesListFragment {

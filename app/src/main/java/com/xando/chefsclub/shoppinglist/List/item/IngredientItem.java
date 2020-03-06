@@ -1,10 +1,11 @@
 package com.xando.chefsclub.shoppinglist.List.item;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.androidanimations.library.YoYo;
 import com.mikepenz.fastadapter.FastAdapter;
@@ -14,8 +15,8 @@ import com.mikepenz.fastadapter.listeners.ClickEventHook;
 import com.mikepenz.fastadapter.select.SelectExtension;
 import com.mikepenz.fastadapter_extensions.drag.IDraggable;
 import com.mikepenz.fastadapter_extensions.swipe.ISwipeable;
-import com.xando.chefsclub.helper.UiHelper;
 import com.xando.chefsclub.R;
+import com.xando.chefsclub.helper.UiHelper;
 import com.xando.chefsclub.shoppinglist.db.IngredientEntity;
 
 import java.util.ArrayList;

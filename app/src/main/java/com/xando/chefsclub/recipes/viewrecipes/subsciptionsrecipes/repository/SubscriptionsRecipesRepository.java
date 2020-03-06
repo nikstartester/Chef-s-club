@@ -1,7 +1,7 @@
 package com.xando.chefsclub.recipes.viewrecipes.subsciptionsrecipes.repository;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

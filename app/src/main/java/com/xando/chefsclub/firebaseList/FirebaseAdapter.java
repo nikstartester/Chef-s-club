@@ -1,7 +1,7 @@
 package com.xando.chefsclub.firebaseList;
 
-import android.arch.lifecycle.LifecycleObserver;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleObserver;
 
 import com.firebase.ui.database.ChangeEventListener;
 import com.firebase.ui.database.ObservableSnapshotArray;

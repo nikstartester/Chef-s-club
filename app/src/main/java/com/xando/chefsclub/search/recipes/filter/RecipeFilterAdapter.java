@@ -1,7 +1,8 @@
 package com.xando.chefsclub.search.recipes.filter;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.algolia.search.saas.Query;
 import com.xando.chefsclub.search.core.FilterAdapter;

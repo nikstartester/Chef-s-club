@@ -1,7 +1,7 @@
 package com.xando.chefsclub.list
 
-import android.support.v7.widget.RecyclerView
 import android.util.SparseIntArray
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter

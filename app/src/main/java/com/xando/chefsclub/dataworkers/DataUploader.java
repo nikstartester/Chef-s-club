@@ -1,7 +1,8 @@
 package com.xando.chefsclub.dataworkers;
 
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 public abstract class DataUploader<Data extends BaseData> implements ProgressUpdate<Data> {
 

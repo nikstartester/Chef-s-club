@@ -1,23 +1,23 @@
 package com.xando.chefsclub.search.profiles
 
-import android.support.v4.app.Fragment
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.algolia.search.saas.Query
 import com.mikepenz.fastadapter.IAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.listeners.OnClickListener
+import com.xando.chefsclub.R
 import com.xando.chefsclub.profiles.data.ProfileData
 import com.xando.chefsclub.profiles.viewprofiles.single.ViewProfileActivityTest
-import com.xando.chefsclub.R
+import com.xando.chefsclub.search.SearchListFragment
 import com.xando.chefsclub.search.profiles.filter.ProfileFilterAdapter
 import com.xando.chefsclub.search.profiles.filter.ProfileFilterData
 import com.xando.chefsclub.search.profiles.item.SearchProfilesItem
 import com.xando.chefsclub.search.profiles.parser.ProfilesResultParser
-import com.xando.chefsclub.search.SearchListFragment
 
 class SearchProfilesFragment : SearchListFragment<ProfileData, SearchProfilesItem, ProfileFilterData>() {
 

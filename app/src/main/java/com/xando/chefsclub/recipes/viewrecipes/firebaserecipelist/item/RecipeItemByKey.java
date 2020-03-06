@@ -1,9 +1,10 @@
 package com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item;
 
 import android.app.Application;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 
 import com.xando.chefsclub.dataworkers.BaseRepository;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;

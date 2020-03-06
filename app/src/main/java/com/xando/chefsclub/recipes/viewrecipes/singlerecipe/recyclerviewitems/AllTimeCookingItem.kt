@@ -1,14 +1,14 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.items.AbstractItem
-import com.xando.chefsclub.helper.DateTimeHelper
 import com.xando.chefsclub.R
+import com.xando.chefsclub.helper.DateTimeHelper
 import kotlinx.android.synthetic.main.list_view_recipe_steps_all_time_cooking_item.view.*
 
-class AllTimeCookingItem(private val time: Int): AbstractItem<AllTimeCookingItem, AllTimeCookingItem.AllTimeCookingViewHolder>() {
+class AllTimeCookingItem(private val time: Int) : AbstractItem<AllTimeCookingItem, AllTimeCookingItem.AllTimeCookingViewHolder>() {
 
     private lateinit var viewHolder: AllTimeCookingViewHolder
 
@@ -24,7 +24,7 @@ class AllTimeCookingItem(private val time: Int): AbstractItem<AllTimeCookingItem
         viewHolder.timeView.text = DateTimeHelper.convertTime(time)
     }
 
-    class AllTimeCookingViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class AllTimeCookingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val timeView: TextView = itemView.tv_timeMain
     }

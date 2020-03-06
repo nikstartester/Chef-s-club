@@ -4,20 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AppCompatDialogFragment
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.fragment.app.DialogFragment
 import com.otaliastudios.cameraview.CameraListener
-import com.otaliastudios.cameraview.Flash
-import com.xando.chefsclub.constants.Constants
+import com.otaliastudios.cameraview.PictureResult
+import com.otaliastudios.cameraview.controls.Flash
 import com.xando.chefsclub.R
+import com.xando.chefsclub.constants.Constants
 import kotlinx.android.synthetic.main.fragment_camera.*
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
@@ -44,7 +44,7 @@ class CameraDialogFragment : AppCompatDialogFragment() {
     private fun initViews() {
         take_capture.setOnClickListener {
             take_capture.isEnabled = false
-            camera.capturePicture()
+            camera.takePicture()
         }
         camera_dialog_back.setOnClickListener { dismiss() }
         camera_dialog_flash.setOnClickListener {
@@ -65,13 +65,13 @@ class CameraDialogFragment : AppCompatDialogFragment() {
             }
         }
         camera.addCameraListener(object : CameraListener() {
-            override fun onPictureTaken(jpeg: ByteArray?) {
+            override fun onPictureTaken(result: PictureResult) {
                 try {
                     val savedPhoto = createPhotoFile().createIfNotExist()
-
-                    val outputStream = FileOutputStream(savedPhoto.path)
-                    outputStream.write(jpeg)
-                    outputStream.close()
+                    result.toFile(savedPhoto) {
+                        sendResult(Activity.RESULT_OK, Uri.fromFile(savedPhoto))
+                        dismiss()
+                    }
 
                     sendResult(Activity.RESULT_OK, Uri.fromFile(savedPhoto))
                     dismiss()
@@ -85,12 +85,12 @@ class CameraDialogFragment : AppCompatDialogFragment() {
     }
 
     override fun onResume() {
-        camera.start()
+        camera.open()
         super.onResume()
     }
 
     override fun onPause() {
-        camera.stop()
+        camera.close()
         super.onPause()
     }
 

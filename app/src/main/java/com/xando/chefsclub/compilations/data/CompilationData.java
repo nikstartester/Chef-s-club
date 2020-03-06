@@ -1,8 +1,9 @@
 package com.xando.chefsclub.compilations.data;
 
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
+
+import androidx.room.Ignore;
+import androidx.room.TypeConverters;
 
 import com.google.firebase.database.ServerValue;
 import com.xando.chefsclub.dataworkers.BaseData;

@@ -1,14 +1,6 @@
 package com.xando.chefsclub.compilations.viewcompilations;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,15 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.data.CompilationData;
 import com.xando.chefsclub.compilations.editcompilation.EditCompilationDialogFragment;
 import com.xando.chefsclub.compilations.viewcompilations.Item.CompilationItem;
 import com.xando.chefsclub.compilations.viewmodel.CompilationsViewModel;
 import com.xando.chefsclub.helper.NetworkHelper;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.viewrecipes.compilations.RecipesActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -75,7 +76,7 @@ public class UserCompilationsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        mViewModel.getData().observe(this, dataList -> {
+        mViewModel.getData().observe(getViewLifecycleOwner(), dataList -> {
             if (dataList != null) {
                 onDataLoaded(dataList);
             }

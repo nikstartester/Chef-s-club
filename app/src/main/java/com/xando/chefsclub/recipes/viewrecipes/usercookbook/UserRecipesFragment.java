@@ -3,16 +3,17 @@ package com.xando.chefsclub.recipes.viewrecipes.usercookbook;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xando.chefsclub.basescreen.fragment.FragmentWithSearchButton;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.xando.chefsclub.R;
+import com.xando.chefsclub.basescreen.fragment.FragmentWithSearchButton;
 import com.xando.chefsclub.recipes.viewrecipes.ToSearcher;
 import com.xando.chefsclub.search.recipes.filter.RecipeFilterData;
 

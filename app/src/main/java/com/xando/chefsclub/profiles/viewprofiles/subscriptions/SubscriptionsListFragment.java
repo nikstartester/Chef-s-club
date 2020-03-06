@@ -2,25 +2,26 @@ package com.xando.chefsclub.profiles.viewprofiles.subscriptions;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
-import com.xando.chefsclub.basescreen.fragment.FragmentWithSearchButton;
 import com.xando.chefsclub.FirebaseReferences;
+import com.xando.chefsclub.R;
+import com.xando.chefsclub.basescreen.fragment.FragmentWithSearchButton;
 import com.xando.chefsclub.profiles.data.ProfileData;
 import com.xando.chefsclub.profiles.viewprofiles.single.ViewProfileActivityTest;
 import com.xando.chefsclub.profiles.viewprofiles.subscriptions.viewholder.SubscriptionViewHolder;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.viewrecipes.ToSearcher;
 import com.xando.chefsclub.search.profiles.filter.ProfileFilterData;
 

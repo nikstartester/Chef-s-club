@@ -1,28 +1,30 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.xando.chefsclub.App;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.addrecipe.AddToCompilationDialogFragment;
 import com.xando.chefsclub.dataworkers.ActualDataChecker;
 import com.xando.chefsclub.dataworkers.BaseRepository;
@@ -30,12 +32,12 @@ import com.xando.chefsclub.dataworkers.OnItemCountChanged;
 import com.xando.chefsclub.dataworkers.OnProgressListener;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.helper.NetworkHelper;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.ActualRecipeDataChecker;
 import com.xando.chefsclub.recipes.data.RecipeData;
+import com.xando.chefsclub.recipes.db.RecipeEntity;
 import com.xando.chefsclub.recipes.editrecipe.EditRecipeActivity;
-import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 import com.xando.chefsclub.recipes.repository.RecipeRepository;
+import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 import com.xando.chefsclub.recipes.upload.EditRecipeService;
 import com.xando.chefsclub.recipes.viewmodel.RecipeViewModel;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.CommentsListFragment;
@@ -43,7 +45,6 @@ import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.Data.Commen
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.ViewHolder.CommentViewHolder;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.fragment.OverviewRecipeFragment;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.fragment.StepsViewRecipeFragment;
-import com.xando.chefsclub.recipes.db.RecipeEntity;
 import com.xando.chefsclub.settings.SettingsLoacalFragment;
 import com.xando.chefsclub.shoppinglist.ViewShoppingListActivity;
 

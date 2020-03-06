@@ -1,32 +1,33 @@
 package com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
 import com.xando.chefsclub.App;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.addrecipe.AddToCompilationDialogFragment;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
 import com.xando.chefsclub.profiles.viewprofiles.single.ViewProfileActivityTest;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.RecipeData;
+import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity;
 import com.xando.chefsclub.recipes.editrecipe.EditRecipeActivity;
-import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 import com.xando.chefsclub.recipes.repository.RecipeRepository;
+import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 import com.xando.chefsclub.recipes.upload.EditRecipeService;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.AbsRecipeItem;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
-import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity;
 import com.xando.chefsclub.shoppinglist.ViewShoppingListActivity;
 
 import java.util.ArrayList;

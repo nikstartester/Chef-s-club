@@ -1,11 +1,6 @@
 package com.xando.chefsclub.profiles.viewprofiles.single;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +8,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.xando.chefsclub.R;
+import com.xando.chefsclub.SingleFragmentActivity;
 import com.xando.chefsclub.dataworkers.OnItemCountChanged;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.image.data.ImageData;
 import com.xando.chefsclub.image.loaders.GlideImageLoader;
 import com.xando.chefsclub.profiles.data.ProfileData;
 import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.viewrecipes.UserRecipesList;
-import com.xando.chefsclub.SingleFragmentActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,7 +92,7 @@ public class ViewProfileFragment extends Fragment implements OnItemCountChanged 
         ButterKnife.bind(this, view);
 
 
-        mProfileViewModel.getResourceLiveData().observe(this, res -> {
+        mProfileViewModel.getResourceLiveData().observe(getViewLifecycleOwner(), res -> {
             if (res != null) {
                 switch (res.status) {
                     case SUCCESS:

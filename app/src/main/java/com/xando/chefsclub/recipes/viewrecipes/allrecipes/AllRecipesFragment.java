@@ -2,24 +2,25 @@ package com.xando.chefsclub.recipes.viewrecipes.allrecipes;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xando.chefsclub.basescreen.fragment.FragmentWithSearchButton;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.xando.chefsclub.R;
+import com.xando.chefsclub.basescreen.fragment.FragmentWithSearchButton;
 import com.xando.chefsclub.recipes.viewrecipes.ToSearcher;
 import com.xando.chefsclub.search.recipes.filter.RecipeFilterData;
 
 public class AllRecipesFragment extends FragmentWithSearchButton {
-    
+
     private ViewPager mViewPager;
     private ToSearcher mToSearcher;
 

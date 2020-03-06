@@ -2,10 +2,6 @@ package com.xando.chefsclub.compilations.editcompilation;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +9,22 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.xando.chefsclub.FirebaseReferences;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.data.CompilationData;
 import com.xando.chefsclub.compilations.upload.CompilationUploader;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
-import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.RecipeData;
 
 import butterknife.BindView;

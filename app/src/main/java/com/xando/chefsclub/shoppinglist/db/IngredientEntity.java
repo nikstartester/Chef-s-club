@@ -1,11 +1,12 @@
 package com.xando.chefsclub.shoppinglist.db;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 @Entity(indices = {@Index(value = {"recipeId", "ingredient"}, unique = true)})
 public class IngredientEntity implements Parcelable {

@@ -1,16 +1,16 @@
 package com.xando.chefsclub.shoppinglist.List;
 
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersTouchListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class StickyHeadersTouchListener implements RecyclerView.OnItemTouchListe
 
     private static final String TAG = "StickyHeadersTouchListe";
 
-    private final GestureDetector mTapDetector;
+    private final GestureDetectorCompat mTapDetector;
     private final RecyclerView mRecyclerView;
     private final StickyHeadersDecoration mDecor;
     private StickyHeadersTouchListener.OnHeaderClickListener mOnHeaderClickListener;
@@ -37,7 +37,7 @@ public class StickyHeadersTouchListener implements RecyclerView.OnItemTouchListe
 
     public StickyHeadersTouchListener(final RecyclerView recyclerView,
                                       final StickyHeadersDecoration decor) {
-        mTapDetector = new GestureDetector(recyclerView.getContext(), new StickyHeadersTouchListener.SingleTapDetector());
+        mTapDetector = new GestureDetectorCompat(recyclerView.getContext(), new StickyHeadersTouchListener.SingleTapDetector());
         mRecyclerView = recyclerView;
         mDecor = decor;
     }
@@ -66,7 +66,7 @@ public class StickyHeadersTouchListener implements RecyclerView.OnItemTouchListe
     }
 
     @Override
-    public boolean onInterceptTouchEvent(@NotNull RecyclerView view, @NotNull MotionEvent e) {
+    public boolean onInterceptTouchEvent(@NonNull RecyclerView view, @NonNull MotionEvent e) {
         if (this.mOnHeaderClickListener != null || mEventHook != null) {
             return clickAction(e);
         }
@@ -88,7 +88,11 @@ public class StickyHeadersTouchListener implements RecyclerView.OnItemTouchListe
     }
 
     @Override
-    public void onTouchEvent(@NotNull RecyclerView view, @NotNull MotionEvent e) { /* do nothing? */ }
+    public void onTouchEvent(@NonNull RecyclerView view, @NonNull MotionEvent e) {
+        if (this.mOnHeaderClickListener != null || mEventHook != null) {
+            clickAction(e);
+        }
+    }
 
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {

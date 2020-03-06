@@ -1,23 +1,25 @@
 package com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item;
 
 import android.app.Application;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.daimajia.androidanimations.library.YoYo;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.xando.chefsclub.App;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.dataworkers.ActualDataChecker;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.helper.DateTimeHelper;
@@ -26,11 +28,10 @@ import com.xando.chefsclub.image.data.ImageData;
 import com.xando.chefsclub.image.loaders.GlideImageLoader;
 import com.xando.chefsclub.profiles.data.ProfileData;
 import com.xando.chefsclub.profiles.repository.ProfileRepository;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.ActualRecipeDataChecker;
 import com.xando.chefsclub.recipes.data.RecipeData;
-import com.xando.chefsclub.recipes.editrecipe.DialogTimePicker;
 import com.xando.chefsclub.recipes.db.RecipeEntity;
+import com.xando.chefsclub.recipes.editrecipe.DialogTimePicker;
 
 import org.jetbrains.annotations.NotNull;
 

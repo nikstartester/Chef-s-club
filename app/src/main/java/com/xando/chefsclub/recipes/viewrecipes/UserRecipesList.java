@@ -1,14 +1,15 @@
 package com.xando.chefsclub.recipes.viewrecipes;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
-import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.RecipesListFragment;
+import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
 
 
 public class UserRecipesList extends RecipesListFragment {

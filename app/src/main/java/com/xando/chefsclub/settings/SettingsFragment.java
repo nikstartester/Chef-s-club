@@ -1,19 +1,21 @@
 package com.xando.chefsclub.settings;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.image.data.ImageData;
@@ -22,7 +24,6 @@ import com.xando.chefsclub.login.LoginActivity;
 import com.xando.chefsclub.profiles.data.ProfileData;
 import com.xando.chefsclub.profiles.editprofile.EditProfileFragment;
 import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel;
-import com.xando.chefsclub.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,7 +57,7 @@ public class SettingsFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        mProfileViewModel.getResourceLiveData().observe(this, res -> {
+        mProfileViewModel.getResourceLiveData().observe(getViewLifecycleOwner(), res -> {
             if (res != null && res.status == ParcResourceByParc.Status.SUCCESS) {
                 ProfileData profileData = res.data;
                 if (profileData != null) {

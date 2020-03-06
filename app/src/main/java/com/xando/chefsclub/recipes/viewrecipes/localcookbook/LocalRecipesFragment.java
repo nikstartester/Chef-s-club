@@ -1,14 +1,6 @@
 package com.xando.chefsclub.recipes.viewrecipes.localcookbook;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,18 +9,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mikepenz.fastadapter.IItemAdapter;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.xando.chefsclub.App;
-import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.R;
+import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.recipes.data.ActualRecipeDataChecker;
 import com.xando.chefsclub.recipes.data.RecipeData;
-import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
+import com.xando.chefsclub.recipes.db.Helper;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.RecipeEventHookFragment;
+import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
 import com.xando.chefsclub.recipes.viewrecipes.localcookbook.viewmodel.LocalRecipesViewModel;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.ViewRecipeActivity;
-import com.xando.chefsclub.recipes.db.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class LocalRecipesFragment extends RecipeEventHookFragment {
 
         setOnClickListeners();
 
-        mRecipesViewModel.getData().observe(this, dataList -> {
+        mRecipesViewModel.getData().observe(getViewLifecycleOwner(), dataList -> {
             if (dataList != null) {
                 onDataLoaded(dataList);
             }

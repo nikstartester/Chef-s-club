@@ -1,14 +1,14 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.xando.chefsclub.R
 import kotlinx.android.synthetic.main.list_view_recipe_overview_description_item.view.*
 
 
-class DescriptionItem(var description: String): AbstractItem<DescriptionItem, DescriptionItem.DescriptionViewHolder>() {
+class DescriptionItem(var description: String) : AbstractItem<DescriptionItem, DescriptionItem.DescriptionViewHolder>() {
 
     private lateinit var viewHolder: DescriptionViewHolder
 
@@ -24,7 +24,7 @@ class DescriptionItem(var description: String): AbstractItem<DescriptionItem, De
         viewHolder.descriptionView.text = description
     }
 
-    class DescriptionViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class DescriptionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val descriptionView: TextView = itemView.tv_description
     }

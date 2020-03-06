@@ -1,8 +1,8 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.xando.chefsclub.R
 import kotlinx.android.synthetic.main.list_more_item.view.*
@@ -23,14 +23,14 @@ class MoreItem(private var text: String) : AbstractItem<MoreItem, MoreItem.MoreV
         updateMoreText()
     }
 
-    fun setMoreText(text: String){
+    fun setMoreText(text: String) {
         this.text = text
 
-        if(::viewHolder.isInitialized)
+        if (::viewHolder.isInitialized)
             updateMoreText()
     }
 
-    private fun updateMoreText(){
+    private fun updateMoreText() {
         viewHolder.moreView.text = text
     }
 

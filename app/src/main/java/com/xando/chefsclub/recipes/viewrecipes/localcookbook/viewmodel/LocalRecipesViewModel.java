@@ -1,9 +1,10 @@
 package com.xando.chefsclub.recipes.viewrecipes.localcookbook.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.viewrecipes.localcookbook.repository.LocalRecipesRepository;

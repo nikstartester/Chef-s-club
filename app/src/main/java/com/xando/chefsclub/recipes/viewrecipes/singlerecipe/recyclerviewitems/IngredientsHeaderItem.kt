@@ -1,9 +1,9 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems
 
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.xando.chefsclub.R
 import kotlinx.android.synthetic.main.list_view_recipe_overview_ingredients_header_item.view.*

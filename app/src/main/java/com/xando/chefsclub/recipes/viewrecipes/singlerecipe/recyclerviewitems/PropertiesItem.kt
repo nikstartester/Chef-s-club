@@ -1,15 +1,15 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.androidanimations.library.YoYo
 import com.mikepenz.fastadapter.items.AbstractItem
+import com.xando.chefsclub.R
 import com.xando.chefsclub.helper.DateTimeHelper
 import com.xando.chefsclub.helper.UiHelper
-import com.xando.chefsclub.R
 import com.xando.chefsclub.recipes.data.RecipeData
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.list_view_recipe_overview_properties_item.view.*
@@ -33,7 +33,7 @@ class PropertiesItem(var recipeData: RecipeData, var isSavedLocal: Boolean, var 
 
         viewHolder = holder
 
-        if(isInit)
+        if (isInit)
             resetView()
     }
 

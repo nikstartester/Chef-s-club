@@ -1,16 +1,17 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mikepenz.fastadapter.items.AbstractItem;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.helper.DateTimeHelper;
 import com.xando.chefsclub.image.data.ImageData;
 import com.xando.chefsclub.image.loaders.GlideImageLoader;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.StepOfCooking;
 
 import java.util.List;

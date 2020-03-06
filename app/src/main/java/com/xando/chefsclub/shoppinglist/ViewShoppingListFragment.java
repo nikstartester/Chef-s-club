@@ -1,23 +1,10 @@
 package com.xando.chefsclub.shoppinglist;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +13,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import com.mikepenz.fastadapter.select.SelectExtension;
@@ -35,16 +36,16 @@ import com.mikepenz.fastadapter_extensions.swipe.SimpleSwipeCallback;
 import com.mikepenz.fastadapter_extensions.swipe.SimpleSwipeDragCallback;
 import com.mikepenz.fastadapter_extensions.utilities.DragDropUtil;
 import com.xando.chefsclub.App;
-import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.R;
+import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.ViewRecipeActivity;
 import com.xando.chefsclub.shoppinglist.List.StickyHeaderAdapter;
 import com.xando.chefsclub.shoppinglist.List.StickyHeadersDecoration;
 import com.xando.chefsclub.shoppinglist.List.StickyHeadersTouchListener;
 import com.xando.chefsclub.shoppinglist.List.item.IngredientItem;
-import com.xando.chefsclub.shoppinglist.viewmodel.IngredientsViewModel;
 import com.xando.chefsclub.shoppinglist.db.Helper;
 import com.xando.chefsclub.shoppinglist.db.IngredientEntity;
+import com.xando.chefsclub.shoppinglist.viewmodel.IngredientsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +129,7 @@ public class ViewShoppingListFragment extends Fragment
 
         setDragCallback();
 
-        mIngredientsViewModel.getData().observe(this, res -> {
+        mIngredientsViewModel.getData().observe(getViewLifecycleOwner(), res -> {
             if (res != null) {
                 if (res.size() > 0) {
                     hideEmptyPlaceHolder();
