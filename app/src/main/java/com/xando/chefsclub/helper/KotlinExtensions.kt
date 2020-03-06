@@ -1,5 +1,6 @@
 package com.xando.chefsclub.helper
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
@@ -12,3 +13,5 @@ inline fun <reified T : ViewModel> Fragment.getViewModel() =
 
 inline fun <reified T : ViewModel> Fragment.getHostViewModel() =
         ViewModelProviders.of(activity!!).get(T::class.java)
+
+fun View.getColorFrom(colorRes: Int) = context.resources.getColor(colorRes)
