@@ -6,7 +6,8 @@ import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
+
+import androidx.fragment.app.Fragment;
 
 import com.xando.chefsclub.GlideEngineV4;
 import com.xando.chefsclub.R;

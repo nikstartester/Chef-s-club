@@ -1,6 +1,6 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments;
 
-import android.arch.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.Data.CommentData;

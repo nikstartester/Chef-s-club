@@ -1,8 +1,9 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;

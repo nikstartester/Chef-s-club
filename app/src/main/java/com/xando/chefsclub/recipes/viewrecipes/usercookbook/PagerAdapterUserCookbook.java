@@ -1,12 +1,12 @@
 package com.xando.chefsclub.recipes.viewrecipes.usercookbook;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.xando.chefsclub.helper.FirebaseHelper;
-import com.xando.chefsclub.recipes.viewrecipes.subsciptionsrecipes.SubscriptionsRecipesFragment;
 import com.xando.chefsclub.recipes.viewrecipes.UserRecipesList;
+import com.xando.chefsclub.recipes.viewrecipes.subsciptionsrecipes.SubscriptionsRecipesFragment;
 
 
 class PagerAdapterUserCookbook extends FragmentStatePagerAdapter {

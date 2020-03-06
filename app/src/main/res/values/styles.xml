@@ -23,7 +23,7 @@
 
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>>
-        <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
+        <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
     </style>
 
     <!-- Activity with no Title -->
@@ -117,7 +117,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MyDialogFragmentStyle" parent="ThemeOverlay.MaterialComponents.Dialog">
+    <style name="MyDialogFragmentStyle" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:windowNoTitle">false</item>
     </style>
 

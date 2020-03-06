@@ -1,11 +1,12 @@
 package com.xando.chefsclub.helper;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -65,8 +66,8 @@ public class UiHelper {
             }
 
             if (toVisibility == View.INVISIBLE && view.getVisibility() == View.INVISIBLE
-                || toVisibility == View.GONE && view.getVisibility() == View.GONE)
-                    return null;
+                    || toVisibility == View.GONE && view.getVisibility() == View.GONE)
+                return null;
 
             return YoYo.with(toVisibility == View.VISIBLE ? Techniques.FadeIn : Techniques.FadeOut)
                     .duration(duration)

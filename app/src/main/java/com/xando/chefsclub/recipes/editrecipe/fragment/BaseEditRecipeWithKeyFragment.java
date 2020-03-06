@@ -1,7 +1,8 @@
 package com.xando.chefsclub.recipes.editrecipe.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.xando.chefsclub.basescreen.fragment.BaseFragmentWithImageChoose;
 import com.xando.chefsclub.constants.Constants;

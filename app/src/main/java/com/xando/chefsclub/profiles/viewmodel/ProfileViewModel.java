@@ -1,18 +1,19 @@
 package com.xando.chefsclub.profiles.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.xando.chefsclub.dataworkers.BaseLocalDataSaver;
 import com.xando.chefsclub.dataworkers.BaseRepository;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.profiles.data.ProfileData;
-import com.xando.chefsclub.profiles.repository.local.LocalUserProfileSaver;
 import com.xando.chefsclub.profiles.repository.ProfileRepository;
+import com.xando.chefsclub.profiles.repository.local.LocalUserProfileSaver;
 
 import static com.xando.chefsclub.profiles.repository.ProfileRepository.CHILD_USERS;
 

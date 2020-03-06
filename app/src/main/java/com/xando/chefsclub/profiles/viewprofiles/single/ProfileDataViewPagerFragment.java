@@ -1,20 +1,21 @@
 package com.xando.chefsclub.profiles.viewprofiles.single;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xando.chefsclub.compilations.viewcompilations.UserCompilationsFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+
+import com.google.android.material.tabs.TabLayout;
 import com.xando.chefsclub.R;
-import com.xando.chefsclub.recipes.viewrecipes.UserRecipesList;
 import com.xando.chefsclub.ScrollChangingViewPager;
+import com.xando.chefsclub.compilations.viewcompilations.UserCompilationsFragment;
+import com.xando.chefsclub.recipes.viewrecipes.UserRecipesList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -8,9 +8,10 @@ import android.app.Service;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.app.NotificationCompat;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.xando.chefsclub.R;
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:keepScreenOn="true">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/camera_dialog_toolbar_container"
         android:layout_width="0dp"
         android:layout_height="?android:attr/actionBarSize"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_flash_off_white_24dp" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.otaliastudios.cameraview.CameraView
         android:id="@+id/camera"
@@ -49,13 +49,14 @@
         android:keepScreenOn="true"
         app:cameraAudio="off"
         app:cameraGesturePinch="none"
-        app:cameraGestureTap="focusWithMarker"
+        app:cameraGestureTap="autoFocus"
         app:cameraPictureSizeAspectRatio="3:4"
         app:cameraPictureSizeBiggest="true"
         app:cameraPictureSizeMaxHeight="2048"
         app:cameraPictureSizeMaxWidth="1536"
         app:cameraPlaySounds="false"
-        app:cameraSessionType="picture"
+        app:cameraMode="picture"
+        app:cameraPreviewFrameRate="60"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,4 +85,4 @@
             app:layout_constraintStart_toStartOf="parent" />
     </FrameLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

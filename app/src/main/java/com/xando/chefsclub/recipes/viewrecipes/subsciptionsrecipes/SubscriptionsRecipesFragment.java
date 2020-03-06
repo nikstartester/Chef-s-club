@@ -1,13 +1,7 @@
 package com.xando.chefsclub.recipes.viewrecipes.subsciptionsrecipes;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,14 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.xando.chefsclub.R;
-import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItemByKey;
+import com.xando.chefsclub.recipes.viewrecipes.ToSearcher;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.RecipeEventHookFragment;
+import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItemByKey;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.ViewRecipeActivity;
 import com.xando.chefsclub.recipes.viewrecipes.subsciptionsrecipes.data.RecipeIdData;
 import com.xando.chefsclub.recipes.viewrecipes.subsciptionsrecipes.viewmodel.SubscriptionsRecipesViewModel;
-import com.xando.chefsclub.recipes.viewrecipes.ToSearcher;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +78,7 @@ public class SubscriptionsRecipesFragment extends RecipeEventHookFragment {
         allRecipesRv.setLayoutManager(layoutManager);
         allRecipesRv.setItemAnimator(new DefaultItemAnimator());
 
-        mViewModel.getData().observe(this, res -> {
+        mViewModel.getData().observe(getViewLifecycleOwner(), res -> {
             if (res != null) {
                 hideProgress();
 

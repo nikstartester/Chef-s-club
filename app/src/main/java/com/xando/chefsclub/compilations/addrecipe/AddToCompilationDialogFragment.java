@@ -1,30 +1,33 @@
 package com.xando.chefsclub.compilations.addrecipe;
 
 import android.app.Dialog;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatDialogFragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
+import com.xando.chefsclub.FirebaseReferences;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.addrecipe.item.CompilationShortItem;
 import com.xando.chefsclub.compilations.data.ArrayCompilations;
 import com.xando.chefsclub.compilations.data.CompilationData;
@@ -32,10 +35,8 @@ import com.xando.chefsclub.compilations.editcompilation.EditCompilationDialogFra
 import com.xando.chefsclub.compilations.sync.SyncCompilationService;
 import com.xando.chefsclub.compilations.viewmodel.CompilationsViewModel;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
-import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.RecipeData;
 
 import java.util.List;
@@ -116,7 +117,7 @@ public class AddToCompilationDialogFragment extends AppCompatDialogFragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
 
-        mViewModel.getData().observe(this, dataList -> {
+        mViewModel.getData().observe(getViewLifecycleOwner(), dataList -> {
             if (dataList != null) {
                 onDataLoaded(dataList);
             }

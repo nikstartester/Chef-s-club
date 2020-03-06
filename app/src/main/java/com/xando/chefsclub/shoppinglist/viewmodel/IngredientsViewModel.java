@@ -1,12 +1,13 @@
 package com.xando.chefsclub.shoppinglist.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
 
-import com.xando.chefsclub.shoppinglist.repository.ShoppingListRepository;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+
 import com.xando.chefsclub.shoppinglist.db.IngredientEntity;
+import com.xando.chefsclub.shoppinglist.repository.ShoppingListRepository;
 
 import java.util.List;
 

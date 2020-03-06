@@ -1,7 +1,8 @@
 package com.xando.chefsclub.recipes.editrecipe.requiredfields;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.data.StepOfCooking;

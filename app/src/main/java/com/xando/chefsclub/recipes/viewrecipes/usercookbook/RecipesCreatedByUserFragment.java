@@ -1,7 +1,8 @@
 package com.xando.chefsclub.recipes.viewrecipes.usercookbook;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.recipes.viewrecipes.UserRecipesList;

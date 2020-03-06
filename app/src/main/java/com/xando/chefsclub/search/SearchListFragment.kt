@@ -1,12 +1,12 @@
 package com.xando.chefsclub.search
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.algolia.instantsearch.core.helpers.Searcher
 import com.algolia.instantsearch.core.model.SearchResults
 import com.algolia.instantsearch.ui.helpers.InstantSearch
@@ -15,13 +15,13 @@ import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.listeners.OnClickListener
+import com.xando.chefsclub.R
 import com.xando.chefsclub.constants.Constants
 import com.xando.chefsclub.dataworkers.BaseData
 import com.xando.chefsclub.helper.NetworkHelper
 import com.xando.chefsclub.list.GroupAdapter
 import com.xando.chefsclub.list.MultiGroupsRecyclerViewAdapterImpl
 import com.xando.chefsclub.list.SingleItemGroupAdapter
-import com.xando.chefsclub.R
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.MoreItem
 import com.xando.chefsclub.search.core.*
 import com.xando.chefsclub.search.parser.SearchResultJsonParser

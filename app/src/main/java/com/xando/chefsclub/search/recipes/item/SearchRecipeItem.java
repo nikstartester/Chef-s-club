@@ -1,21 +1,22 @@
 package com.xando.chefsclub.search.recipes.item;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 import com.mikepenz.fastadapter.items.AbstractItem;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.helper.DateTimeHelper;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.image.data.ImageData;
 import com.xando.chefsclub.image.loaders.GlideImageLoader;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.ChipCategoryItem;
 import com.xando.chefsclub.search.core.IData;

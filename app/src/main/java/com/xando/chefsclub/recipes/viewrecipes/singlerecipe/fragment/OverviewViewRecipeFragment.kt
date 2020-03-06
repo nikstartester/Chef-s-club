@@ -1,11 +1,7 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.fragment
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -15,16 +11,21 @@ import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.DatabaseError
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.select.SelectExtension
+import com.xando.chefsclub.FirebaseReferences
+import com.xando.chefsclub.R
 import com.xando.chefsclub.dataworkers.BaseRepository
 import com.xando.chefsclub.dataworkers.ParcResourceByParc
 import com.xando.chefsclub.firebaseList.FirebaseGroupListAdapter
-import com.xando.chefsclub.FirebaseReferences
 import com.xando.chefsclub.helper.*
 import com.xando.chefsclub.image.data.ImageData
 import com.xando.chefsclub.image.viewimages.ViewImagesActivity
@@ -34,8 +35,8 @@ import com.xando.chefsclub.list.MultiGroupsRecyclerViewAdapterImpl
 import com.xando.chefsclub.list.SingleItemGroupAdapter
 import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel
 import com.xando.chefsclub.profiles.viewprofiles.single.ViewProfileActivityTest
-import com.xando.chefsclub.R
 import com.xando.chefsclub.recipes.data.RecipeData
+import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity
 import com.xando.chefsclub.recipes.viewmodel.RecipeViewModel
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.CommentItem
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.CommentItemSmall
@@ -47,7 +48,6 @@ import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.*
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.IngredientsEditModeItem.IngredientsEditModeViewHolder
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.IngredientsViewItem.IngredientViewItemViewHolder
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.PropertiesItem.PropertiesViewHolder
-import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity
 import com.xando.chefsclub.shoppinglist.ViewShoppingListActivity
 import com.xando.chefsclub.shoppinglist.db.Helper
 import com.xando.chefsclub.shoppinglist.db.IngredientEntity
@@ -153,7 +153,7 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
 
         recyclerView.adapter = multiGroupsRecyclerViewAdapter
 
-        recipeViewModel.resourceLiveData.observe(this, Observer {
+        recipeViewModel.resourceLiveData.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 when {
                     it.status == ParcResourceByParc.Status.SUCCESS -> {
@@ -192,7 +192,7 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
             disposer.add(disposable)
         }
 
-        ingredientsViewModel.data.observe(this, Observer { res ->
+        ingredientsViewModel.data.observe(viewLifecycleOwner, Observer { res ->
             if (res != null) {
                 onIngredientsLoadedFromDb(res)
             }
@@ -340,7 +340,9 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
                         R.id.imgFavorite -> onFavoriteClick(item as PropertiesItem)
                         R.id.imgBtn_close_edit_mode -> changeIngredientsEditMode()
                         R.id.checkBox_available -> changeAvailable(item as IngredientsViewItem)
-                        R.id.btn_more -> { showAllComments() }
+                        R.id.btn_more -> {
+                            showAllComments()
+                        }
                         R.id.comment_profile_image, R.id.comment_pofile_name -> startActivity(ViewProfileActivityTest.getIntent(activity,
                                 (item as CommentItem).commentData.authorId))
                         R.id.comment_reply -> onReplyComment((item as CommentItem).commentData)

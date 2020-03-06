@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root00"
     android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:animationCache="true"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView10"
                 app:layout_constraintStart_toEndOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="@+id/textView10" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/view3"
@@ -87,7 +87,7 @@
             android:text="@string/steps_of_cooking"
             android:textSize="18sp" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_steps"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -105,4 +105,4 @@
             android:text="@string/add_step" />
 
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

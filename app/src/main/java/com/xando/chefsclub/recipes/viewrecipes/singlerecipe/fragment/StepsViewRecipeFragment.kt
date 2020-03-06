@@ -1,17 +1,18 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.fragment
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.annotation.MainThread
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.MainThread
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
+import com.xando.chefsclub.R
 import com.xando.chefsclub.dataworkers.ParcResourceByParc
 import com.xando.chefsclub.helper.getHostViewModel
 import com.xando.chefsclub.image.data.ImageData
@@ -19,7 +20,6 @@ import com.xando.chefsclub.image.viewimages.ViewImagesActivity
 import com.xando.chefsclub.list.GroupAdapter
 import com.xando.chefsclub.list.MultiGroupsRecyclerViewAdapterImpl
 import com.xando.chefsclub.list.SingleItemGroupAdapter
-import com.xando.chefsclub.R
 import com.xando.chefsclub.recipes.data.RecipeData
 import com.xando.chefsclub.recipes.viewmodel.RecipeViewModel
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.AllTimeCookingItem
@@ -65,7 +65,7 @@ class StepsViewRecipeFragment : BaseFragmentWithRecipeKey() {
 
         recyclerView.adapter = multiGroupsRecyclerViewAdapter
 
-        mRecipeViewModel.resourceLiveData.observe(this, Observer { resource ->
+        mRecipeViewModel.resourceLiveData.observe(viewLifecycleOwner, Observer { resource ->
             if (resource != null) {
                 when {
                     resource.status == ParcResourceByParc.Status.SUCCESS -> {

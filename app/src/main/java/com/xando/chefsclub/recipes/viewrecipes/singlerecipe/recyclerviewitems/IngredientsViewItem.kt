@@ -1,17 +1,17 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.androidanimations.library.YoYo
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.select.SelectExtension
-import com.xando.chefsclub.helper.UiHelper
 import com.xando.chefsclub.R
+import com.xando.chefsclub.helper.UiHelper
 import com.xando.chefsclub.shoppinglist.db.IngredientEntity
 import kotlinx.android.synthetic.main.list_ingredients_view_item.view.*
 import java.util.*
