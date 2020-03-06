@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.xando.chefsclub">
 
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
@@ -37,7 +38,8 @@
             android:name="com.xando.chefsclub.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeDark"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
