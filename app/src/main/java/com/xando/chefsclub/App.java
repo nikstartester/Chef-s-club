@@ -1,11 +1,12 @@
 package com.xando.chefsclub;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+
+import androidx.room.Room;
 
 import com.squareup.leakcanary.RefWatcher;
 import com.xando.chefsclub.compilations.sync.SyncCompilationService;

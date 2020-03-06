@@ -1,7 +1,7 @@
 package com.xando.chefsclub.dataworkers;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 import com.xando.chefsclub.compilations.db.CompilationDao;
 import com.xando.chefsclub.compilations.db.CompilationEntity;

@@ -1,11 +1,11 @@
 package com.xando.chefsclub.recipes.db;
 
 
-import android.arch.persistence.room.Embedded;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
-import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverters;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.data.StepOfCooking;

@@ -1,7 +1,8 @@
 package com.xando.chefsclub.recipes.data;
 
-import android.arch.persistence.room.Entity;
 import android.os.Parcel;
+
+import androidx.room.Entity;
 
 import com.xando.chefsclub.dataworkers.BaseData;
 

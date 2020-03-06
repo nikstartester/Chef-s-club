@@ -1,16 +1,18 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.ViewHolder;
 
 import android.app.Application;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.daimajia.androidanimations.library.YoYo;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.helper.DateTimeHelper;
 import com.xando.chefsclub.helper.UiHelper;
@@ -18,7 +20,6 @@ import com.xando.chefsclub.image.data.ImageData;
 import com.xando.chefsclub.image.loaders.GlideImageLoader;
 import com.xando.chefsclub.profiles.data.ProfileData;
 import com.xando.chefsclub.profiles.repository.ProfileRepository;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.Data.CommentData;
 
 import java.util.ArrayList;

@@ -1,15 +1,17 @@
 package com.xando.chefsclub.compilations.repository;
 
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.xando.chefsclub.App;
+import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.compilations.data.ArrayCompilations;
 import com.xando.chefsclub.compilations.data.CompilationData;
 import com.xando.chefsclub.compilations.db.CompilationEntity;
@@ -18,7 +20,6 @@ import com.xando.chefsclub.dataworkers.DataBaseLoader;
 import com.xando.chefsclub.dataworkers.DeletableData;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.dataworkers.ProgressUpdate;
-import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.helper.FirebaseHelper;
 
 import java.util.ArrayList;

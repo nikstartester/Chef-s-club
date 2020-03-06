@@ -7,7 +7,7 @@
         android:id="@+id/searchBox"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="always"
-        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
         android:title="Search" />
     <item
         android:id="@+id/action_delete"

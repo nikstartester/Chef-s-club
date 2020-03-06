@@ -1,16 +1,17 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.androidanimations.library.YoYo
 import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
+import com.xando.chefsclub.R
 import com.xando.chefsclub.dataworkers.ParcResourceByParc
 import com.xando.chefsclub.helper.UiHelper
 import com.xando.chefsclub.helper.UiHelper.DURATION_NORMAL
@@ -18,7 +19,6 @@ import com.xando.chefsclub.image.data.ImageData
 import com.xando.chefsclub.image.loaders.GlideImageLoader
 import com.xando.chefsclub.profiles.data.ProfileData
 import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel
-import com.xando.chefsclub.R
 import com.xando.chefsclub.recipes.data.RecipeData
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.list_view_recipe_overview_images_item.view.*

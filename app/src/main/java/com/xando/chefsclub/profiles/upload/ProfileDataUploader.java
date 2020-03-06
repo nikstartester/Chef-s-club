@@ -1,7 +1,8 @@
 package com.xando.chefsclub.profiles.upload;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -9,10 +10,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.dataworkers.DataUploader;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
-import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.image.ImageUploader;
 import com.xando.chefsclub.profiles.data.ProfileData;

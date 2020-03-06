@@ -1,8 +1,9 @@
 package com.xando.chefsclub.recipes.viewrecipes.localcookbook.repository;
 
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import com.xando.chefsclub.App;
 import com.xando.chefsclub.dataworkers.DataBaseLoader;

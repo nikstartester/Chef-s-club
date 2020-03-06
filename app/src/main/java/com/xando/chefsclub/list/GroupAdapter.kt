@@ -1,6 +1,6 @@
 package com.xando.chefsclub.list
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import com.mikepenz.fastadapter.IItem
 
 open class GroupAdapter<ITEM : IItem<out Any, out RecyclerView.ViewHolder>>(val groupId: Int, protected val multiGroupsRecyclerViewAdapter: MultiGroupsRecyclerViewAdapter) {

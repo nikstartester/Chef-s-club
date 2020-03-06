@@ -1,6 +1,6 @@
 package com.xando.chefsclub.search.core;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.algolia.search.saas.Query;
 

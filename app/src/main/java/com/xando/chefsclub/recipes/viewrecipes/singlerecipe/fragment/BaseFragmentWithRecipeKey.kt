@@ -1,7 +1,7 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.fragment
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 const val KEY_RECIPE_ID = "recipeId"
 

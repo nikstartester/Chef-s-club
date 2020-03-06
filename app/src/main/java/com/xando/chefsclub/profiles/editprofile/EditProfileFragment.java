@@ -1,6 +1,5 @@
 package com.xando.chefsclub.profiles.editprofile;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +7,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,15 +23,22 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.xando.chefsclub.FirebaseReferences;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.basescreen.fragment.BaseFragmentWithImageChoose;
 import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.dataworkers.BaseRepository;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
-import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.MatisseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
@@ -45,10 +47,9 @@ import com.xando.chefsclub.image.loaders.GlideImageLoader;
 import com.xando.chefsclub.image.viewimages.ViewImagesActivity;
 import com.xando.chefsclub.main.MainActivity;
 import com.xando.chefsclub.profiles.data.ProfileData;
-import com.xando.chefsclub.profiles.upload.exception.ExistLoginException;
 import com.xando.chefsclub.profiles.upload.ProfileUploaderService;
+import com.xando.chefsclub.profiles.upload.exception.ExistLoginException;
 import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.settings.SettingsCacheFragment;
 
 import java.io.File;
@@ -155,7 +156,7 @@ public class EditProfileFragment extends BaseFragmentWithImageChoose implements 
         getActivity().registerReceiver(mBroadcastReceiver = new ProfileUploaderBroadcastReceiver(),
                 intentFilter);
 
-        mProfileViewModel.getResourceLiveData().observe(this, resource -> {
+        mProfileViewModel.getResourceLiveData().observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
                 if (resource.status == ParcResourceByParc.Status.SUCCESS) {
                     onSuccessLoaded(resource);

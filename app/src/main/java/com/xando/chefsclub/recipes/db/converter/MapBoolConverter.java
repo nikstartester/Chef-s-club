@@ -1,7 +1,8 @@
 package com.xando.chefsclub.recipes.db.converter;
 
-import android.arch.persistence.room.TypeConverter;
 import android.util.Log;
+
+import androidx.room.TypeConverter;
 
 import java.util.HashMap;
 import java.util.Map;

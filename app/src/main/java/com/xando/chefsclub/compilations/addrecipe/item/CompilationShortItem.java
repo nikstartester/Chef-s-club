@@ -1,13 +1,14 @@
 package com.xando.chefsclub.compilations.addrecipe.item;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.mikepenz.fastadapter.items.AbstractItem;
-import com.xando.chefsclub.compilations.data.CompilationData;
 import com.xando.chefsclub.R;
+import com.xando.chefsclub.compilations.data.CompilationData;
 
 import org.jetbrains.annotations.NotNull;
 

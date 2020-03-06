@@ -1,15 +1,16 @@
 package com.xando.chefsclub.recipes.repository.local;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.ObjectKey;
 import com.google.firebase.storage.StorageReference;
 import com.xando.chefsclub.App;
-import com.xando.chefsclub.dataworkers.BaseLocalDataSaver;
 import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.GlideApp;
+import com.xando.chefsclub.dataworkers.BaseLocalDataSaver;
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.data.StepOfCooking;
 import com.xando.chefsclub.recipes.db.RecipeEntity;

@@ -1,16 +1,17 @@
 package com.xando.chefsclub.recipes.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.MutableLiveData;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.xando.chefsclub.dataworkers.BaseLocalDataSaver;
 import com.xando.chefsclub.dataworkers.BaseRepository;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.recipes.data.RecipeData;
-import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 import com.xando.chefsclub.recipes.repository.RecipeRepository;
+import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 
 import static com.xando.chefsclub.recipes.repository.RecipeRepository.CHILD_RECIPES;
 

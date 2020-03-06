@@ -1,7 +1,8 @@
 package com.xando.chefsclub.search.profiles.filter;
 
 import android.os.Parcel;
-import android.support.annotation.IntDef;
+
+import androidx.annotation.IntDef;
 
 import com.xando.chefsclub.search.core.BaseFilterData;
 

@@ -1,32 +1,32 @@
 package com.xando.chefsclub.search.recipes
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.algolia.search.saas.Query
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.listeners.OnClickListener
 import com.xando.chefsclub.App
+import com.xando.chefsclub.R
 import com.xando.chefsclub.dataworkers.ParcResourceByParc
 import com.xando.chefsclub.helper.FirebaseHelper
 import com.xando.chefsclub.helper.getHostViewModel
 import com.xando.chefsclub.profiles.data.ProfileData
 import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel
-import com.xando.chefsclub.R
 import com.xando.chefsclub.recipes.data.RecipeData
-import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.ViewRecipeActivity
 import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity
-import com.xando.chefsclub.search.recipes.filter.dialog.FilterDialog
+import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.ViewRecipeActivity
+import com.xando.chefsclub.search.SearchListFragment
 import com.xando.chefsclub.search.recipes.filter.RecipeFilterAdapter
 import com.xando.chefsclub.search.recipes.filter.RecipeFilterData
+import com.xando.chefsclub.search.recipes.filter.dialog.FilterDialog
 import com.xando.chefsclub.search.recipes.item.SearchRecipeItem
 import com.xando.chefsclub.search.recipes.parser.RecipesResultParser
-import com.xando.chefsclub.search.SearchListFragment
 import java.util.*
 
 class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, RecipeFilterData>() {
@@ -36,7 +36,7 @@ class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, R
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        profileViewModel.resourceLiveData.observe(this,
+        profileViewModel.resourceLiveData.observe(viewLifecycleOwner,
                 Observer { res: ParcResourceByParc<ProfileData>? ->
                     if (res != null && res.status == ParcResourceByParc.Status.SUCCESS) {
                         filterAdapter.data.subscriptions = getSubscriptionsList(res.data!!.subscriptions)
@@ -59,13 +59,14 @@ class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, R
         val filterDialog = FilterDialog()
         filterDialog.setTargetFragment(this, REQUEST_CODE_FILTER)
         filterDialog.arguments = FilterDialog.getArgs(filterAdapter.data)
-        filterDialog.show(fragmentManager, "filterDialog")
+        filterDialog.show(parentFragmentManager, "filterDialog")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_FILTER && resultCode == FilterDialog.RESULT_CODE_FILTER_APPLY) {
-            val filterData: RecipeFilterData = data.getParcelableExtra(FilterDialog.FILTER_DATA)
+            val filterData: RecipeFilterData = data?.getParcelableExtra(FilterDialog.FILTER_DATA)
+                    ?: RecipeFilterData()
             updateFilterData(filterData)
             emptySearch()
         }

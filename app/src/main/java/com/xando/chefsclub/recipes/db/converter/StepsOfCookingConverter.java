@@ -1,14 +1,14 @@
 package com.xando.chefsclub.recipes.db.converter;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 
 import com.xando.chefsclub.recipes.data.StepOfCooking;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xando.chefsclub.recipes.editrecipe.DialogTimePicker.NOT_SELECTED;
 import static com.xando.chefsclub.recipes.db.RecipeEntity.EMPTY_FIELD;
+import static com.xando.chefsclub.recipes.editrecipe.DialogTimePicker.NOT_SELECTED;
 
 public class StepsOfCookingConverter {
 

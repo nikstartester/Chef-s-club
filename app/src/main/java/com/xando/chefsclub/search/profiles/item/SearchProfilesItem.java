@@ -1,12 +1,13 @@
 package com.xando.chefsclub.search.profiles.item;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.mikepenz.fastadapter.items.AbstractItem;
+import com.xando.chefsclub.R;
 import com.xando.chefsclub.profiles.data.ProfileData;
 import com.xando.chefsclub.profiles.viewprofiles.subscriptions.viewholder.SubscriptionViewHolder;
-import com.xando.chefsclub.R;
 import com.xando.chefsclub.search.core.IData;
 
 import java.util.List;

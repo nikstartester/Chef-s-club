@@ -1,8 +1,9 @@
 package com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.daimajia.androidanimations.library.YoYo;
 import com.mikepenz.fastadapter.items.AbstractItem;

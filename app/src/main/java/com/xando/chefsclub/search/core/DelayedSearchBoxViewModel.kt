@@ -1,6 +1,6 @@
 package com.xando.chefsclub.search.core
 
-import android.support.v7.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import com.algolia.instantsearch.ui.helpers.InstantSearch
 import com.algolia.instantsearch.ui.utils.SearchViewFacade
 import com.algolia.instantsearch.ui.viewmodels.SearchBoxViewModel
@@ -34,20 +34,20 @@ class DelayedSearchBoxViewModel(searchView: SearchView) : SearchBoxViewModel(sea
         listeners.add(instantSearch)
 
         disposer.add(Observable.create(ObservableOnSubscribe<String> { subscriber ->
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    subscriber.onNext(newText ?: "")
-                    subject.onNext(newText ?: "")
-                    return true
-                }
+                        override fun onQueryTextChange(newText: String?): Boolean {
+                            subscriber.onNext(newText ?: "")
+                            subject.onNext(newText ?: "")
+                            return true
+                        }
 
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    searchViewFacade.clearFocus()
-                    return true
-                }
-            })
-        })
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            searchViewFacade.clearFocus()
+                            return true
+                        }
+                    })
+                })
                 .map { text -> text.trim().replace(" +".toRegex(), " ") }
                 .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
                 .distinctUntilChanged()
