@@ -349,6 +349,7 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
                 imageViewClick(false, false);
                 break;
             case R.id.btn_addCategories:
+                clearFocus();
                 startActivityForResult(
                         new Intent(getActivity(), ChooseCategoriesActivity.class)
                                 .putExtra(SELECTED_ITEMS, (ArrayList<String>) mOverviewData.strCategories),
@@ -392,6 +393,7 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
         }
 
         if (maxPic > 0) {
+            clearFocus();
             super.showChooseDialog(maxPic, withDelete);
         } else {
             String m = "You can only select up to " + MAX_ADAPTER_PHOTOS + " media files";
@@ -401,6 +403,11 @@ public class OverviewEditRecipeFragment extends BaseEditRecipeWithKeyFragment
 
     private boolean isHaveMainPhoto() {
         return mOverviewData.mainImagePath != null;
+    }
+
+    private void clearFocus() {
+        if (getActivity() != null && getActivity().getCurrentFocus() != null)
+            getActivity().getCurrentFocus().clearFocus();
     }
 
     @Override
