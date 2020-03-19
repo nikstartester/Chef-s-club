@@ -192,8 +192,6 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
                 onAddSteps();
                 break;
             case R.id.btn_chooseTimeMain:
-                showTimerPicker(POSITION_MAIN);
-                break;
             case R.id.imgView_chooseTimeMain:
                 showTimerPicker(POSITION_MAIN);
                 break;
@@ -239,13 +237,14 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
                 switch (v.getId()) {
                     case R.id.img_image:
                         mCurrentPosition = position;
-                        item.setFocus();
+                        clearFocus();
                         StepsEditRecipeFragment.super.showChooseDialog(1, isHavePhoto());
                         break;
                     case R.id.img_btn_remove:
                         removeImage(position);
                         break;
                     case R.id.img_time:
+                        clearFocus();
                         showTimerPicker(position);
                         break;
                     case R.id.btn_deleteStep:
@@ -275,6 +274,11 @@ public class StepsEditRecipeFragment extends BaseEditRecipeWithKeyFragment
 
     private boolean isHavePhoto() {
         return mStepsData.stepsOfCooking.get(mCurrentPosition).imagePath != null;
+    }
+
+    private void clearFocus() {
+        if (getActivity() != null && getActivity().getCurrentFocus() != null)
+            getActivity().getCurrentFocus().clearFocus();
     }
 
     @Override
