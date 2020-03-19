@@ -72,9 +72,6 @@ class CameraDialogFragment : AppCompatDialogFragment() {
                         sendResult(Activity.RESULT_OK, Uri.fromFile(savedPhoto))
                         dismiss()
                     }
-
-                    sendResult(Activity.RESULT_OK, Uri.fromFile(savedPhoto))
-                    dismiss()
                 } catch (e: IOException) {
                     e.printStackTrace()
                 } finally {
@@ -114,7 +111,7 @@ class CameraDialogFragment : AppCompatDialogFragment() {
         return Constants.Files.getDirectoryForCaptures(activity)
     }
 
-    private fun getPhotoName(unique: String): String? {
+    private fun getPhotoName(unique: String): String {
         return "IMG_$unique.jpg"
     }
 
