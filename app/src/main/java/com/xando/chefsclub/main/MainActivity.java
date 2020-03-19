@@ -1,6 +1,5 @@
 package com.xando.chefsclub.main;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -51,8 +50,6 @@ import static com.xando.chefsclub.helper.FirebaseHelper.getUid;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ToSearcher {
 
-    private static final int REQUEST_CODE_UPDATE_IMAGE = 532;
-
     private static final String MAIN_IS_FAB_VISIBLE = "MAIN_IS_FAB_VISIBLE";
 
     protected FloatingActionButton fab;
@@ -77,7 +74,6 @@ public class MainActivity extends AppCompatActivity
 
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-            //Intent intent = new Intent(this, EditRecipeActivity.class);
             startActivity(EditRecipeActivity.getIntent(this));
         });
 
@@ -310,6 +306,8 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = getSearchFragment(lookFor, searchFrom);
 
         addNewFragment(fragment, id);
+
+        setTittle("");
 
         changeFabVisibility(id);
         mNavigationView.getMenu().findItem(R.id.nav_search).setChecked(true);
