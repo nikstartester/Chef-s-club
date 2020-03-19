@@ -2,6 +2,8 @@ package com.xando.chefsclub.settings;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.xando.chefsclub.BuildConfig;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.helper.FirebaseHelper;
@@ -69,6 +72,8 @@ public class SettingsFragment extends Fragment {
         if (mProfileViewModel.getResourceLiveData().getValue() == null)
             mProfileViewModel.loadDataAndSync(FirebaseHelper.getUid());
 
+        ((TextView) view.findViewById(R.id.setting_version)).setText(getVersion());
+
         return view;
     }
 
@@ -96,6 +101,18 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    @NonNull
+    private String getVersion() {
+        if (getContext() == null) return "";
+
+        try {
+            PackageInfo pInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+            return "v" + pInfo.versionName + (BuildConfig.DEBUG ? " - debug" : "");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
 
     @OnClick(R.id.btn_edit_profile)
     protected void startEditProfile() {
