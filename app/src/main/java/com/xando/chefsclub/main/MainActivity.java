@@ -8,20 +8,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.xando.chefsclub.App;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.sync.SyncCompilationService;
 import com.xando.chefsclub.compilations.viewcompilations.UserCompilationsFragment;
@@ -38,12 +28,25 @@ import com.xando.chefsclub.recipes.viewrecipes.ToSearcher;
 import com.xando.chefsclub.recipes.viewrecipes.allrecipes.AllRecipesFragment;
 import com.xando.chefsclub.recipes.viewrecipes.localcookbook.LocalRecipesFragment;
 import com.xando.chefsclub.recipes.viewrecipes.usercookbook.UserRecipesFragment;
+import com.xando.chefsclub.repository.Favorite;
 import com.xando.chefsclub.search.SearchFragment;
 import com.xando.chefsclub.search.core.BaseFilterData;
 import com.xando.chefsclub.search.profiles.filter.ProfileFilterData;
 import com.xando.chefsclub.search.recipes.filter.RecipeFilterData;
 import com.xando.chefsclub.settings.SettingsActivity;
 import com.xando.chefsclub.shoppinglist.ViewShoppingListActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
+import io.reactivex.disposables.CompositeDisposable;
 
 import static com.xando.chefsclub.helper.FirebaseHelper.getUid;
 
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
 
     private boolean isFabVisible = true;
+
+    private CompositeDisposable disposer = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +127,14 @@ public class MainActivity extends AppCompatActivity
                 fab.show();
             else fab.hide();
         }
+
+        disposer.add(Favorite.INSTANCE.syncFavorite((App) getApplication()));
+    }
+
+    @Override
+    protected void onDestroy() {
+        disposer.dispose();
+        super.onDestroy();
     }
 
     private void startSyncCompilationsTittle() {

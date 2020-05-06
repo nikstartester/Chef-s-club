@@ -3,20 +3,21 @@ package com.xando.chefsclub.recipes.viewrecipes.compilations;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.mikepenz.fastadapter.listeners.ClickEventHook;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.data.CompilationData;
-import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.RecipesListFragment;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
+import com.xando.chefsclub.repository.CompilationsTransactions;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
+import io.reactivex.disposables.CompositeDisposable;
 
 
 public class RecipesFragment extends RecipesListFragment {
@@ -24,6 +25,8 @@ public class RecipesFragment extends RecipesListFragment {
     private static final String KEY_COMPILATION = "COMPILATION";
 
     private CompilationData mCompilation;
+
+    private CompositeDisposable disposer = new CompositeDisposable();
 
     public static Bundle getArguments(CompilationData compilation) {
         Bundle bundle = new Bundle();
@@ -38,6 +41,12 @@ public class RecipesFragment extends RecipesListFragment {
         if (getArguments() != null) {
             mCompilation = getArguments().getParcelable(KEY_COMPILATION);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        disposer.dispose();
+        super.onDestroy();
     }
 
     @Nullable
@@ -70,11 +79,11 @@ public class RecipesFragment extends RecipesListFragment {
 
         @Override
         protected void removeFromCompilation(RecipeData recipeData) {
-            if (NetworkHelper.isConnected(getActivity())) {
-                new FirebaseHelper.Compilations.CompilationActions()
-                        .removeFromRecipe(mCompilation, recipeData.recipeKey)
-                        .saveChangesOnCompilation()
-                        .updateCompilationOnServer();
+            if (NetworkHelper.isConnected(requireActivity())) {
+                disposer.add(CompilationsTransactions.INSTANCE.onRemoveRecipeFromCompilation(
+                        mCompilation.compilationKey,
+                        recipeData.recipeKey
+                ));
             } else {
                 Toast.makeText(getActivity(), getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }

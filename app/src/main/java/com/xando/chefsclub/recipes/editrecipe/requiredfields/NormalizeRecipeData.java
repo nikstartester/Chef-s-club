@@ -2,17 +2,15 @@ package com.xando.chefsclub.recipes.editrecipe.requiredfields;
 
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
-
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.data.StepOfCooking;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import kotlin.text.StringsKt;
 
 public class NormalizeRecipeData {
@@ -89,7 +87,7 @@ public class NormalizeRecipeData {
     }
 
     private static String checkOrNullPhoto(String imagePath) {
-        return !TextUtils.isEmpty(imagePath) && new File(imagePath).exists() ? imagePath : null;
+        return !TextUtils.isEmpty(imagePath) ? imagePath : null;
     }
 
     private static boolean checkText(String text) {

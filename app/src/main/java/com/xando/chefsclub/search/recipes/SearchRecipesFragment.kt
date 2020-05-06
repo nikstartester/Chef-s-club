@@ -21,17 +21,22 @@ import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel
 import com.xando.chefsclub.recipes.data.RecipeData
 import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.ViewRecipeActivity
+import com.xando.chefsclub.repository.Favorite
+import com.xando.chefsclub.repository.switchFavorite
 import com.xando.chefsclub.search.SearchListFragment
 import com.xando.chefsclub.search.recipes.filter.RecipeFilterAdapter
 import com.xando.chefsclub.search.recipes.filter.RecipeFilterData
 import com.xando.chefsclub.search.recipes.filter.dialog.FilterDialog
 import com.xando.chefsclub.search.recipes.item.SearchRecipeItem
 import com.xando.chefsclub.search.recipes.parser.RecipesResultParser
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import java.util.*
 
 class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, RecipeFilterData>() {
 
     private val profileViewModel: ProfileViewModel by lazy { getHostViewModel<ProfileViewModel>() }
+    private val disposer = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,14 +110,13 @@ class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, R
 
     private fun onStarClicked(item: SearchRecipeItem) {
         val recipeData = item.recipeData
-        FirebaseHelper.Favorite.updateFavorite(activity!!.application as App,
-                RecipeToFavoriteEntity(recipeData.recipeKey, recipeData.authorUId))
-        FirebaseHelper.Favorite.updateRecipeDataAndDBAfterFavoriteChange(
-                activity!!.application as App,
-                recipeData)
-        item.setRecipeData(recipeData)
-                .updateFavoriteImage()
-                .updateStarCount()
+        disposer += Favorite.switchFavorite(
+            activity!!.application as App,
+            RecipeToFavoriteEntity(recipeData.recipeKey, recipeData.authorUId)
+        )
+        disposer += Favorite.updateFavoriteInDB(activity!!.application as App, recipeData.switchFavorite())
+
+        item.setRecipeData(recipeData).updateFavoriteImage().updateStarCount()
     }
 
     override val clickItemListener =

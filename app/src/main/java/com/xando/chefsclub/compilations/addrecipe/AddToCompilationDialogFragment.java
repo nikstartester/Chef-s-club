@@ -12,15 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,15 +26,24 @@ import com.xando.chefsclub.compilations.editcompilation.EditCompilationDialogFra
 import com.xando.chefsclub.compilations.sync.SyncCompilationService;
 import com.xando.chefsclub.compilations.viewmodel.CompilationsViewModel;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
-import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
 import com.xando.chefsclub.recipes.data.RecipeData;
+import com.xando.chefsclub.repository.CompilationsTransactions;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 import static com.xando.chefsclub.recipes.repository.RecipeRepository.CHILD_RECIPES;
 
@@ -62,6 +62,8 @@ public class AddToCompilationDialogFragment extends AppCompatDialogFragment {
 
     private RecipeData mRecipeData;
     private SyncCompilationsTittleBReceiver mBReceiver;
+
+    private CompositeDisposable disposer = new CompositeDisposable();
 
     public static Bundle getArguments(RecipeData recipeData) {
         Bundle bundle = new Bundle();
@@ -142,10 +144,10 @@ public class AddToCompilationDialogFragment extends AppCompatDialogFragment {
     }
 
     private void startAddToCompilation(CompilationData data) {
-        new FirebaseHelper.Compilations.CompilationActions()
-                .addToRecipe(data, mRecipeData.recipeKey)
-                .saveChangesOnCompilation()
-                .updateCompilationOnServer();
+        disposer.add(CompilationsTransactions.INSTANCE.onAddRecipeToCompilation(
+                data.compilationKey,
+                mRecipeData.recipeKey
+        ));
     }
 
     private void startAddToCompilationWithCheck(CompilationData compilationData) {
@@ -187,8 +189,9 @@ public class AddToCompilationDialogFragment extends AppCompatDialogFragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        disposer.dispose();
         getActivity().unregisterReceiver(mBReceiver);
+        super.onDestroy();
     }
 
     private void onDataLoaded(List<CompilationData> list) {
