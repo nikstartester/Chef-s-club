@@ -2,9 +2,6 @@ package com.xando.chefsclub.compilations.data;
 
 import android.os.Parcel;
 
-import androidx.room.Ignore;
-import androidx.room.TypeConverters;
-
 import com.google.firebase.database.ServerValue;
 import com.xando.chefsclub.dataworkers.BaseData;
 import com.xando.chefsclub.recipes.db.converter.AllImagePathConverter;
@@ -13,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.room.Ignore;
+import androidx.room.TypeConverters;
 
 public class CompilationData extends BaseData {
 
@@ -42,7 +42,7 @@ public class CompilationData extends BaseData {
         map.put("name", name);
         map.put("authorUId", authorUId);
         map.put("count", count);
-        map.put("recipes", recipesKey);
+        map.put("recipesKey", recipesKey);
         map.put("creatingTime", ServerValue.TIMESTAMP);
 
         return map;

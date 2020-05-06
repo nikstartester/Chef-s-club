@@ -2,9 +2,6 @@ package com.xando.chefsclub.recipes.data;
 
 import android.os.Parcel;
 
-import androidx.room.Ignore;
-import androidx.room.TypeConverters;
-
 import com.google.firebase.database.ServerValue;
 import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.dataworkers.BaseData;
@@ -12,6 +9,9 @@ import com.xando.chefsclub.recipes.db.converter.MapBoolConverter;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.room.Ignore;
+import androidx.room.TypeConverters;
 
 /*
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -41,8 +41,6 @@ public class RecipeData extends BaseData implements Cloneable {
     public long creatingTime = Constants.ImageConstants.DEF_TIME;
     @TypeConverters(MapBoolConverter.class)
     public Map<String, Boolean> stars = new HashMap<>();
-    @Ignore
-    private Map<String, Integer> tags = new HashMap<>();
     @TypeConverters(MapBoolConverter.class)
     public Map<String, Boolean> inCompilations = new HashMap<>();
     @Ignore
@@ -75,13 +73,6 @@ public class RecipeData extends BaseData implements Cloneable {
             Boolean value = (Boolean) in.readValue(Boolean.class.getClassLoader());
             this.stars.put(key, value);
         }
-        int tagsSize = in.readInt();
-        this.tags = new HashMap<>(tagsSize);
-        for (int i = 0; i < tagsSize; i++) {
-            String key = in.readString();
-            Integer value = (Integer) in.readValue(Integer.class.getClassLoader());
-            this.tags.put(key, value);
-        }
         int inCompilationsSize = in.readInt();
         this.inCompilations = new HashMap<>(inCompilationsSize);
         for (int i = 0; i < inCompilationsSize; i++) {
@@ -95,6 +86,12 @@ public class RecipeData extends BaseData implements Cloneable {
         this.isUpdated = in.readByte() != 0;
     }
 
+    // TODO: this method must simple map object
+
+    /**
+     * @deprecated This method change creatingTime and dateTime. Use [toSimpleMap] instead
+     */
+    @Deprecated()
     @Override
     public Map<String, Object> toMap() {
 
@@ -107,7 +104,6 @@ public class RecipeData extends BaseData implements Cloneable {
         map.put("stepsData", stepsData);
         map.put("stars", stars);
         map.put("inCompilations", inCompilations);
-        map.put("tags", tags);
         map.put("isUpdated", isUpdated);
 
         if (!isUpdated || creatingTime == Constants.ImageConstants.DEF_TIME) {
@@ -161,11 +157,6 @@ public class RecipeData extends BaseData implements Cloneable {
         dest.writeLong(this.creatingTime);
         dest.writeInt(this.stars.size());
         for (Map.Entry<String, Boolean> entry : this.stars.entrySet()) {
-            dest.writeString(entry.getKey());
-            dest.writeValue(entry.getValue());
-        }
-        dest.writeInt(this.tags.size());
-        for (Map.Entry<String, Integer> entry : this.tags.entrySet()) {
             dest.writeString(entry.getKey());
             dest.writeValue(entry.getValue());
         }

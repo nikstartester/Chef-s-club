@@ -2,10 +2,6 @@ package com.xando.chefsclub.recipes.repository;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,17 +12,20 @@ import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.dataworkers.BaseLocalDataSaver;
 import com.xando.chefsclub.dataworkers.BaseRepository;
-import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.data.StepOfCooking;
 import com.xando.chefsclub.recipes.db.RecipeEntity;
 import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
+import com.xando.chefsclub.repository.CompilationsTransactions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -153,11 +152,8 @@ public class RecipeRepository extends BaseRepository<RecipeData> {
     private static void deleteFromCompilations(RecipeData data) {
         Set<Map.Entry<String, Boolean>> inCompilationsSet = data.inCompilations.entrySet();
 
-        FirebaseHelper.Compilations.CompilationActions compAct =
-                new FirebaseHelper.Compilations.CompilationActions();
-
         for (Map.Entry<String, Boolean> entry : inCompilationsSet) {
-            compAct.removeRecipeFromCompilation(entry.getKey(), data.recipeKey);
+            CompilationsTransactions.INSTANCE.removeRecipeFromCompilation(entry.getKey(), data.recipeKey);
         }
 
         data.inCompilations.clear();

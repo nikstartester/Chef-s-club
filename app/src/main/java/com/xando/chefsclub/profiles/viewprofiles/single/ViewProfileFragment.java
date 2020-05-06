@@ -8,12 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.SingleFragmentActivity;
 import com.xando.chefsclub.dataworkers.OnItemCountChanged;
@@ -23,10 +17,17 @@ import com.xando.chefsclub.image.loaders.GlideImageLoader;
 import com.xando.chefsclub.profiles.data.ProfileData;
 import com.xando.chefsclub.profiles.viewmodel.ProfileViewModel;
 import com.xando.chefsclub.recipes.viewrecipes.UserRecipesList;
+import com.xando.chefsclub.repository.SubscriptionsTransaction;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.disposables.CompositeDisposable;
 
 
 public class ViewProfileFragment extends Fragment implements OnItemCountChanged {
@@ -61,6 +62,8 @@ public class ViewProfileFragment extends Fragment implements OnItemCountChanged 
     private ProfileViewModel mProfileViewModel;
 
     private ProfileData mProfileData;
+
+    private CompositeDisposable disposer = new CompositeDisposable();
 
     public static Fragment getInstance(String userId) {
         Fragment fragment = new ViewProfileFragment();
@@ -168,7 +171,7 @@ public class ViewProfileFragment extends Fragment implements OnItemCountChanged 
 
     @OnClick(R.id.btn_subscibe)
     protected void subscribeClick() {
-        FirebaseHelper.Subscriptions.updateSubscr(FirebaseHelper.getUid(), mProfileData.userUid);
+        disposer.add(SubscriptionsTransaction.INSTANCE.switchSubscription(mProfileData.userUid));
     }
 
     @Override
@@ -185,5 +188,11 @@ public class ViewProfileFragment extends Fragment implements OnItemCountChanged 
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(KEY_PROFILE_DATA, mProfileData);
+    }
+
+    @Override
+    public void onDestroy() {
+        disposer.dispose();
+        super.onDestroy();
     }
 }
