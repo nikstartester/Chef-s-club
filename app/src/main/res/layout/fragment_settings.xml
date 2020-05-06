@@ -79,6 +79,7 @@
             android:id="@+id/setting_version"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/md_grey_500"
             android:padding="16dp"
             android:textSize="16dp"
             tools:text="VERSION"

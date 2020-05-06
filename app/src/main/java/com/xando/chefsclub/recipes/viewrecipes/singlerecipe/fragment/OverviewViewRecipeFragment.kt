@@ -48,11 +48,14 @@ import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.*
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.IngredientsEditModeItem.IngredientsEditModeViewHolder
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.IngredientsViewItem.IngredientViewItemViewHolder
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.recyclerviewitems.PropertiesItem.PropertiesViewHolder
+import com.xando.chefsclub.repository.Favorite
+import com.xando.chefsclub.repository.switchFavorite
 import com.xando.chefsclub.shoppinglist.ViewShoppingListActivity
 import com.xando.chefsclub.shoppinglist.db.Helper
 import com.xando.chefsclub.shoppinglist.db.IngredientEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_recycler_view.view.recycler_view
 import kotlinx.android.synthetic.main.fragment_view_recipe_overview.view.*
@@ -488,10 +491,8 @@ class OverviewRecipeFragment : BaseFragmentWithRecipeKey() {
     }
 
     private fun onFavoriteClick(item: PropertiesItem) {
-        FirebaseHelper.Favorite.updateFavorite(getApp(), RecipeToFavoriteEntity(recipeId, recipeData!!.authorUId))
-
-        FirebaseHelper.Favorite.updateDBAfterFavoriteChange(getApp(),
-                FirebaseHelper.Favorite.updateRecipeDataWithFavoriteChange(recipeData))
+        disposer += Favorite.switchFavorite(getApp(), RecipeToFavoriteEntity(recipeId, recipeData!!.authorUId))
+        disposer += Favorite.updateFavoriteInDB(getApp(), recipeData!!.switchFavorite())
 
         item.updateStarsViews(true)
     }

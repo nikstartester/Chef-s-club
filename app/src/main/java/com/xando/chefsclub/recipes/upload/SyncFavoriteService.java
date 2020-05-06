@@ -6,11 +6,8 @@ import android.os.Build;
 import android.os.IBinder;
 
 import com.xando.chefsclub.App;
-import com.xando.chefsclub.helper.FirebaseHelper;
-import com.xando.chefsclub.recipes.db.RecipeToFavoriteEntity;
-import com.xando.chefsclub.recipes.db.RecipesToFavoriteDao;
 
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class SyncFavoriteService extends Service {
 
@@ -19,6 +16,8 @@ public class SyncFavoriteService extends Service {
     public SyncFavoriteService() {
     }
 
+    private CompositeDisposable disposer = new CompositeDisposable();
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -26,22 +25,19 @@ public class SyncFavoriteService extends Service {
         else NotificationsForSyncFavorite.PreO.createNotification(this);
 
         App app = (App) getApplication();
+        //disposer.add(Favorite.INSTANCE.syncFavorite(app, this::stopSelf));
 
-        RecipesToFavoriteDao dao = app.getDatabase().recipesToFavoriteDao();
-
-        dao.getSingleAll()
-                .subscribeOn(Schedulers.io())
-                .subscribe(entities -> {
-                    for (RecipeToFavoriteEntity entity : entities) {
-                        FirebaseHelper.Favorite.updateFavoriteOnServer(app, entity);
-                    }
-                    stopSelf();
-                });
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        disposer.dispose();
+        super.onDestroy();
     }
 }
