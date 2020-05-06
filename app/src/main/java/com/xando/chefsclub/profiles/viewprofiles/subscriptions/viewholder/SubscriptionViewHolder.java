@@ -6,15 +6,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.xando.chefsclub.R;
-import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
 import com.xando.chefsclub.image.data.ImageData;
 import com.xando.chefsclub.image.loaders.GlideImageLoader;
 import com.xando.chefsclub.profiles.data.ProfileData;
+import com.xando.chefsclub.repository.SubscriptionsTransaction;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -72,7 +71,7 @@ public class SubscriptionViewHolder extends RecyclerView.ViewHolder {
 
     private void unsubscribeClick() {
         if (NetworkHelper.isConnected(unsubscribe.getContext())) {
-            FirebaseHelper.Subscriptions.updateSubscr(getUid(), mProfileData.userUid);
+            SubscriptionsTransaction.INSTANCE.switchSubscription(mProfileData.userUid);
 
             unsubscribe.setVisibility(View.INVISIBLE);
 

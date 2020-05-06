@@ -2,10 +2,6 @@ package com.xando.chefsclub.compilations.repository;
 
 import android.app.Application;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.MutableLiveData;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,11 +16,14 @@ import com.xando.chefsclub.dataworkers.DataBaseLoader;
 import com.xando.chefsclub.dataworkers.DeletableData;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.dataworkers.ProgressUpdate;
-import com.xando.chefsclub.helper.FirebaseHelper;
+import com.xando.chefsclub.repository.CompilationsTransactions;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -152,19 +151,10 @@ public class CompilationsRepository implements DataBaseLoader<CompilationData>, 
 
         compilationRef.removeValue();
 
-        FirebaseHelper.Compilations.CompilationActions compilationAct = new FirebaseHelper.Compilations.CompilationActions();
-
-
         List<String> recipes = new ArrayList<>(data.recipesKey);
         for (int i = 0; i < recipes.size(); i++) {
-            compilationAct
-                    .removeFromRecipe(data, recipes.get(i))
-                    .saveChangesOnCompilation();
+            mCompositeDisposable.add(CompilationsTransactions.INSTANCE.removeCompilationFromRecipe(data.compilationKey, recipes.get(i)));
         }
-
-        /*for (String recipeKey : data.recipesKey) {
-            compilationAct.removeFromRecipe(data, recipeKey);
-        }*/
     }
 
     @Override

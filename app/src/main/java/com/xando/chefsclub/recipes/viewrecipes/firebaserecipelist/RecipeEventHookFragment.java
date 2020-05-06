@@ -1,15 +1,7 @@
 package com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.mikepenz.fastadapter.FastAdapter;
@@ -17,7 +9,6 @@ import com.mikepenz.fastadapter.listeners.ClickEventHook;
 import com.xando.chefsclub.App;
 import com.xando.chefsclub.R;
 import com.xando.chefsclub.compilations.addrecipe.AddToCompilationDialogFragment;
-import com.xando.chefsclub.helper.FirebaseHelper;
 import com.xando.chefsclub.helper.NetworkHelper;
 import com.xando.chefsclub.profiles.viewprofiles.single.ViewProfileActivityTest;
 import com.xando.chefsclub.recipes.data.RecipeData;
@@ -28,30 +19,24 @@ import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 import com.xando.chefsclub.recipes.upload.EditRecipeService;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.AbsRecipeItem;
 import com.xando.chefsclub.recipes.viewrecipes.firebaserecipelist.item.RecipeItem;
+import com.xando.chefsclub.repository.Favorite;
+import com.xando.chefsclub.repository.RecipeFavoriteTransactionsKt;
 import com.xando.chefsclub.shoppinglist.ViewShoppingListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xando.chefsclub.helper.FirebaseHelper.Favorite.updateFavorite;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.disposables.CompositeDisposable;
 
 public abstract class RecipeEventHookFragment extends Fragment {
 
-    public static void favoriteClick(Context context, AbsRecipeItem item) {
-        RecipeData model = item.getRecipeData();
-
-        FirebaseHelper.Favorite.updateRecipeDataAndDBAfterFavoriteChange(
-                (App) context.getApplicationContext(), model);
-
-        item.setRecipeData(model);
-
-        if (item.isReadyToUpdateUi())
-            item.updateUiFavoriteData(true);
-
-        updateFavorite((App) context.getApplicationContext(),
-                new RecipeToFavoriteEntity(model.recipeKey, model.authorUId));
-    }
+    private CompositeDisposable disposer = new CompositeDisposable();
 
     public class EventHookForRecipeItem<T extends AbsRecipeItem> extends ClickEventHook<T> {
 
@@ -92,7 +77,21 @@ public abstract class RecipeEventHookFragment extends Fragment {
         }
 
         protected void favoriteClick(T item) {
-            RecipeEventHookFragment.favoriteClick(getActivity(), item);
+            RecipeData model = item.getRecipeData();
+
+            if (model == null) return;
+
+            RecipeFavoriteTransactionsKt.switchFavorite(model);
+
+            disposer.add(Favorite.INSTANCE.updateFavoriteInDB((App) requireContext().getApplicationContext(), model));
+
+            item.setRecipeData(model);
+
+            if (item.isReadyToUpdateUi())
+                item.updateUiFavoriteData(true);
+
+            disposer.add(Favorite.INSTANCE.switchFavorite((App) requireContext().getApplicationContext(),
+                    new RecipeToFavoriteEntity(model.recipeKey, model.authorUId)));
         }
 
         protected void moreClick(@NonNull T item) {
