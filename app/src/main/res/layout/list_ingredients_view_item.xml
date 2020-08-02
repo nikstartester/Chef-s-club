@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_ingr"
@@ -17,7 +18,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_ingredient" />
+        app:layout_constraintTop_toTopOf="@+id/tv_ingredient"/>
 
     <View
         android:id="@+id/view7"
@@ -28,7 +29,7 @@
         android:background="@color/grey_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_ingredient"
@@ -39,12 +40,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:gravity="center_vertical"
-        tools:text="Ingredient name"
+        android:textColor="@color/md_grey_800"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/checkBox_available"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toBottomOf="@+id/view7" />
+        app:layout_constraintTop_toBottomOf="@+id/view7"
+        tools:text="Ingredient name"/>
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -53,6 +55,6 @@
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_ingredient" />
+        app:layout_constraintTop_toTopOf="@+id/tv_ingredient"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

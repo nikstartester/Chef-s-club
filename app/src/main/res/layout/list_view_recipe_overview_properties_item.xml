@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +16,7 @@
         android:textSize="15sp"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/imageView_sdStorage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/imgFavorite"
@@ -39,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_starCount"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_sd_storage_blue_48dp" />
+        app:srcCompat="@drawable/ic_sd_storage_blue_48dp"/>
 
     <TextView
         android:id="@+id/tv_starCount"
@@ -49,12 +50,13 @@
         android:layout_alignTop="@+id/imgFavorite"
         android:layout_alignBottom="@+id/imgFavorite"
         android:layout_toStartOf="@+id/imgFavorite"
+        android:layout_marginEnd="4dp"
         android:gravity="center_vertical"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/imgFavorite"
         app:layout_constraintEnd_toStartOf="@+id/imgFavorite"
         app:layout_constraintTop_toTopOf="@+id/imgFavorite"
-        tools:text="0" />
+        tools:text="0"/>
 
     <TextView
         android:id="@+id/tv_time"
@@ -62,16 +64,17 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:gravity="center_vertical"
+        android:textColor="@color/md_grey_800"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/imgFavorite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgFavorite"
-        tools:text="May 23, 2007" />
+        tools:text="May 23, 2007"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/star_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:constraint_referenced_ids="tv_starCount,imgFavorite" />
+        app:constraint_referenced_ids="tv_starCount,imgFavorite"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
