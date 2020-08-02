@@ -1,10 +1,12 @@
 package com.xando.chefsclub.recipes.data;
 
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import com.xando.chefsclub.dataworkers.BaseData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +24,18 @@ public class StepsData extends BaseData implements Cloneable {
     @Override
     public Map<String, Object> toMap() {
         return null;
+    }
+
+    public Map<String, Object> toImageChildren() {
+        HashMap<String, Object> map = new HashMap<>();
+
+        for (int i = 0; i < stepsOfCooking.size(); i++) {
+            StepOfCooking step = stepsOfCooking.get(i);
+            if (!TextUtils.isEmpty(step.imagePath))
+                map.put("stepsOfCooking/" + i + "/imagePath", step.imagePath);
+        }
+
+        return map;
     }
 
     @Override

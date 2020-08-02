@@ -51,6 +51,7 @@ class CameraDialogFragment : AppCompatDialogFragment() {
             camera.flash = when (camera.flash) {
                 Flash.OFF -> {
                     camera_dialog_flash.setImageDrawable(resources.getDrawable(R.drawable.ic_flash_on_white_24dp))
+                    flashToast?.cancel()
                     flashToast = Toast.makeText(context!!.applicationContext, "Flash", Toast.LENGTH_SHORT).apply {
                         setGravity(Gravity.TOP, 0, camera_dialog_toolbar_container.measuredHeight)
                     }
@@ -88,6 +89,7 @@ class CameraDialogFragment : AppCompatDialogFragment() {
 
     override fun onPause() {
         camera.close()
+        flashToast?.cancel()
         super.onPause()
     }
 

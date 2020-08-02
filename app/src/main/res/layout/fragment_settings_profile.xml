@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -21,12 +22,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:textColor="@android:color/black"
+            android:textColor="@color/md_black_1000"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/profile_login"
             app:layout_constraintEnd_toStartOf="@+id/btn_edit_profile"
             app:layout_constraintStart_toEndOf="@+id/profile_image"
-            tools:text="User Name" />
+            tools:text="User Name"/>
 
         <TextView
             android:id="@+id/profile_login"
@@ -39,7 +40,7 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_edit_profile"
             app:layout_constraintStart_toStartOf="@+id/profile_name"
             app:layout_constraintTop_toTopOf="@+id/profile_image"
-            tools:text="User Login" />
+            tools:text="User Login"/>
 
     </LinearLayout>
 
@@ -53,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_person_blue_96dp" />
+        app:srcCompat="@drawable/ic_person_blue_96dp"/>
 
     <Button
         android:id="@+id/btn_edit_profile"
@@ -64,6 +65,6 @@
         android:text="Edit"
         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/profile_image" />
+        app:layout_constraintTop_toTopOf="@+id/profile_image"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
