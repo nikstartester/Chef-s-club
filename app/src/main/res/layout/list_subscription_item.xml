@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,7 +18,7 @@
         android:text="Unsubscribe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_subscribe" />
+        app:layout_constraintTop_toBottomOf="@+id/image_subscribe"/>
 
     <TextView
         android:id="@+id/subscribers_count"
@@ -29,7 +30,7 @@
         android:text="0"
         app:layout_constraintBottom_toBottomOf="@+id/image_subscribe"
         app:layout_constraintEnd_toStartOf="@+id/image_subscribe"
-        app:layout_constraintTop_toTopOf="@+id/image_subscribe" />
+        app:layout_constraintTop_toTopOf="@+id/image_subscribe"/>
 
     <ImageView
         android:id="@+id/image_subscribe"
@@ -39,7 +40,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_people_blue_48dp" />
+        app:srcCompat="@drawable/ic_people_blue_48dp"/>
 
     <View
         android:id="@+id/view6"
@@ -50,7 +51,7 @@
         android:background="@color/grey_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/profile_image"
@@ -62,7 +63,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view6"
-        app:srcCompat="@drawable/ic_account_circle_elements_48dp" />
+        app:srcCompat="@drawable/ic_account_circle_elements_48dp"/>
 
     <TextView
         android:id="@+id/profile_login"
@@ -75,7 +76,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_subscibe"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_name"/>
 
     <TextView
         android:id="@+id/profile_name"
@@ -83,9 +84,10 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textColor="@color/md_grey_800"
         app:layout_constraintEnd_toStartOf="@+id/btn_subscibe"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/profile_login"
-        app:layout_constraintTop_toTopOf="@+id/profile_image" />
+        app:layout_constraintTop_toTopOf="@+id/profile_image"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.core.widget.NestedScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/select_one"
-                android:textSize="24sp" />
+                android:textColor="@color/md_grey_800"
+                android:textSize="24sp"/>
 
             <TextView
                 android:id="@+id/textView19"
@@ -41,13 +42,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Meal Type:"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_categories_mealType"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"/>
 
             <View
                 android:id="@+id/view10"
@@ -56,7 +57,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
-                android:background="@color/grey_300" />
+                android:background="@color/grey_300"/>
 
             <TextView
                 android:id="@+id/textView18"
@@ -65,13 +66,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Dish Type:"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_categories_dishType"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"/>
 
             <View
                 android:id="@+id/view9"
@@ -80,7 +81,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="4dp"
-                android:background="@color/grey_300" />
+                android:background="@color/grey_300"/>
 
             <TextView
                 android:id="@+id/textView15"
@@ -89,14 +90,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="World Cuisine:"
-                android:textSize="18sp" />
+                android:textSize="18sp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_categories_worldCuisine"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="96dp" />
+                android:layout_marginBottom="96dp"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -128,7 +129,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:text="Cancel"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"/>
 
             <Button
                 android:id="@+id/btn_apply"
@@ -139,7 +140,7 @@
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:text="Apply"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
