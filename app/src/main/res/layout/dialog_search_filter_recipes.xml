@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -26,7 +27,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/textView12"
@@ -39,7 +40,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/search_from"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/search_from" />
+                app:layout_constraintTop_toTopOf="@+id/search_from"/>
 
             <TextView
                 android:id="@+id/textView13"
@@ -51,7 +52,7 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_choose_categories"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toTopOf="@+id/btn_choose_categories" />
+                app:layout_constraintTop_toTopOf="@+id/btn_choose_categories"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categories"
@@ -61,7 +62,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/search_from"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/btn_choose_categories" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_choose_categories"/>
 
             <Button
                 android:id="@+id/btn_choose_categories"
@@ -74,7 +75,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/search_from"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView13"
-                app:layout_constraintTop_toBottomOf="@+id/search_from" />
+                app:layout_constraintTop_toBottomOf="@+id/search_from"/>
 
             <TextView
                 android:id="@+id/textView16"
@@ -86,7 +87,7 @@
                 android:text="Cooking Time:"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/textView12"
-                app:layout_constraintTop_toBottomOf="@+id/categories" />
+                app:layout_constraintTop_toBottomOf="@+id/categories"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -111,7 +112,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
                     android:text="From: "
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
                 <Button
                     android:id="@+id/btn_time_min"
@@ -120,7 +121,7 @@
                     android:layout_height="32dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginBottom="4dp"
-                    android:text="Min" />
+                    android:text="Min"/>
 
                 <TextView
                     android:id="@+id/textView20"
@@ -132,32 +133,17 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
                     android:text="To:"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
                 <Button
                     android:id="@+id/btn_time_max"
                     style="@style/BaseAppButton"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="Max" />
+                    android:text="Max"/>
 
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView25"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:maxLines="0"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/categories" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
 
     <androidx.cardview.widget.CardView
@@ -187,7 +173,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:text="Cancel"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"/>
 
             <Button
                 android:id="@+id/btn_apply"
@@ -198,7 +184,7 @@
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:text="Apply"
-                android:textColor="@color/cardview_light_background" />
+                android:textColor="@color/cardview_light_background"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

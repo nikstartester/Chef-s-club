@@ -254,8 +254,8 @@ public abstract class AbsRecipeItem extends AbstractItem<AbsRecipeItem, AbsRecip
 
         if (mRecipeData.stepsData.timeMainNum == DialogTimePicker.NOT_SELECTED
                 || mRecipeData.stepsData.timeMainNum <= 0)
-            mViewHolder.imageClock.setVisibility(View.INVISIBLE);
-        else mViewHolder.imageClock.setVisibility(View.VISIBLE);
+            mViewHolder.timeGroup.setVisibility(View.GONE);
+        else mViewHolder.timeGroup.setVisibility(View.VISIBLE);
     }
 
     private void setLoginVisibility(int visibility) {
@@ -434,6 +434,9 @@ public abstract class AbsRecipeItem extends AbstractItem<AbsRecipeItem, AbsRecip
         protected ImageView imageSdStorage;
         @BindView(R.id.img_more)
         protected ImageView more;
+
+        @BindView(R.id.list_recipe_item_time_group)
+        protected View timeGroup;
 
         ViewHolder(View itemView) {
             super(itemView);

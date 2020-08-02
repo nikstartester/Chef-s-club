@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -12,6 +13,6 @@
         android:background="@drawable/shape_chip_non_drawable"
         android:gravity="center"
         android:text="Category"
-        android:textColor="@color/cardview_dark_background"
-        android:textSize="15sp" />
+        android:textColor="@color/md_grey_800"
+        android:textSize="15sp"/>
 </LinearLayout>

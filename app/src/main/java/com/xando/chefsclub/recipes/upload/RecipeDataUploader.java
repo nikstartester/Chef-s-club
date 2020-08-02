@@ -4,18 +4,17 @@ import android.content.Context;
 import android.util.SparseArray;
 
 import com.google.firebase.database.DatabaseReference;
+import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.constants.Constants;
 import com.xando.chefsclub.dataworkers.DataUploader;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.dataworkers.ParcResourceBySerializable;
-import com.xando.chefsclub.FirebaseReferences;
 import com.xando.chefsclub.image.ImageUploader;
 import com.xando.chefsclub.recipes.data.RecipeData;
 import com.xando.chefsclub.recipes.data.StepOfCooking;
 import com.xando.chefsclub.recipes.repository.RecipeRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +107,9 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
         assert super.mPaths != null;
         for (String path : super.mPaths) {
-            childUpdates.put(path + mData.recipeKey, postValues);
+            for (Map.Entry<String, Object> entry : postValues.entrySet()) {
+                childUpdates.put(path + mData.recipeKey + "/" + entry.getKey(), entry.getValue());
+            }
         }
 
         return childUpdates;
@@ -173,10 +174,7 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
         private OverviewImagesUploader(Context context) {
             super(context);
-
             mUploadedImagesUrlWithoutMain = new SparseArray<>();
-
-            //SparseArray<String> array = new SparseArray<>();
         }
 
         @Override
@@ -290,10 +288,6 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
         protected Map<String, Object> createImageURLChildUpdates() {
             Map<String, Object> childUpdates = new HashMap<>();
 
-            String[] basePrefixes = {"/recipes/", "/user-recipes/" + mData.authorUId + "/"};
-
-            //sort(mUploadedImagesUrlWithoutMain);
-
             mData.overviewData.allImagePathList.clear();
             mData.overviewData.allImagePathList.add(0, mUploadedMainUrl);
             mData.overviewData.allImagePathList.addAll(1, sparseToList(mUploadedImagesUrlWithoutMain));
@@ -303,8 +297,11 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
             mData.overviewData.imagePathsWithoutMainList.clear();
             mData.overviewData.imagePathsWithoutMainList.addAll(sparseToList(mUploadedImagesUrlWithoutMain));
 
-            for (String basePrefix : basePrefixes) {
-                childUpdates.put(basePrefix + mData.recipeKey, mData.toMap());
+            assert mPaths != null;
+            for (String path : mPaths) {
+                for (Map.Entry<String, Object> entry : mData.overviewData.toImageChildren().entrySet()) {
+                    childUpdates.put(path + mData.recipeKey + "/overviewData/" + entry.getKey(), entry.getValue());
+                }
             }
 
             String imagePathPref = Constants.ImageConstants.FIREBASE_STORAGE_AT_START
@@ -321,25 +318,9 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
             List<String> urls = new ArrayList<>();
             urls.add(0, mUploadedMainUrl);
 
-            //sort(mUploadedImagesUrlWithoutMain);
-
             urls.addAll(1, sparseToList(mUploadedImagesUrlWithoutMain));
 
             return urls;
-        }
-
-
-        //Sort strings like "sss/jjjjj/.../$INT_CHARS.kkkk..." by $INT_CHARS
-        private void sort(List<String> arr) {
-            Collections.sort(arr, (o1, o2) -> {
-                String[] split1 = o1.split("/");
-                int num1 = Integer.valueOf(split1[split1.length - 1].split("\\.")[0]);
-
-                String[] split2 = o2.split("/");
-                int num2 = Integer.valueOf(split2[split2.length - 1].split("\\.")[0]);
-
-                return Integer.compare(num1, num2);
-            });
         }
 
         private List<String> sparseToList(SparseArray<String> array) {
@@ -372,7 +353,6 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
 
         private StepsImagesUploader(Context context) {
             super(context);
-
             mUploadedImagesOfSteps = new ArrayList<>();
         }
 
@@ -457,11 +437,11 @@ public class RecipeDataUploader extends DataUploader<RecipeData> {
         protected Map<String, Object> createImageURLChildUpdates() {
             Map<String, Object> childUpdates = new HashMap<>();
 
-            String[] basePrefixes = {"/recipes/", "/user-recipes/" + mData.authorUId + "/"};
-
-
-            for (String basePrefix : basePrefixes) {
-                childUpdates.put(basePrefix + mData.recipeKey, mData.toMap());
+            assert mPaths != null;
+            for (String path : mPaths) {
+                for (Map.Entry<String, Object> entry : mData.stepsData.toImageChildren().entrySet()) {
+                    childUpdates.put(path + mData.recipeKey + "/stepsData/" + entry.getKey(), entry.getValue());
+                }
             }
 
             String imagePathPref = Constants.ImageConstants.FIREBASE_STORAGE_AT_START
