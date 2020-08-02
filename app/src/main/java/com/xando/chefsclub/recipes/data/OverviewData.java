@@ -2,13 +2,14 @@ package com.xando.chefsclub.recipes.data;
 
 import android.os.Parcel;
 
-import androidx.room.Entity;
-
 import com.xando.chefsclub.dataworkers.BaseData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.room.Entity;
 
 @Entity
 public class OverviewData extends BaseData implements Cloneable {
@@ -38,6 +39,16 @@ public class OverviewData extends BaseData implements Cloneable {
     @Override
     public Map<String, Object> toMap() {
         return null;
+    }
+
+    public Map<String, Object> toImageChildren() {
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("mainImagePath", mainImagePath);
+        map.put("imagePathsWithoutMainList", imagePathsWithoutMainList);
+        map.put("allImagePathList", allImagePathList);
+
+        return map;
     }
 
     @Override
