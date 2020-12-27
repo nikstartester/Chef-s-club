@@ -1,11 +1,14 @@
 package com.xando.chefsclub.login;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,11 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.common.util.concurrent.HandlerExecutor;
 import com.google.android.material.snackbar.Snackbar;
@@ -46,6 +44,10 @@ import com.xando.chefsclub.profiles.editprofile.EditProfileActivityTest;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -60,6 +62,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private static final String TAG = "LoginActivity";
     private static final String KEY_VERIFY_IN_PROGRESS = "9671";
+    public static final String EDIT_PHONE_PREFIX = "+";
+    public static final int PHONE_INFO_DURATION = 6000;
 
     public static final int APP_TITLE_ANIMATION_DURATION = 550;
 
@@ -110,6 +114,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
 
         initCallbacks();
+
+        edtPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // nothing
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // save prefix
+                if (!s.toString().startsWith(EDIT_PHONE_PREFIX)) {
+                    edtPhone.setText(EDIT_PHONE_PREFIX);
+                    edtPhone.setSelection(edtPhone.getText().length());
+                }
+            }
+        });
 
         edtPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
@@ -255,6 +280,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         outState.putBoolean(KEY_VERIFY_IN_PROGRESS, isToShowProgress);
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -304,11 +330,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login_info:
                 Keyboard.hideKeyboardFrom(this, edtPhone);
-
-                String text = "Enter your phone number and we'll send an SMS verification code.";
-
-                Snackbar.make(edtPhone, text, Snackbar.LENGTH_LONG).show();
-
+                String text = "Enter your phone number with country code as prefix and we'll send an SMS verification code.";
+                Snackbar.make(edtPhone, text, PHONE_INFO_DURATION).show();
                 break;
         }
     }
