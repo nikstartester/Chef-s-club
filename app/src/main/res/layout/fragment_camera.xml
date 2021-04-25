@@ -1,68 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:keepScreenOn="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/camera_dialog_toolbar_container"
-        android:layout_width="0dp"
-        android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/md_black_1000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/camera_dialog_back"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="match_parent"
-            android:background="?attr/actionBarItemBackground"
-            android:scaleType="center"
-            android:theme="@android:style/ThemeOverlay.Material.Dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_arrow_back_white_24dp" />
-
-        <ImageView
-            android:id="@+id/camera_dialog_flash"
-            android:layout_width="?android:attr/actionBarSize"
-            android:layout_height="match_parent"
-            android:background="?attr/actionBarItemBackground"
-            android:scaleType="center"
-            android:theme="@android:style/ThemeOverlay.Material.Dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_flash_off_white_24dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <com.otaliastudios.cameraview.CameraView
         android:id="@+id/camera"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:fitsSystemWindows="true"
         android:keepScreenOn="true"
         app:cameraAudio="off"
         app:cameraGesturePinch="none"
         app:cameraGestureTap="autoFocus"
+        app:cameraMode="picture"
         app:cameraPictureSizeAspectRatio="3:4"
         app:cameraPictureSizeBiggest="true"
         app:cameraPictureSizeMaxHeight="2048"
         app:cameraPictureSizeMaxWidth="1536"
         app:cameraPlaySounds="false"
-        app:cameraMode="picture"
         app:cameraPreviewFrameRate="60"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="3:4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/camera_dialog_toolbar_container"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_height="400dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"/>
 
     <FrameLayout
         android:layout_width="0dp"
@@ -82,7 +47,74 @@
             android:stateListAnimator="@animator/camera_dialog_capture_btn_anim"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"/>
     </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/camera_dialog_stub_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/md_black_1000"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/TextViewWhiteTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Camera access denied"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:id="@+id/camera_dialog_stub_to_settings"
+            style="@style/TextViewElementsTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Settings"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/camera_dialog_toolbar_container"
+        android:layout_width="0dp"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/color_black_medium_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/camera_dialog_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:background="?attr/actionBarItemBackground"
+            android:scaleType="center"
+            android:theme="@android:style/ThemeOverlay.Material.Dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
+
+        <ImageView
+            android:id="@+id/camera_dialog_flash"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="match_parent"
+            android:background="?attr/actionBarItemBackground"
+            android:scaleType="center"
+            android:theme="@android:style/ThemeOverlay.Material.Dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_flash_off_white_24dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
