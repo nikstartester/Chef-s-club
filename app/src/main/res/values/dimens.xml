@@ -18,4 +18,5 @@
 
     <!--Camera-->
     <dimen name="camera_dialog_capture_button_size">70dp</dimen>
+    <dimen name="camera_dialog_toast_top_padding">16dp</dimen>
 </resources>
