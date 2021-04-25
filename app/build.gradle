@@ -133,7 +133,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    implementation 'com.otaliastudios:cameraview:2.6.1'
+    implementation 'com.otaliastudios:cameraview:2.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
