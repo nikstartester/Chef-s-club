@@ -123,7 +123,8 @@
 
     <style name="FullScreenDialogFragment" parent="AppThemeLight">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowBackground">@color/md_black_1000</item>
         <item name="android:statusBarColor">@color/md_black_1000</item>
         <item name="android:windowIsFloating">false</item>
     </style>

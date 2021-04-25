@@ -55,7 +55,7 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
     private String mPhotoPath = "";
     private int mCount;
 
-    private CameraDialogFragment cameraDialog;
+    private DialogFragment cameraDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public abstract class BaseFragmentWithImageChoose extends Fragment {
             mPhotoPath = savedInstanceState.getString(IMAGE_CHOOSE_PHOTO_PATH, "");
         }
 
-        cameraDialog = new CameraDialogFragment();
+        cameraDialog = CameraDialogFragment.Companion.newInstance();
         cameraDialog.setTargetFragment(this, REQUEST_CODE_CAMERA_DIALOG);
     }
 
