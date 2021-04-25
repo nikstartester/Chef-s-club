@@ -74,9 +74,11 @@ class CameraDialogFragment : AppCompatDialogFragment() {
                         )
                     )
                     flashToast?.cancel()
+                    val topOffset = camera_dialog_toolbar_container.measuredHeight +
+                            resources.getDimensionPixelSize(R.dimen.camera_dialog_toast_top_padding)
                     flashToast =
                         Toast.makeText(requireContext().applicationContext, "Flash", Toast.LENGTH_SHORT).apply {
-                            setGravity(Gravity.TOP, 0, camera_dialog_toolbar_container.measuredHeight)
+                            setGravity(Gravity.TOP, 0, topOffset)
                         }
                     flashToast!!.show()
                     Flash.ON
