@@ -6,8 +6,8 @@ android {
         applicationId "com.xando.chefsclub"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 9
-        versionName "dev"
+        versionCode 100
+        versionName "0.4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
