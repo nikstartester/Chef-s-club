@@ -12,7 +12,7 @@
         android:id="@+id/checkBox_available"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/shopping_list_selector"
         android:button="@null"
         android:visibility="gone"
