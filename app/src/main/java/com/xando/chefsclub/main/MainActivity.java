@@ -17,6 +17,7 @@ import com.xando.chefsclub.compilations.sync.SyncCompilationService;
 import com.xando.chefsclub.compilations.viewcompilations.UserCompilationsFragment;
 import com.xando.chefsclub.dataworkers.ParcResourceByParc;
 import com.xando.chefsclub.helper.FirebaseHelper;
+import com.xando.chefsclub.helper.Keyboard;
 import com.xando.chefsclub.image.data.ImageData;
 import com.xando.chefsclub.image.loaders.GlideImageLoader;
 import com.xando.chefsclub.profiles.data.ProfileData;
@@ -86,6 +87,24 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+                Keyboard.hideKeyboardFrom(MainActivity.this, findViewById(R.id.container));
+            }
+
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+        });
         toggle.syncState();
 
         mNavigationView = findViewById(R.id.nav_view);
