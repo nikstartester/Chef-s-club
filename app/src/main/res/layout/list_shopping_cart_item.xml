@@ -7,13 +7,11 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/view7"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:id="@+id/shopping_cart_item_divider"
+        style="@style/DividerSmall"
         android:layout_marginStart="8dp"
         android:layout_marginTop="-4dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/grey_300"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -42,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toBottomOf="@+id/view7"/>
+        app:layout_constraintTop_toBottomOf="@+id/shopping_cart_item_divider"/>
 
     <CheckBox
         android:id="@+id/checkBox"
@@ -67,7 +65,7 @@
         android:paddingEnd="16dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view7">
+        app:layout_constraintTop_toTopOf="@+id/shopping_cart_item_divider">
 
         <TextView
             android:id="@+id/swiped_text"
