@@ -146,4 +146,8 @@
         <item name="android:background">@color/grey_300</item>
     </style>
 
+    <style name="AppThemeLight.TransparentListDivider">
+        <item name="android:listDivider">@color/transparent</item>
+    </style>
+
 </resources>
