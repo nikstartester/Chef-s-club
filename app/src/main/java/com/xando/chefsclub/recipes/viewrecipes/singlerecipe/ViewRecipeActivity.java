@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,9 +39,6 @@ import com.xando.chefsclub.recipes.repository.RecipeRepository;
 import com.xando.chefsclub.recipes.repository.local.LocalRecipeSaver;
 import com.xando.chefsclub.recipes.upload.EditRecipeService;
 import com.xando.chefsclub.recipes.viewmodel.RecipeViewModel;
-import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.CommentsListFragment;
-import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.Data.CommentData;
-import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.comments.ViewHolder.CommentViewHolder;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.fragment.OverviewRecipeFragment;
 import com.xando.chefsclub.recipes.viewrecipes.singlerecipe.fragment.StepsViewRecipeFragment;
 import com.xando.chefsclub.settings.SettingsLoacalFragment;
@@ -60,8 +56,7 @@ import io.reactivex.schedulers.Schedulers;
 import static com.xando.chefsclub.recipes.repository.RecipeRepository.CHILD_RECIPES;
 
 
-public class ViewRecipeActivity extends AppCompatActivity implements CommentsListFragment.OnUserAddedComment,
-        CommentViewHolder.OnReplyComment, OnProgressListener, OnItemCountChanged, CommentsListFragment.OnReplyMessageClick {
+public class ViewRecipeActivity extends AppCompatActivity implements OnProgressListener, OnItemCountChanged {
 
     private static final String TAG = "ViewRecipeActivity";
 
@@ -379,22 +374,6 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
     }
 
     @Override
-    public void onUserAddedComment() {
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment instanceof CommentsListFragment.OnUserAddedComment)
-                ((CommentsListFragment.OnUserAddedComment) fragment).onUserAddedComment();
-        }
-    }
-
-    @Override
-    public void onReplyComment(CommentData commentData) {
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment instanceof CommentViewHolder.OnReplyComment)
-                ((CommentViewHolder.OnReplyComment) fragment).onReplyComment(commentData);
-        }
-    }
-
-    @Override
     public void onItemCountChanged(int itemCount) {
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             if (fragment instanceof OnItemCountChanged) {
@@ -408,15 +387,6 @@ public class ViewRecipeActivity extends AppCompatActivity implements CommentsLis
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             if (fragment instanceof OnProgressListener) {
                 ((OnProgressListener) fragment).onProgressChanged(status);
-            }
-        }
-    }
-
-    @Override
-    public void onReplyMessageClick(Rect posInRv, String replyMesId) {
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment instanceof CommentsListFragment.OnReplyMessageClick) {
-                ((CommentsListFragment.OnReplyMessageClick) fragment).onReplyMessageClick(posInRv, replyMesId);
             }
         }
     }

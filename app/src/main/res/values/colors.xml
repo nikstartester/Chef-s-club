@@ -19,7 +19,7 @@
     <color name="color_black_medium_transparent">#80000000</color>
 
     <color name="color_line_list_item">#e0d2d2d2</color>
-    <color name="white">#FFF</color>
+    <color name="white">@color/md_white_1000</color>
     <color name="grey_100">#F5F5F5</color>
     <color name="grey_300">#e0e0e0</color>
     <color name="grey_600">#646964</color>
