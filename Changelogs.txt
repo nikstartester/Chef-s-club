@@ -1,3 +1,8 @@
+v0.4.0:
+	Bug fixes
+	Remove dividers
+	Appearance improvements
+
 v0.3.0:
 	Appearance improvements
 	Android Q support
@@ -15,6 +20,7 @@ v0.2.0: Major release includes:
 	Appearance enhancements
 
 	And much more
+
 v0.1.2-beta-3:
 	Check for the existence of a login in real time 
 	Added input restrictions(now only a-z, A-Z, 0-9 and _) for a login
