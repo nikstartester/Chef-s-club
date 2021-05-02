@@ -153,8 +153,4 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
 
         this.anims.addAll(anims);
     }
-
-    public interface OnReplyComment {
-        void onReplyComment(CommentData commentData);
-    }
 }
