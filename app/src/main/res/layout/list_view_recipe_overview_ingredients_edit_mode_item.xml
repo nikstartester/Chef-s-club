@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/shopping_list_selector"
         android:button="@null"
@@ -32,10 +33,10 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close_blue_48dp" />
 
     <TextView
@@ -74,13 +75,4 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgBtn_close_edit_mode"
         app:layout_constraintEnd_toStartOf="@+id/imgBtn_close_edit_mode"
         app:layout_constraintTop_toTopOf="@+id/imgBtn_close_edit_mode" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey_300"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

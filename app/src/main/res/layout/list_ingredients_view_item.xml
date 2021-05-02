@@ -12,24 +12,13 @@
         android:id="@+id/checkBox_available"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/shopping_list_selector"
         android:button="@null"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_ingredient"/>
-
-    <View
-        android:id="@+id/view7"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/grey_300"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tv_ingredient"
@@ -45,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/checkBox_available"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toBottomOf="@+id/view7"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Ingredient name"/>
 
     <CheckBox
