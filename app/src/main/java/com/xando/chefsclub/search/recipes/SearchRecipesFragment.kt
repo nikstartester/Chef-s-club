@@ -38,16 +38,17 @@ class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, R
     private val profileViewModel: ProfileViewModel by lazy { getHostViewModel<ProfileViewModel>() }
     private val disposer = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        profileViewModel.resourceLiveData.observe(viewLifecycleOwner,
-                Observer { res: ParcResourceByParc<ProfileData>? ->
-                    if (res != null && res.status == ParcResourceByParc.Status.SUCCESS) {
-                        filterAdapter.data.subscriptions = getSubscriptionsList(res.data!!.subscriptions)
-                        updateFilter()
-                    }
-                })
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        profileViewModel.resourceLiveData.observe(
+            viewLifecycleOwner,
+            Observer { res: ParcResourceByParc<ProfileData>? ->
+                if (res != null && res.status == ParcResourceByParc.Status.SUCCESS) {
+                    filterAdapter.data.subscriptions =
+                        getSubscriptionsList(res.data!!.subscriptions)
+                    updateFilter()
+                }
+            })
     }
 
     private fun getSubscriptionsList(subscrMap: Map<String, Boolean>): List<String> {
@@ -111,10 +112,10 @@ class SearchRecipesFragment : SearchListFragment<RecipeData, SearchRecipeItem, R
     private fun onStarClicked(item: SearchRecipeItem) {
         val recipeData = item.recipeData
         disposer += Favorite.switchFavorite(
-            activity!!.application as App,
+            requireActivity().application as App,
             RecipeToFavoriteEntity(recipeData.recipeKey, recipeData.authorUId)
         )
-        disposer += Favorite.updateFavoriteInDB(activity!!.application as App, recipeData.switchFavorite())
+        disposer += Favorite.updateFavoriteInDB(requireActivity().application as App, recipeData.switchFavorite())
 
         item.setRecipeData(recipeData).updateFavoriteImage().updateStarCount()
     }
